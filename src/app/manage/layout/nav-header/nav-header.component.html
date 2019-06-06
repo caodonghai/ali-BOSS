@@ -1,0 +1,43 @@
+<div style="display: flex;justify-content: space-between;background-color: #ffffff">
+  <div style="display: flex;justify-content: flex-start">
+    <h1 style="color: #333333">智慧河长云业务支撑系统</h1>
+  </div>
+  <div style="margin-right: 24px;">
+    <nz-dropdown nzPlacement="bottomLeft">
+      <div class="alain-default__nav-item d-flex align-items-center px-sm" nz-dropdown>
+        <nz-avatar [nzSrc]="avatar" nzSize="large" class="mr-md"></nz-avatar>
+        <span style="margin-left: 10px">{{userName}}</span>
+      </div>
+      <div nz-menu class="width-sm">
+        <div nz-menu-item (click)="seeUserInfo()"><i nz-icon type="user" class="mr-md"></i>
+          个人信息
+        </div>
+        <div nz-menu-item (click)="showModifyPasswordModal()"><i nz-icon type="setting" class="mr-md"></i>
+          修改密码
+        </div>
+        <li nz-menu-divider></li>
+        <div nz-menu-item (click)="logout()"><i nz-icon type="logout" class="mr-sm"></i>
+          退出登录
+        </div>
+      </div>
+    </nz-dropdown>
+  </div>
+</div>
+
+<nz-modal
+  [(nzVisible)]="isDetailModalVisible"
+  nzTitle="个人信息"
+  [nzFooter]="null"
+  (nzOnCancel)="handleDetailModalCancel()"
+>
+  <p>Modal Content</p>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isModifyPasswordModalVisible"
+  nzTitle="修改密码"
+  (nzOnCancel)="handleModifyPasswordModalCancel()"
+  (nzOnOk)="modifyPassword()"
+>
+  <p>Modal Content</p>
+</nz-modal>
