@@ -5,6 +5,7 @@ import {HomeComponent} from './home/home.component';
 import {InformationNoticeComponent} from './information-notice/information-notice.component';
 import {InformationFeedbackComponent} from './information-feedback/information-feedback.component';
 import {TenantManageComponent} from './tenant-manage/tenant-manage.component';
+import {PackageManageComponent} from './package-manage/package-manage.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
       {path: '', redirectTo: '/manage/home', pathMatch: 'full'},
       {path: 'home', component: HomeComponent},
       {path: 'tenant-manage', component: TenantManageComponent},
+      {path: 'package-manage', component: PackageManageComponent},
       {path: 'information-notice', component: InformationNoticeComponent},
       {path: 'information-feedback', component: InformationFeedbackComponent}
     ]

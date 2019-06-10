@@ -1,0 +1,321 @@
+<nz-card style="width:100%;height: 100%" [nzBordered]="false" nzTitle="套餐管理">
+  <form nz-form [nzLayout]="'inline'">
+    <nz-form-item>
+      <nz-form-label>套餐名称</nz-form-label>
+      <nz-form-control>
+        <input [(ngModel)]="name" nz-input [ngModelOptions]="{standalone: true}" placeholder="请输入套餐名称"/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item style="margin-left: 40px">
+      <nz-form-label>套餐类型</nz-form-label>
+      <nz-form-control>
+        <nz-select style="width: 170px;" [(ngModel)]="type" [ngModelOptions]="{standalone: true}" nzAllowClear nzPlaceHolder="请选择套餐类型">
+          <nz-option nzValue="1" nzLabel="省"></nz-option>
+          <nz-option nzValue="2" nzLabel="市"></nz-option>
+          <nz-option nzValue="3" nzLabel="区"></nz-option>
+          <nz-option nzValue="4" nzLabel="县"></nz-option>
+          <nz-option nzValue="5" nzLabel="镇"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item style="margin-left: 40px">
+      <nz-form-label>状态</nz-form-label>
+      <nz-form-control>
+        <nz-select style="width: 170px;" [(ngModel)]="status" [ngModelOptions]="{standalone: true}" nzAllowClear nzPlaceHolder="请选择状态">
+          <nz-option nzValue="" nzLabel="全部"></nz-option>
+          <nz-option nzValue="1" nzLabel="正常"></nz-option>
+          <nz-option nzValue="2" nzLabel="过期-有用户"></nz-option>
+          <nz-option nzValue="3" nzLabel="终止-无用户"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item style="margin-left: 40px">
+      <nz-form-control>
+        <button nz-button nzType="primary" (click)="getProductManageList()">查询</button>
+        <button nz-button nzType="default" type="reset" style="margin-left: 20px">重置</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <button nz-button nzType="primary" style="margin: 20px 0 4px 0;" (click)="isAddModalVisible=true;isEdit=false;"><i nz-icon nzType="plus" nzTheme="outline"></i>新增</button>
+  <nz-table #basicTable nzBordered
+            [nzData]="productManageList" (click)="handleTableClick($event)"
+            [nzLoading]="loading"
+            nzShowSizeChanger
+            nzShowQuickJumper
+            [nzFrontPagination]="false"
+            [(nzPageIndex)]="pageNumber"
+            [(nzPageSize)]="pageSize"
+            (nzPageIndexChange)="getProductManageList()"
+            (nzPageSizeChange)="pageNumber = 1;getProductManageList()"
+            [nzTotal]="total">
+    <thead>
+    <tr>
+      <th width="60">序号</th>
+      <th width="120">套餐名称</th>
+      <th width="140">套餐价格 （万元）</th>
+      <th width="180">许可证数</th>
+      <th>套餐描述</th>
+      <th width="120">售卖周期</th>
+      <th width="120">发布日期</th>
+      <th width="120">用户数</th>
+      <th width="100">状态</th>
+      <th width="200">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of productManageList;let i=index;">
+      <td>{{i+pageSize*(pageNumber-1)+1}}</td>
+      <td>{{item.name}}</td>
+      <td>{{item.price}}</td>
+      <td>{{item.accountQuantity}}</td>
+      <td>{{item.description}}</td>
+      <td>{{item.sellCycle}}</td>
+      <td>{{item.createTime}}</td>
+      <td style="cursor: pointer" data-method="user-count" [attr.data-id]="item.id"><a data-method="user-count" [attr.data-id]="item.id">{{item.userCount}}</a></td>
+      <td>{{item.enable==='1'?'启用':'禁用'}}</td>
+      <td style="text-align: center">
+        <button nz-button nzType="default" nzSize="small" data-method="detail" [attr.data-id]="item.id">详情</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="primary" nzSize="small" data-method="modify" [attr.data-id]="item.id">修改</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="danger" nzSize="small" data-method="delete" [attr.data-id]="item.id">删除</button>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</nz-card>
+<!--新增或者编辑-->
+<nz-modal
+  [(nzVisible)]="isAddModalVisible"
+  [nzTitle]="isEdit?'编辑':'新增'"
+  [nzFooter]="null"
+  nzWidth="600"
+  (nzOnCancel)="isAddModalVisible=false;resetAddForm();"
+>
+  <form nz-form [formGroup]="addProductForm" (ngSubmit)="submitForm()">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5" nzRequired>套餐名称</nz-form-label>
+      <nz-form-control [nzSpan]="16">
+        <input nz-input formControlName="name" placeholder="请输入套餐名称"/>
+        <nz-form-explain
+          *ngIf="(addProductForm.get('name')?.dirty && addProductForm.get('name')?.errors)">
+          <ng-container *ngIf="addProductForm.get('name')?.hasError('required')">
+            请输入套餐名称!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5" nzRequired>产品版本</nz-form-label>
+      <nz-form-control [nzSpan]="16">
+        <input nz-input formControlName="versionCode" placeholder="请输入产品版本"/>
+        <nz-form-explain
+          *ngIf="(addProductForm.get('versionCode')?.dirty && addProductForm.get('versionCode')?.errors)">
+          <ng-container *ngIf="addProductForm.get('versionCode')?.hasError('required')">
+            请输入产品版本!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5" nzRequired>产品名称</nz-form-label>
+      <nz-form-control [nzSpan]="16">
+        <nz-select formControlName="productId" placeholder="请选择产品名称">
+          <nz-option [nzValue]="item.id" [nzLabel]="item.name" *ngFor="let item of productList"></nz-option>
+        </nz-select>
+        <nz-form-explain
+          *ngIf="(addProductForm.get('productId')?.dirty && addProductForm.get('productId')?.errors)">
+          <ng-container *ngIf="addProductForm.get('productId')?.hasError('required')">
+            请选择产品名称!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5" nzRequired>套餐等级</nz-form-label>
+      <nz-form-control [nzSpan]="16">
+        <nz-select formControlName="level" placeholder="请选择套餐等级">
+          <nz-option nzValue="1" nzLabel="省"></nz-option>
+          <nz-option nzValue="2" nzLabel="市"></nz-option>
+          <nz-option nzValue="3" nzLabel="县"></nz-option>
+          <nz-option nzValue="4" nzLabel="镇"></nz-option>
+          <nz-option nzValue="5" nzLabel="村"></nz-option>
+        </nz-select>
+        <nz-form-explain
+          *ngIf="(addProductForm.get('level')?.dirty && addProductForm.get('level')?.errors)">
+          <ng-container *ngIf="addProductForm.get('level')?.hasError('required')">
+            请选择套餐等级!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5" nzRequired>状态</nz-form-label>
+      <nz-form-control [nzSpan]="16">
+        <nz-select formControlName="status" placeholder="请选择状态">
+          <nz-option nzValue="1" nzLabel="发布"></nz-option>
+          <nz-option nzValue="2" nzLabel="正常"></nz-option>
+          <nz-option nzValue="3" nzLabel="过期"></nz-option>
+          <nz-option nzValue="4" nzLabel="终止"></nz-option>
+          <nz-option nzValue="5" nzLabel="未发布"></nz-option>
+        </nz-select>
+        <i nz-icon nz-tooltip nzTitle="有用户套餐未到期时不能终止" type="info-circle" style="font-size: 20px;cursor: help;" class="input-info"></i>
+        <nz-form-explain
+          *ngIf="(addProductForm.get('status')?.dirty && addProductForm.get('status')?.errors)">
+          <ng-container *ngIf="addProductForm.get('status')?.hasError('required')">
+            请选择状态!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5" nzRequired>许可证数</nz-form-label>
+      <nz-form-control [nzSpan]="16">
+        <input nz-input formControlName="accountQuantity" placeholder="请输入许可证数量"/>
+        <nz-form-explain
+          *ngIf="(addProductForm.get('accountQuantity')?.dirty && addProductForm.get('accountQuantity')?.errors)">
+          <ng-container *ngIf="addProductForm.get('accountQuantity')?.hasError('required')">
+            请输入许可证数!
+          </ng-container>
+          <ng-container *ngIf="addProductForm.get('accountQuantity')?.hasError('pattern')">
+            请输入正确的许可证数!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5" nzRequired>售卖周期</nz-form-label>
+      <nz-form-control [nzSpan]="16">
+        <nz-input-group [nzAddOnAfter]="cycleTypeTemplate">
+          <input type="text" nz-input formControlName="sellCycle" />
+        </nz-input-group>
+        <ng-template #cycleTypeTemplate>
+          <nz-select formControlName="cycleType" placeholder="请选择售卖周期">
+            <nz-option nzValue="1" nzLabel="年"></nz-option>
+            <nz-option nzValue="2" nzLabel="季"></nz-option>
+            <nz-option nzValue="3" nzLabel="月"></nz-option>
+          </nz-select>
+        </ng-template>
+        <nz-form-explain
+          *ngIf="(addProductForm.get('sellCycle')?.dirty && addProductForm.get('sellCycle')?.errors)">
+          <ng-container *ngIf="addProductForm.get('sellCycle')?.hasError('required')">
+            请输入售卖周期!
+          </ng-container>
+          <ng-container *ngIf="addProductForm.get('sellCycle')?.hasError('pattern')">
+            请输入正确的售卖周期!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5" nzRequired>销售价格</nz-form-label>
+      <nz-form-control [nzSpan]="16">
+        <input nz-input formControlName="price" placeholder="请输入销售价格" style="width: 50%"/><span class="input-info">万元</span>
+        <nz-form-explain
+          *ngIf="(addProductForm.get('price')?.dirty && addProductForm.get('price')?.errors)">
+          <ng-container *ngIf="addProductForm.get('price')?.hasError('required')">
+            请输入销售价格!
+          </ng-container>
+          <ng-container *ngIf="addProductForm.get('price')?.hasError('pattern')">
+            请输入正确的销售价格!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">套餐描述</nz-form-label>
+      <nz-form-control [nzSpan]="16">
+        <textarea nz-input rows="3" formControlName="description" placeholder="请输入套餐描述"></textarea>
+        <nz-form-explain
+          *ngIf="(addProductForm.get('description')?.dirty && addProductForm.get('description')?.errors)">
+          <ng-container *ngIf="addProductForm.get('description')?.hasError('maxlength')">
+            字数不能超过400!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzOffset]="5">
+        <button nz-button nzType="primary" type="submit" [nzLoading]="isSaveLoading">保存</button>
+        <button nz-button (click)="$event.preventDefault();resetAddForm();" style="margin-left: 20px">重置</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>
+<nz-modal
+  [(nzVisible)]="isDetailModalVisible"
+  nzTitle="详情"
+  [nzFooter]="null"
+  (nzOnCancel)="isDetailModalVisible=false"
+>
+  <div class="detail-modal">
+    <div class="detail-modal-item">
+      <span class="detail-modal-item-label">套餐名称：</span>
+      <span class="detail-modal-item-content">{{selected.name}}</span>
+    </div>
+    <div class="detail-modal-item">
+      <span class="detail-modal-item-label">产品版本：</span>
+      <span class="detail-modal-item-content">{{selected.versionCode}}</span>
+    </div>
+    <div class="detail-modal-item">
+      <span class="detail-modal-item-label">套餐价格：</span>
+      <span class="detail-modal-item-content">{{selected.price?selected.price+'万元':''}}</span>
+    </div>
+    <div class="detail-modal-item">
+      <span class="detail-modal-item-label">购买时间：</span>
+      <span class="detail-modal-item-content">{{selected.buyTime}}</span>
+    </div>
+    <div class="detail-modal-item">
+      <span class="detail-modal-item-label">剩余天数：</span>
+      <span class="detail-modal-item-content">{{selected.restDay}}</span>
+    </div>
+    <div class="detail-modal-item">
+      <span class="detail-modal-item-label">剩余许可：</span>
+      <span class="detail-modal-item-content">{{selected.rest}}个</span>
+    </div>
+    <div class="detail-modal-item">
+      <span class="detail-modal-item-label">访问地址：</span>
+      <a [href]="'http://'+selected.systemDomain" class="detail-modal-item-content">{{selected.systemDomain}}</a>
+    </div>
+
+  </div>
+</nz-modal>
+<nz-modal
+  [(nzVisible)]="isUserModalVisible"
+  nzTitle="用户列表"
+  [nzFooter]="null"
+  (nzOnCancel)="isUserModalVisible=false;pageNumber1=1;pageSize1=10;total1=0"
+  [nzWidth]="800"
+>
+  <nz-table #userTable nzBordered style="width: 700px"
+            [nzData]="userList"
+            [nzLoading]="loading1"
+            nzShowQuickJumper
+            [nzFrontPagination]="false"
+            [(nzPageIndex)]="pageNumber1"
+            [(nzPageSize)]="pageSize1"
+            (nzPageIndexChange)="getUserList()"
+            (nzPageSizeChange)="pageNumber1 = 1;getUserList()"
+            [nzTotal]="total1">
+    <thead>
+    <tr>
+      <th width="60">序号</th>
+      <th width="120">姓名</th>
+      <th width="140">联系方式</th>
+      <th>产品名称</th>
+      <th width="160">购买时间</th>
+      <th width="160">过期时间</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of userList;let i=index;">
+      <td>{{i+pageSize*(pageNumber-1)+1}}</td>
+      <td>{{item.name}}</td>
+      <td>{{item.phone}}</td>
+      <td>{{item.productName}}</td>
+      <td>{{item.buyTime}}</td>
+      <td>{{item.expireOn}}</td>
+    </tr>
+    </tbody>
+  </nz-table>
+</nz-modal>

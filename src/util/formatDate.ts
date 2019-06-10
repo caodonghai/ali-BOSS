@@ -22,3 +22,9 @@ export const formatDateTime = (date): string => {
   }
   return `${year + 1900}-${month}-${day} ${hour}:${minute}:${second}`;
 };
+
+export const calculateExpiredTime = (end: string): number => {
+  const currentTime = new Date().getTime();
+  const endTime = new Date(end).getTime();
+  return Math.floor((endTime - currentTime) / (24 * 3600 * 1000));
+};

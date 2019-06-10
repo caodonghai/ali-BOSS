@@ -68,8 +68,11 @@ export class InformationFeedbackComponent implements OnInit {
     this.isReplyModalVisible = false;
   }
 
-  submitForm(e,value) {
-
+  submitForm() {
+    for (const i in this.replyForm.controls) {
+      this.replyForm.controls[i].markAsDirty();
+      this.replyForm.controls[i].updateValueAndValidity();
+    }
   }
 
   resetForm(e) {

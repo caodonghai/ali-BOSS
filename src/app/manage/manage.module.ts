@@ -11,6 +11,7 @@ import {NgZorroAntdModule} from 'ng-zorro-antd';
 import {NavHeaderComponent} from './layout/nav-header/nav-header.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import { PackageManageComponent } from './package-manage/package-manage.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {HttpClientModule} from '@angular/common/http';
     TenantManageComponent,
     InformationFeedbackComponent,
     InformationNoticeComponent,
-    NavHeaderComponent
+    NavHeaderComponent,
+    PackageManageComponent
   ],
   imports: [
     CommonModule,

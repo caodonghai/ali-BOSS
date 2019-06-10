@@ -3,8 +3,8 @@
     <app-nav-header></app-nav-header>
   </nz-header>
   <nz-layout>
-    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzWidth]="width" [nzReverseArrow]="isReverseArrow" style="background-color: #ffffff">
-      <ul nz-menu [nzMode]="'inline'" [nzInlineCollapsed]="isCollapsed">
+    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzWidth]="width" [nzReverseArrow]="isReverseArrow">
+      <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'" [nzInlineCollapsed]="isCollapsed">
         <ng-container *ngFor="let menu of menus">
           <li nz-menu-item *ngIf="!menu.children||menu.children.length===0" [routerLink]="menu.funcUrl">
             <span><i nz-icon type="file"></i><span class="nav-text">{{menu.name}}</span></span>

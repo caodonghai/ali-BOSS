@@ -19,7 +19,23 @@ export class BaseInterceptor implements HttpInterceptor {
     const newReq = req.clone({
       headers: req.headers.set('Access-Token', accessToken),
     });
-    return next.handle(newReq);
+    return next.handle(newReq).pipe(
+      (tap((event: any) => {
+        // 正常返回，处理具体返回参数
+        if (event instanceof HttpResponse && event.status === 200) {
+          if (event.body.resCode === 1) {
+            return of(event);
+          } else {
+            this.handleError(event.body);
+          }
+        }
+      }))
+    );
+  }
+
+
+  handleError(body) {
+    this.msg.error(body.resMsg);
   }
 
 }
