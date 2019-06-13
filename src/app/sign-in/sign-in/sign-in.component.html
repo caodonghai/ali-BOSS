@@ -1,3 +1,68 @@
-<p>
-  sign-in works!
-</p>
+<div style="height: 80%;width: 100%;display: flex;justify-content: center;align-items: center">
+  <form nz-form [formGroup]="signInForm" style="width: 300px" (ngSubmit)="submitForm()">
+    <nz-form-item>
+      <nz-form-control nzHasFeedback>
+        <nz-input-group [nzPrefix]="prefixUser">
+          <input type="text" nz-input formControlName="loginName" placeholder="用户名" />
+        </nz-input-group>
+        <nz-form-explain *ngIf="signInForm.get('loginName')?.dirty && signInForm.get('loginName')?.errors">
+          <ng-container *ngIf="signInForm.get('loginName').hasError('required')">
+            请输入用户名
+          </ng-container>
+          <!--<ng-container *ngIf="signInForm.get('loginName').hasError('shorterThanExpected')">-->
+          <!--用户名长度不能小于6个字符-->
+          <!--</ng-container>-->
+          <!--<ng-container *ngIf="signInForm.get('loginName').hasError('longerThanExpected')">-->
+          <!--用户名长度不能大于12个字符-->
+          <!--</ng-container>-->
+          <!--<ng-container *ngIf="signInForm.get('loginName').hasError('notStartWithUppercase')">-->
+          <!--用户名必须以大写字母开头-->
+          <!--</ng-container>-->
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control nzHasFeedback>
+        <nz-input-group [nzPrefix]="prefixLock">
+          <input type="password" nz-input formControlName="password" placeholder="密码" />
+        </nz-input-group>
+        <nz-form-explain *ngIf="signInForm.get('password')?.dirty && signInForm.get('password')?.errors">
+          <ng-container *ngIf="signInForm.get('password').hasError('required')">
+            请输入密码
+          </ng-container>
+          <ng-container *ngIf="signInForm.get('password').hasError('shorterThanExpected')">
+            密码长度不能小于6个字符
+          </ng-container>
+          <ng-container *ngIf="signInForm.get('password').hasError('longerThanExpected')">
+            密码长度不能大于16个字符
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <nz-input-group>
+          <input type="text" nz-input formControlName="imageCode" style="width: 50%" placeholder="验证码" />
+          <div style="display: inline-flex;justify-content: center;align-items: center;height: 100%;width: 50%">
+            <div style="display: inline-block;width: 60px;height: 30px;cursor: pointer" (click)="reFreshVerificationCode()" [ngStyle]="verificationCodeStyle"></div>
+          </div>
+        </nz-input-group>
+        <nz-form-explain *ngIf="signInForm.get('imageCode')?.dirty && signInForm.get('imageCode')?.errors">
+          <ng-container *ngIf="signInForm.get('imageCode').hasError('required')">
+            请输入验证码
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <label nz-checkbox formControlName="remember">
+          <span>记住用户名</span>
+        </label>
+        <button nz-button class="login-form-button" style="width: 100%;margin-top: 10px" nzSize="large" nzType="primary" [disabled]="!signInForm.valid" [nzLoading]="isSigning">登 录</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <ng-template #prefixUser><i nz-icon type="user"></i></ng-template>
+  <ng-template #prefixLock><i nz-icon type="lock"></i></ng-template>
+</div>

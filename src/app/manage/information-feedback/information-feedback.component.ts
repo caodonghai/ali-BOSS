@@ -182,7 +182,7 @@ export class InformationFeedbackComponent implements OnInit {
 
   resetForm() {
     this.replyForm.reset();
-    this.fileList=[];
+    this.fileList = [];
     for (const key in this.replyForm.controls) {
       this.replyForm.controls[key].markAsPristine();
       this.replyForm.controls[key].updateValueAndValidity();

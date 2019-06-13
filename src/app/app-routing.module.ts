@@ -5,7 +5,7 @@ import {RouterModule, Routes} from '@angular/router';
 const appRoutes: Routes = [
   {path: 'manage', loadChildren: () => import('./manage/manage.module').then(m => m.ManageModule)},
   {path: 'sign-in', loadChildren: () => import('./sign-in/sign-in.module').then(m => m.SignInModule)},
-  {path: '', redirectTo: 'manage', pathMatch: 'full'},
+  {path: '', redirectTo: 'sign-in', pathMatch: 'full'},
   {path: '**', loadChildren: () => import('./exception/exception.module').then(m => m.ExceptionModule)}
 ];
 
