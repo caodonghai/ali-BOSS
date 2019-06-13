@@ -55,4 +55,38 @@ export class ManageService {
   getProductOptionList(params?: any) {
     return this.http.get<Response>(BASE_URL + '/ttProduct/list', {params: params});
   }
+
+  // 获取信息通知列表
+  getInformationNoticeList(params: any) {
+    return this.http.get<Response>(BASE_URL + '/ttInform/list', {params: params});
+  }
+
+  // 新增一条信息通知
+  addInformationNotice(params) {
+    return this.http.post<Response>(BASE_URL + '/ttInform/add', null, {params: params});
+  }
+
+  // 撤回一条通知
+  recallInfomationNotice(params){
+    return this.http.delete<Response>(BASE_URL + '/ttInform/updateStatus',  {params: params});
+  }
+
+  // 删除一条信息通知
+  deleteInformationNotice(params) {
+    return this.http.delete<Response>(BASE_URL + '/ttInform/delete',  {params: params});
+  }
+
+  // 获取信息反馈列表
+  getInformationFeedbackList(params: any) {
+    return this.http.get<Response>(BASE_URL + '/ttIdeaReply/list', {params: params});
+  }
+
+  // 删除一条信息反馈
+  deleteInformationFeedback(params: any) {
+    return this.http.delete<Response>(BASE_URL + '/ttIdeaReply/delete', {params: params});
+  }
+
+  replyInformationFeedback(params: any) {
+    return this.http.post<Response>(BASE_URL + '/ttIdeaReply/add', null, {params: params});
+  }
 }

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {
   HttpEvent, HttpInterceptor, HttpHandler, HttpRequest,
-  HttpErrorResponse, HttpResponse
+  HttpErrorResponse, HttpResponse, HttpParams
 } from '@angular/common/http';
 import {NzMessageService} from 'ng-zorro-antd';
 import {Observable, of, throwError} from 'rxjs';
@@ -16,8 +16,13 @@ export class BaseInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     const accessToken = sessionStorage.getItem('Access-Token') ? sessionStorage.getItem('Access-Token') : '';
+    // const paramsKeys = req.params.keys();
+    // const newParams = new HttpParams();
+    // paramsKeys.forEach(item => {
+    //   newParams.set(item, req.params.get(item) === null ? newParams.get(item) : '');
+    // });
     const newReq = req.clone({
-      headers: req.headers.set('Access-Token', accessToken),
+      headers: req.headers.set('Access-Token', accessToken)
     });
     return next.handle(newReq).pipe(
       (tap((event: any) => {
@@ -26,7 +31,7 @@ export class BaseInterceptor implements HttpInterceptor {
           if (event.body.resCode === 1) {
             return of(event);
           } else {
-            this.handleError(event.body);
+            this.handleError(event);
           }
         }
       }))
@@ -34,7 +39,8 @@ export class BaseInterceptor implements HttpInterceptor {
   }
 
 
-  handleError(body) {
+  handleError(event) {
+    const body = event.body;
     this.msg.error(body.resMsg);
   }
 

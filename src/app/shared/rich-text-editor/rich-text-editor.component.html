@@ -1,0 +1,3 @@
+<ng-container *ngIf="isDestroy">
+  <ckeditor [editor]="Editor" [config]="config" [data]="InitialValue" (change)="onChange($event)"></ckeditor>
+</ng-container>

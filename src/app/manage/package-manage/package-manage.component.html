@@ -9,7 +9,7 @@
     <nz-form-item style="margin-left: 40px">
       <nz-form-label>套餐类型</nz-form-label>
       <nz-form-control>
-        <nz-select style="width: 170px;" [(ngModel)]="type" [ngModelOptions]="{standalone: true}" nzAllowClear nzPlaceHolder="请选择套餐类型">
+        <nz-select style="width: 170px;" [(ngModel)]="type" name="type" nzAllowClear nzPlaceHolder="请选择套餐类型">
           <nz-option nzValue="1" nzLabel="省"></nz-option>
           <nz-option nzValue="2" nzLabel="市"></nz-option>
           <nz-option nzValue="3" nzLabel="区"></nz-option>
@@ -21,7 +21,7 @@
     <nz-form-item style="margin-left: 40px">
       <nz-form-label>状态</nz-form-label>
       <nz-form-control>
-        <nz-select style="width: 170px;" [(ngModel)]="status" [ngModelOptions]="{standalone: true}" nzAllowClear nzPlaceHolder="请选择状态">
+        <nz-select style="width: 170px;" [(ngModel)]="status" name="status" nzAllowClear nzPlaceHolder="请选择状态">
           <nz-option nzValue="" nzLabel="全部"></nz-option>
           <nz-option nzValue="1" nzLabel="正常"></nz-option>
           <nz-option nzValue="2" nzLabel="过期-有用户"></nz-option>
@@ -32,7 +32,7 @@
     <nz-form-item style="margin-left: 40px">
       <nz-form-control>
         <button nz-button nzType="primary" (click)="getProductManageList()">查询</button>
-        <button nz-button nzType="default" type="reset" style="margin-left: 20px">重置</button>
+        <button nz-button nzType="default" type="reset" style="margin-left: 20px" (click)="status='';">重置</button>
       </nz-form-control>
     </nz-form-item>
   </form>

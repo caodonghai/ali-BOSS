@@ -12,6 +12,9 @@ import {NavHeaderComponent} from './layout/nav-header/nav-header.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import { PackageManageComponent } from './package-manage/package-manage.component';
+import {SalesStatisticsComponent} from './sales-statistics/sales-statistics.component';
+import {SharedModule} from '../shared/shared.module';
+import {NgxEchartsModule} from 'ngx-echarts';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,8 @@ import { PackageManageComponent } from './package-manage/package-manage.componen
     InformationFeedbackComponent,
     InformationNoticeComponent,
     NavHeaderComponent,
-    PackageManageComponent
+    PackageManageComponent,
+    SalesStatisticsComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +33,9 @@ import { PackageManageComponent } from './package-manage/package-manage.componen
     FormsModule,
     NgZorroAntdModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    SharedModule,
+    NgxEchartsModule
   ]
 })
 export class ManageModule {

@@ -59,8 +59,8 @@ export class PackageManageComponent implements OnInit {
   getProductManageList() {
     const params = {
       name: this.name,
-      type: this.type,
-      status: this.status,
+      type: this.type ? this.type : '',
+      status: this.status ? this.status : '',
       pageSize: this.pageSize,
       pageNumber: this.pageNumber
     };

@@ -3,45 +3,71 @@
     <nz-form-item>
       <nz-form-label>标题</nz-form-label>
       <nz-form-control>
-        <input [(ngModel)]="title" name="title" nz-input placeholder="请输入标题"/>
+        <input [(ngModel)]="title" [ngModelOptions]="{standalone: true}" nz-input placeholder="请输入标题"/>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item style="margin-left: 40px">
       <nz-form-label>类型</nz-form-label>
       <nz-form-control>
-        <nz-select style="width: 170px;" [(ngModel)]="type" name="type" nzAllowClear nzPlaceHolder="Choose">
-          <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
-          <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
-          <nz-option nzValue="disabled" nzLabel="Disabled"></nz-option>
+        <nz-select style="width: 170px;" [(ngModel)]="type" [ngModelOptions]="{standalone: true}" nzAllowClear
+                   nzPlaceHolder="请选择类型">
+          <nz-option nzValue="" nzLabel="全部"></nz-option>
+          <nz-option nzValue="1" nzLabel="问题"></nz-option>
+          <nz-option nzValue="2" nzLabel="建议"></nz-option>
+          <nz-option nzValue="3" nzLabel="其他"></nz-option>
         </nz-select>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item style="margin-left: 40px">
       <nz-form-label>时间</nz-form-label>
       <nz-form-control>
-        <nz-range-picker [(ngModel)]="time" [ngModelOptions]="{standalone: true}"></nz-range-picker>
+        <nz-range-picker (ngModelChange)="handleDateChange($event)" [nzShowTime]="{ nzFormat: 'HH:mm:ss' }"
+                         nzFormat="yyyy-MM-dd HH:mm:ss" [(ngModel)]="time"
+                         [ngModelOptions]="{standalone: true}"></nz-range-picker>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item style="margin-left: 40px">
       <nz-form-control>
-        <button nz-button nzType="primary">查询</button>
-        <button nz-button nzType="default" type="reset" style="margin-left: 20px">重置</button>
+        <button nz-button nzType="primary" (click)="getInformationFeedbackList()">查询</button>
+        <button nz-button nzType="default" type="button" (click)="resetSearchCondition()" style="margin-left: 20px">
+          重置
+        </button>
       </nz-form-control>
     </nz-form-item>
   </form>
-  <nz-table #basicTable nzBordered [nzData]="list" style="margin-top: 24px" (click)="handleTableClick($event)">
+  <nz-table #basicTable nzBordered [nzData]="informationFeedbackList" style="margin-top: 24px"
+            (click)="handleTableClick($event)"
+            [nzLoading]="loading"
+            nzShowQuickJumper
+            nzShowSizeChanger
+            [nzFrontPagination]="false"
+            [(nzPageIndex)]="pageNumber"
+            [(nzPageSize)]="pageSize"
+            (nzPageIndexChange)="getInformationFeedbackList()"
+            (nzPageSizeChange)="pageNumber = 1;getInformationFeedbackList()"
+            [nzTotal]="total">
     <thead>
     <tr>
-      <th>Name</th>
-      <th>Age</th>
-      <th>Address</th>
-      <th>Action</th>
+      <th width="60">序号</th>
+      <th width="100">编号</th>
+      <th width="180">标题</th>
+      <th>答复</th>
+      <th width="100">类型</th>
+      <th width="160">提出时间</th>
+      <th width="160">答复时间</th>
+      <th width="120">答复人</th>
+      <th width="200">操作</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let item of basicTable.data">
-      <td>{{item.name}}</td>
-      <td>{{item.age}}</td>
+    <tr *ngFor="let item of informationFeedbackList;let i = index;">
+      <td>{{i+(pageNumber-1)*pageSize}}</td>
+      <td>{{item.num}}</td>
+      <td>{{item.title}}</td>
+      <td>{{item.address}}</td>
+      <td>{{typeEnum[item.status]}}</td>
+      <td>{{item.address}}</td>
+      <td>{{item.address}}</td>
       <td>{{item.address}}</td>
       <td style="width: 200px;text-align: center">
         <button nz-button nzType="default" nzSize="small" data-method="detail" [attr.data-id]="item.id">详情</button>
@@ -59,48 +85,123 @@
   [(nzVisible)]="isDetailModalVisible"
   nzTitle="详情"
   [nzFooter]="null"
-  (nzOnCancel)="handleDetailModalCancel()"
+  (nzOnCancel)="isDetailModalVisible=false"
 >
-  <p>Modal Content</p>
+  <div class="detail-modal">
+    <!--<div class="detail-modal-item">-->
+    <!--<span class="detail-modal-item-label">套餐名称：</span>-->
+    <!--<span class="detail-modal-item-content">{{selected.name}}</span>-->
+    <!--</div>-->
+    <!--<div class="detail-modal-item">-->
+    <!--<span class="detail-modal-item-label">产品版本：</span>-->
+    <!--<span class="detail-modal-item-content">{{selected.versionCode}}</span>-->
+    <!--</div>-->
+    <!--<div class="detail-modal-item">-->
+    <!--<span class="detail-modal-item-label">套餐价格：</span>-->
+    <!--<span class="detail-modal-item-content">{{selected.price?selected.price+'万元':''}}</span>-->
+    <!--</div>-->
+    <!--<div class="detail-modal-item">-->
+    <!--<span class="detail-modal-item-label">购买时间：</span>-->
+    <!--<span class="detail-modal-item-content">{{selected.buyTime}}</span>-->
+    <!--</div>-->
+    <!--<div class="detail-modal-item">-->
+    <!--<span class="detail-modal-item-label">剩余天数：</span>-->
+    <!--<span class="detail-modal-item-content">{{selected.restDay}}</span>-->
+    <!--</div>-->
+    <!--<div class="detail-modal-item">-->
+    <!--<span class="detail-modal-item-label">剩余许可：</span>-->
+    <!--<span class="detail-modal-item-content">{{selected.rest}}个</span>-->
+    <!--</div>-->
+    <!--<div class="detail-modal-item">-->
+    <!--<span class="detail-modal-item-label">访问地址：</span>-->
+    <!--<a [href]="'http://'+selected.systemDomain" class="detail-modal-item-content">{{selected.systemDomain}}</a>-->
+    <!--</div>-->
+
+  </div>
 </nz-modal>
 <!--答复弹出框-->
 <nz-modal
   [(nzVisible)]="isReplyModalVisible"
-  nzTitle="答复"
+  nzTitle="答复建议"
   [nzFooter]="null"
-  [nzWidth]="600"
-  (nzOnCancel)="handleReplyModalCancel()"
+  (nzOnCancel)="isReplyModalVisible=false"
+  nzWidth="800"
 >
-  <form nz-form [formGroup]="replyForm" (ngSubmit)="submitForm($event, replyForm.value)" [nzLayout]="'inline'">
+  <div nz-row style="padding: 5px 0">
+    <div nz-col [nzSpan]="2" [nzOffset]="1">标题：</div>
+    <div nz-col [nzSpan]="7">{{selected.title}}</div>
+    <div nz-col [nzSpan]="2" [nzOffset]="2">编号：</div>
+    <div nz-col [nzSpan]="7">{{selected.num}}</div>
+  </div>
+  <div nz-row style="padding: 5px 0">
+    <div nz-col [nzSpan]="2" [nzOffset]="1">类型：</div>
+    <div nz-col [nzSpan]="7">{{selected.type}}</div>
+    <div nz-col [nzSpan]="2" [nzOffset]="2" style="white-space: nowrap">提出时间：</div>
+    <div nz-col [nzSpan]="7">{{selected.createTime}}</div>
+  </div>
+  <div nz-row style="padding: 5px 0">
+    <div nz-col [nzSpan]="2" [nzOffset]="1">内容：</div>
+    <div nz-col [nzSpan]="20">{{selected.content}}</div>
+  </div>
+  <div nz-row style="padding: 5px 0">
+    <div nz-col [nzSpan]="2" [nzOffset]="1">附件：</div>
+    <div nz-col [nzSpan]="20">{{selected.type}}</div>
+  </div>
+  <nz-divider></nz-divider>
+  <form nz-form [formGroup]="replyForm" (ngSubmit)="submitForm()">
     <nz-form-item>
-      <nz-form-label [nzSpan]="6" nzRequired>标题</nz-form-label>
-      <nz-form-control [nzSpan]="18" nzHasFeedback>
-        <input nz-input formControlName="title" placeholder=""/>
+      <nz-form-label [nzSpan]="3" nzRequired>状态</nz-form-label>
+      <nz-form-control [nzSpan]="8">
+        <nz-select formControlName="status" name="status" nzPlaceHolder="请选择状态">
+          <nz-option nzValue="1" nzLabel="无效问题"></nz-option>
+          <nz-option nzValue="2" nzLabel="无法验证"></nz-option>
+          <nz-option nzValue="3" nzLabel="处理中"></nz-option>
+        </nz-select>
         <nz-form-explain
-          *ngIf="(replyForm.get('title')?.dirty && replyForm.get('title')?.errors) ||replyForm.get('title')?.pending">
-          <ng-container *ngIf="replyForm.get('title')?.hasError('required')">
-            Please input your username!
+          *ngIf="(replyForm.get('status')?.dirty && replyForm.get('status')?.errors) ||replyForm.get('status')?.pending">
+          <ng-container *ngIf="replyForm.get('status')?.hasError('required')">
+            请选择状态!
           </ng-container>
         </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSpan]="6" nzRequired>标题</nz-form-label>
-      <nz-form-control [nzSpan]="18" nzHasFeedback>
-        <input nz-input formControlName="title" placeholder=""/>
+      <nz-form-label [nzSpan]="3" nzRequired>答复内容</nz-form-label>
+      <nz-form-control [nzSpan]="18">
+        <textarea rows="3" nz-input="" formControlName="content" name="content" placeholder="请选择状态"></textarea>
         <nz-form-explain
-          *ngIf="(replyForm.get('title')?.dirty && replyForm.get('title')?.errors) ||replyForm.get('title')?.pending">
-          <ng-container *ngIf="replyForm.get('title')?.hasError('required')">
-            Please input your username!
+          *ngIf="(replyForm.get('content')?.dirty && replyForm.get('content')?.errors) ||replyForm.get('content')?.pending">
+          <ng-container *ngIf="replyForm.get('content')?.hasError('required')">
+            请输入答复内容!
+          </ng-container>
+          <ng-container *ngIf="replyForm.get('content')?.hasError('maxlength')">
+            答复内容字数不能超过400!
           </ng-container>
         </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-control [nzOffset]="6">
-        <button nz-button nzType="primary" [disabled]="!replyForm.valid">保存</button>
-        <button nz-button (click)="resetForm($event)">取消</button>
+      <nz-form-label [nzSpan]="3">附件</nz-form-label>
+      <nz-form-control [nzSpan]="18">
+        <nz-upload
+          [nzAction]="uploadUrl"
+          [nzFileList]="fileList"
+          nzMultiple
+          [nzLimit]="4"
+          [nzFilter]="filters"
+          [nzCustomRequest]="customUploadReq"
+          [nzRemove]="removeFile"
+        >
+          <button nz-button><i nz-icon nzType="upload"></i><span>上传</span></button>
+        </nz-upload>
+      </nz-form-control>
+      <span style="position: absolute;left: 0;top: 0;transform: translate(200px,8px)">只支持png，jpeg格式的图片,和txt，doc，docx格式的文档</span>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzOffset]="3">
+        <button nz-button nzType="primary" type="submit" [nzLoading]="isSaveLoading">保存</button>
       </nz-form-control>
     </nz-form-item>
   </form>
+
 </nz-modal>

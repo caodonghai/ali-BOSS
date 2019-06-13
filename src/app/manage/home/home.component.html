@@ -1,5 +1,7 @@
 <div style="width: 100%;min-height: 700px">
-  <div style="height: 600px"></div>
+  <div style="height: 600px">
+    <div echarts [options]="chartOption" class="demo-chart"></div>
+  </div>
   <div style="height: 300px;display: flex;flex-wrap: wrap">
     <div style="width: 30%;min-width: 360px;margin: 20px">
       <nz-card style="width:100%;" [nzBordered]="false" nzTitle="租户套餐占比">

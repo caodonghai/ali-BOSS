@@ -10,9 +10,9 @@ import {NzMessageService} from 'ng-zorro-antd';
 })
 export class TenantManageComponent implements OnInit {
   productList: any[];
-  tenantList: any[];
+  tenantList: any[] = [];
   name = ''; // 租户名称
-  productName = '';
+  productName: string = null;
   status = '1'; // 状态 1 - 全部 2-正常 3-过期
   buyTime = [];
   startTime = '';
@@ -48,8 +48,8 @@ export class TenantManageComponent implements OnInit {
     this.loading = true;
     const params = {
       name: this.name,
-      status: this.status,
-      productName: this.productName,
+      status: this.status ? this.status : '',
+      productName: this.productName ? this.productName : '',
       startTime: this.startTime,
       endTime: this.endTime,
       pageSize: this.pageSize,
@@ -60,6 +60,15 @@ export class TenantManageComponent implements OnInit {
       this.total = res.data.total;
       this.loading = false;
     });
+  }
+
+  resetSearchCondition() {
+    this.status = '1';
+    this.startTime = '';
+    this.endTime = '';
+    this.buyTime = [];
+    this.productName = '';
+    this.name = '';
   }
 
   handleData(list: any[]): any[] {
