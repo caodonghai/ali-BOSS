@@ -11,6 +11,11 @@ export class ManageService {
   constructor(private http: HttpClient) {
   }
 
+  // 获取租户占比
+  getProductPercent(){
+    return this.http.get<Response>(BASE_URL + '/ttSpecification/listTenantSpecification');
+  }
+
   // 获取租户列表
   getTenantList(params?: any) {
     return this.http.get<Response>(BASE_URL + '/ttSubscibe/list', {params: params});

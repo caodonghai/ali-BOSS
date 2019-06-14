@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {AppService} from '../../../service/app.service';
 
 @Component({
   selector: 'app-nav-header',
@@ -7,23 +9,26 @@ import {Component, OnInit} from '@angular/core';
 })
 export class NavHeaderComponent implements OnInit {
   avatar: string;
-  userName: string;
+  userInfo: any;
 
   isDetailModalVisible = false;
   isModifyPasswordModalVisible = false;
 
-  constructor() {
+  constructor(private router: Router, private appService: AppService) {
   }
 
   ngOnInit() {
+    this.userInfo = JSON.parse(sessionStorage.getItem('userDTO'));
+    this.avatar = this.appService.getFileUrl() + this.userInfo.userImage;
   }
 
   logout(): void {
-
+    sessionStorage.removeItem('Access-Token');
+    this.router.navigate(['/sign-in']);
   }
 
   seeUserInfo() {
-    this.isDetailModalVisible = true
+    this.isDetailModalVisible = true;
   }
 
   showModifyPasswordModal() {
@@ -38,7 +43,7 @@ export class NavHeaderComponent implements OnInit {
     this.isModifyPasswordModalVisible = false;
   }
 
-  modifyPassword(){
+  modifyPassword() {
 
   }
 }

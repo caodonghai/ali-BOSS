@@ -151,7 +151,7 @@ export class InformationFeedbackComponent implements OnInit {
           this.manageService.deleteInformationFeedback({id: this.selected.id}).subscribe(() => {
               this.msg.success('删除成功');
               this.getInformationFeedbackList();
-            }, () => {
+            }, (error) => {
             },
             () => {
               resolve();
@@ -169,13 +169,15 @@ export class InformationFeedbackComponent implements OnInit {
     if (this.replyForm.valid) {
       const fileListResponse = this.fileList.map(item => item.response.data[0]);
       this.replyForm.patchValue({
-        accessory: fileListResponse
+        accessory: fileListResponse === [] ? fileListResponse : ''
       });
       const params = Object.assign({}, this.replyForm.value, {id: this.selected.id});
       this.manageService.replyInformationFeedback(params).subscribe(res => {
-        this.msg.success('答复成功');
-        this.isReplyModalVisible = false;
-        this.resetForm();
+        if (res.resCode === 1) {
+          this.msg.success('答复成功');
+          this.isReplyModalVisible = false;
+          this.resetForm();
+        }
       });
     }
   }

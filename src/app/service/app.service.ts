@@ -39,5 +39,9 @@ export class AppService {
     });
     return this.http.request(req);
   }
+
+  getFileUrl(): string {
+    return 'http://10.0.9.253:8080';
+  }
 }
 

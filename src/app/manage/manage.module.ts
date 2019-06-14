@@ -15,6 +15,9 @@ import { PackageManageComponent } from './package-manage/package-manage.componen
 import {SalesStatisticsComponent} from './sales-statistics/sales-statistics.component';
 import {SharedModule} from '../shared/shared.module';
 import {NgxEchartsModule} from 'ngx-echarts';
+import { ProductPercentComponent } from './home/product-percent/product-percent.component';
+import { DistributeChartComponent } from './home/distribute-chart/distribute-chart.component';
+import { ActualUseComponent } from './home/actual-use/actual-use.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,10 @@ import {NgxEchartsModule} from 'ngx-echarts';
     InformationNoticeComponent,
     NavHeaderComponent,
     PackageManageComponent,
-    SalesStatisticsComponent
+    SalesStatisticsComponent,
+    ProductPercentComponent,
+    DistributeChartComponent,
+    ActualUseComponent
   ],
   imports: [
     CommonModule,

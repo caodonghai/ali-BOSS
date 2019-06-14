@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {
-  HttpEvent, HttpInterceptor, HttpHandler, HttpRequest,
-  HttpErrorResponse, HttpResponse, HttpParams
+  HttpInterceptor, HttpHandler, HttpRequest,
+  HttpErrorResponse, HttpResponse
 } from '@angular/common/http';
 import {NzMessageService} from 'ng-zorro-antd';
-import {Observable, of, throwError} from 'rxjs';
-import {catchError, mergeMap, tap} from 'rxjs/operators';
+import {throwError} from 'rxjs';
+import {catchError, tap} from 'rxjs/operators';
 
 
 @Injectable()
@@ -27,14 +27,19 @@ export class BaseInterceptor implements HttpInterceptor {
     return next.handle(newReq).pipe(
       (tap((event: any) => {
         // 正常返回，处理具体返回参数
-        if (event instanceof HttpResponse && event.status === 200) {
-          if (event.body.resCode === 1) {
-            return of(event);
+        if (event instanceof HttpResponse) {
+          if (event.status === 200) {
+            if (event.body.resCode !== 1) {
+              this.handleError(event);
+            }
           } else {
-            this.handleError(event);
+            this.msg.error('服务器异常，请稍后再试');
           }
         }
-      }))
+      })),
+      catchError((event: HttpErrorResponse) => {
+        return throwError(event);
+      })
     );
   }
 

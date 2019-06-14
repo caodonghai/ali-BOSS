@@ -1,0 +1,5 @@
+<div style="position: relative">
+  <nz-spin nzSimple [nzSize]="'large'" *ngIf="isLoading" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%)"></nz-spin>
+  <div echarts [options]="option" (chartInit)="onChartInit($event)"></div>
+</div>
+
