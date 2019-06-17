@@ -1,3 +1,1 @@
-<ng-container *ngIf="isDestroy">
-  <ckeditor [editor]="Editor" [config]="config" [data]="InitialValue" (change)="onChange($event)"></ckeditor>
-</ng-container>
+<ckeditor *ngIf="show" class="ck-editor" [editor]="Editor" [tagName]="'div'" [config]="config" [data]="InitialValue" (change)="onChange($event)" (ready)="onReady($event)"></ckeditor>

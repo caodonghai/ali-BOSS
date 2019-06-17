@@ -36,7 +36,7 @@
       </nz-form-control>
     </nz-form-item>
   </form>
-  <button nz-button nzType="primary" style="margin: 20px 0 4px 0;" (click)="isAddModalVisible=true"><i nz-icon nzType="plus" nzTheme="outline"></i>新增</button>
+  <button nz-button nzType="primary" style="margin: 20px 0 4px 0;" (click)="isAddModalVisible=true;"><i nz-icon nzType="plus" nzTheme="outline"></i>新增</button>
   <nz-table #basicTable nzBordered
             [nzData]="informationNoticeList" (click)="handleTableClick($event)"
             [nzLoading]="loading"
@@ -154,7 +154,7 @@
           [nzCustomRequest]="customUploadReq"
           [nzRemove]="removeFile"
         >
-          <button nz-button><i nz-icon nzType="upload"></i><span>上传</span></button>
+          <button nz-button type="button"><i nz-icon nzType="upload"></i><span>上传</span></button>
         </nz-upload>
       </nz-form-control>
       <!--<span style="position: absolute;left: 0;top: 0;transform: translate(200px,8px)">只支持png，jpeg格式的图片,和txt，doc，docx格式的文档</span>-->
@@ -162,7 +162,7 @@
     <nz-form-item>
       <nz-form-label [nzSpan]="2" nzRequired>内容</nz-form-label>
       <nz-form-control [nzSpan]="20">
-        <app-rich-text-editor (getContent)="getContent($event)"></app-rich-text-editor>
+        <app-rich-text-editor [show]="isAddModalVisible" (getContent)="getContent($event)"></app-rich-text-editor>
         <nz-form-explain style="color: #f5222d"
           *ngIf=" (addForm.get('content')?.dirty && addForm.get('content')?.errors) || addForm.get('content')?.pending ">
           <ng-container *ngIf="addForm.get('content')?.hasError('required')">
@@ -174,7 +174,7 @@
     <nz-form-item>
       <nz-form-control [nzOffset]="2">
         <button nz-button nzType="primary" type="submit" [nzLoading]="isSaveLoading">保存</button>
-        <button nz-button nzType="default" type="button" >取消</button>
+        <button nz-button nzType="default" type="button" style="margin-left: 20px" (click)="isAddModalVisible=false">取消</button>
       </nz-form-control>
     </nz-form-item>
   </form>

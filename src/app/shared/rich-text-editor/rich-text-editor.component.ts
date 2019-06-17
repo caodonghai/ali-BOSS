@@ -1,6 +1,8 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import {ChangeEvent} from '@ckeditor/ckeditor5-angular';
+import {NavigationStart, Router} from '@angular/router';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-rich-text-editor',
@@ -10,33 +12,38 @@ import {ChangeEvent} from '@ckeditor/ckeditor5-angular';
 export class RichTextEditorComponent implements OnInit, OnDestroy {
   @Input() InitialValue: string;
   @Input() Readonly: boolean;
+  @Input() show: boolean;
   @Output() getContent = new EventEmitter<string>();
 
-  isDestroy = false;
-
-  public Editor = ClassicEditor;
+  Editor = ClassicEditor;
   config = {
     language: 'zh-cn'
   };
 
-  constructor() {
+  constructor(private router: Router, private el: ElementRef) {
   }
 
   ngOnInit() {
+
   }
 
   ngOnDestroy() {
-    this.isDestroy = true;
+    this.getContent.unsubscribe();
   }
 
-  public onChange({editor}: ChangeEvent) {
+  onChange({editor}: ChangeEvent) {
     let data: string;
-    try {
-      data = editor.getData();
-    } catch (e) {
-
-    }
+    data = editor.getData();
     this.getContent.emit(data);
   }
 
+  onReady(e) {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationStart))
+      .subscribe(
+        () => {
+          e.ui.destroy();
+        }
+      );
+  }
 }

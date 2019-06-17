@@ -126,7 +126,7 @@ export class InformationFeedbackComponent implements OnInit {
     if (method && id) {
       this.selected = this.informationFeedbackList.find(item => item.id === id);
       if (method === 'detail') {
-
+        this.isDetailModalVisible = true;
       } else if (method === 'delete') {
         this.deleteData();
       } else if (method === 'reply') {

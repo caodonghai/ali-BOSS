@@ -142,7 +142,7 @@ export class InformationNoticeComponent implements OnInit {
     }
   }
 
-  recall(){
+  recall() {
     this.modal.confirm({
       nzTitle: '撤回',
       nzContent: '确定要撤回这条信息通知吗？',
