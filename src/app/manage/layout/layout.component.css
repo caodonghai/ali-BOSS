@@ -1,3 +1,7 @@
 #layout i[nz-icon]{
   font-size: 18px;
 }
+
+#layout li:focus{
+
+}

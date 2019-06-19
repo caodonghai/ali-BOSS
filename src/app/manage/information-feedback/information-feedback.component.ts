@@ -74,7 +74,7 @@ export class InformationFeedbackComponent implements OnInit {
               private msg: NzMessageService,
               private appService: AppService) {
     this.replyForm = this.fb.group({
-      status: ['', [Validators.required]],
+      status: [null, [Validators.required]],
       content: ['', [Validators.required, Validators.maxLength(400)]],
       accessory: [[]],
     });
@@ -148,7 +148,7 @@ export class InformationFeedbackComponent implements OnInit {
       nzContent: '确定要删除这条信息反馈吗？',
       nzOnOk: () =>
         new Promise((resolve, reject) => {
-          this.manageService.deleteInformationFeedback({id: this.selected.id}).subscribe(() => {
+          this.manageService.deleteInformationFeedback({id: this.selected.replyId}).subscribe(() => {
               this.msg.success('删除成功');
               this.getInformationFeedbackList();
             }, (error) => {
@@ -167,16 +167,19 @@ export class InformationFeedbackComponent implements OnInit {
       this.replyForm.controls[i].updateValueAndValidity();
     }
     if (this.replyForm.valid) {
+      this.isSaveLoading = true;
       const fileListResponse = this.fileList.map(item => item.response.data[0]);
       this.replyForm.patchValue({
         accessory: fileListResponse === [] ? fileListResponse : ''
       });
       const params = Object.assign({}, this.replyForm.value, {id: this.selected.id});
       this.manageService.replyInformationFeedback(params).subscribe(res => {
+        this.isSaveLoading = false;
         if (res.resCode === 1) {
           this.msg.success('答复成功');
           this.isReplyModalVisible = false;
           this.resetForm();
+          this.getInformationFeedbackList();
         }
       });
     }

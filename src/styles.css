@@ -30,3 +30,17 @@ table {
   top: 50%;
   transform: translate(100%,-50%);
 }
+
+/*树形组件每个节点padding*/
+.ant-tree li{
+  padding: 0 !important;
+  margin:-2px 0 !important;
+}
+
+/*ztree设置*/
+.ztree .span{
+  font-size: 14px;
+}
+.ztree li[treenode]{
+  padding: 1px 0;
+}

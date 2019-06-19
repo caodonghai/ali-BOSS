@@ -1,4 +1,4 @@
-<nz-card style="width:100%;height: 100%" [nzBordered]="false" nzTitle="套餐管理">
+<nz-card style="width:100%;min-height: 100%;" [nzBordered]="false" nzTitle="套餐管理">
   <form nz-form [nzLayout]="'inline'">
     <nz-form-item>
       <nz-form-label>套餐名称</nz-form-label>
@@ -120,7 +120,7 @@
     <nz-form-item>
       <nz-form-label [nzSpan]="5" nzRequired>产品名称</nz-form-label>
       <nz-form-control [nzSpan]="16">
-        <nz-select formControlName="productId" placeholder="请选择产品名称">
+        <nz-select formControlName="productId" nzPlaceHolder="请选择产品名称">
           <nz-option [nzValue]="item.id" [nzLabel]="item.name" *ngFor="let item of productList"></nz-option>
         </nz-select>
         <nz-form-explain
@@ -134,7 +134,7 @@
     <nz-form-item>
       <nz-form-label [nzSpan]="5" nzRequired>套餐等级</nz-form-label>
       <nz-form-control [nzSpan]="16">
-        <nz-select formControlName="level" placeholder="请选择套餐等级">
+        <nz-select formControlName="level" nzPlaceHolder="请选择套餐等级">
           <nz-option nzValue="1" nzLabel="省"></nz-option>
           <nz-option nzValue="2" nzLabel="市"></nz-option>
           <nz-option nzValue="3" nzLabel="县"></nz-option>
@@ -152,7 +152,7 @@
     <nz-form-item>
       <nz-form-label [nzSpan]="5" nzRequired>状态</nz-form-label>
       <nz-form-control [nzSpan]="16">
-        <nz-select formControlName="status" placeholder="请选择状态">
+        <nz-select formControlName="status" nzPlaceHolder="请选择状态">
           <nz-option nzValue="1" nzLabel="发布"></nz-option>
           <nz-option nzValue="2" nzLabel="正常"></nz-option>
           <nz-option nzValue="3" nzLabel="过期"></nz-option>
@@ -187,10 +187,10 @@
       <nz-form-label [nzSpan]="5" nzRequired>售卖周期</nz-form-label>
       <nz-form-control [nzSpan]="16">
         <nz-input-group [nzAddOnAfter]="cycleTypeTemplate">
-          <input type="text" nz-input formControlName="sellCycle" />
+          <input type="text" nz-input formControlName="sellCycle" placeholder="请输入售卖周期" />
         </nz-input-group>
         <ng-template #cycleTypeTemplate>
-          <nz-select formControlName="cycleType" placeholder="请选择售卖周期">
+          <nz-select formControlName="cycleType" nzPlaceHolder="请选择售卖周期">
             <nz-option nzValue="1" nzLabel="年"></nz-option>
             <nz-option nzValue="2" nzLabel="季"></nz-option>
             <nz-option nzValue="3" nzLabel="月"></nz-option>

@@ -13,7 +13,7 @@ export class PackageManageComponent implements OnInit {
   productList: any[] = []; // 用于表单下拉框
   userList: any[] = []; // 某套餐用户列表
   name = '';
-  type = '';
+  type:string = null;
   status = '';
   loading = false;
   pageSize = 10;
@@ -43,11 +43,11 @@ export class PackageManageComponent implements OnInit {
     this.addProductForm = this.fb.group({
       name: ['', [Validators.required]],
       versionCode: ['', [Validators.required]],
-      productId: ['', [Validators.required]],
-      status: ['', [Validators.required]],
-      accountQuantity: ['', [Validators.required, Validators.pattern('^[1-9]+$')]],
-      level: ['', [Validators.required]],
-      sellCycle: ['', [Validators.required, Validators.pattern('^[1-9]+$')]],
+      productId: [null, [Validators.required]],
+      status: [null, [Validators.required]],
+      accountQuantity: ['', [Validators.required, Validators.pattern('[0-9]*[1-9][0-9]*')]],
+      level: [null, [Validators.required]],
+      sellCycle: ['', [Validators.required, Validators.pattern('[0-9]*[1-9][0-9]*')]],
       cycleType: ['1', [Validators.required]],
       price: ['', [Validators.required, Validators.pattern('^[0-9]+(.[0-9]{1,3})?$')]],
       description: ['', [Validators.maxLength(400)]],

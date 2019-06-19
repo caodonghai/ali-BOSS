@@ -7,12 +7,18 @@ import {HttpClient} from '@angular/common/http';
   providedIn: 'root'
 })
 export class ManageService {
+  private tempUrl = 'http://hezhangzhi.net/api';
 
   constructor(private http: HttpClient) {
   }
 
+  // 获取地区租户数量
+  getRegionTenantAmount() {
+    return this.http.get<Response>(BASE_URL + '/ttSubscibe/listRegionTenantNumber');
+  }
+
   // 获取租户占比
-  getProductPercent(){
+  getProductPercent() {
     return this.http.get<Response>(BASE_URL + '/ttSpecification/listTenantSpecification');
   }
 
@@ -72,13 +78,13 @@ export class ManageService {
   }
 
   // 撤回一条通知
-  recallInfomationNotice(params){
-    return this.http.delete<Response>(BASE_URL + '/ttInform/updateStatus',  {params: params});
+  recallInformationNotice(params) {
+    return this.http.put<Response>(BASE_URL + '/ttInform/updateStatus', null, {params: params});
   }
 
   // 删除一条信息通知
   deleteInformationNotice(params) {
-    return this.http.delete<Response>(BASE_URL + '/ttInform/delete',  {params: params});
+    return this.http.delete<Response>(BASE_URL + '/ttInform/delete', {params: params});
   }
 
   // 获取信息反馈列表
@@ -93,5 +99,9 @@ export class ManageService {
 
   replyInformationFeedback(params: any) {
     return this.http.post<Response>(BASE_URL + '/ttIdeaReply/add', null, {params: params});
+  }
+
+  getMenuList() {
+    return this.http.get<Response>(this.tempUrl + '/uip/smMenu/queryMenuTree');
   }
 }

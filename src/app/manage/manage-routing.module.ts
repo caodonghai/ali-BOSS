@@ -7,6 +7,9 @@ import {InformationFeedbackComponent} from './information-feedback/information-f
 import {TenantManageComponent} from './tenant-manage/tenant-manage.component';
 import {PackageManageComponent} from './package-manage/package-manage.component';
 import {SalesStatisticsComponent} from './sales-statistics/sales-statistics.component';
+import {MenuSettingComponent} from './system-setting/menu-setting/menu-setting.component';
+import {UserSettingComponent} from './system-setting/user-setting/user-setting.component';
+import {PermissionSettingComponent} from './system-setting/permission-setting/permission-setting.component';
 
 const routes: Routes = [
   {
@@ -19,7 +22,10 @@ const routes: Routes = [
       {path: 'package-manage', component: PackageManageComponent},
       {path: 'sales-statistics', component: SalesStatisticsComponent},
       {path: 'information-notice', component: InformationNoticeComponent},
-      {path: 'information-feedback', component: InformationFeedbackComponent}
+      {path: 'information-feedback', component: InformationFeedbackComponent},
+      {path: 'system-setting/menu-setting', component: MenuSettingComponent},
+      {path: 'system-setting/user-setting', component: UserSettingComponent},
+      {path: 'system-setting/permission-setting', component: PermissionSettingComponent},
     ]
   }
 ];

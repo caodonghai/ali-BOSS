@@ -29,10 +29,12 @@
             ],
             "styles": [
               "src/theme.less",
-              "src/styles.css"
+              "src/styles.css",
+              "./node_modules/ztree/css/zTreeStyle/zTreeStyle.css"
             ],
             "scripts": [
-              "./node_modules/@ckeditor/ckeditor5-build-classic/build/translations/zh-cn.js"
+              "./node_modules/@ckeditor/ckeditor5-build-classic/build/translations/zh-cn.js",
+              "./node_modules/ztree/js/jquery.ztree.all.min.js"
             ]
           },
           "configurations": {

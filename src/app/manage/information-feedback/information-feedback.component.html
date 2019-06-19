@@ -1,4 +1,4 @@
-<nz-card style="width:100%;height: 100%" [nzBordered]="false" nzTitle="信息反馈">
+<nz-card style="width:100%;min-height: 100%;" [nzBordered]="false" nzTitle="信息反馈">
   <form nz-form [nzLayout]="'inline'">
     <nz-form-item>
       <nz-form-label>标题</nz-form-label>
@@ -61,20 +61,22 @@
     </thead>
     <tbody>
     <tr *ngFor="let item of informationFeedbackList;let i = index;">
-      <td>{{i+(pageNumber-1)*pageSize}}</td>
+      <td>{{i+(pageNumber-1)*pageSize+1}}</td>
       <td>{{item.num}}</td>
       <td>{{item.title}}</td>
-      <td>{{item.address}}</td>
+      <td>{{item.replyContent}}</td>
       <td>{{typeEnum[item.status]}}</td>
-      <td>{{item.address}}</td>
-      <td>{{item.address}}</td>
-      <td>{{item.address}}</td>
+      <td>{{item.createTime}}</td>
+      <td>{{item.replyTime}}</td>
+      <td>{{item.replyUsername}}</td>
       <td style="width: 200px;text-align: center">
         <button nz-button nzType="default" nzSize="small" data-method="detail" [attr.data-id]="item.id">详情</button>
         <nz-divider nzType="vertical"></nz-divider>
         <button nz-button nzType="danger" nzSize="small" data-method="delete" [attr.data-id]="item.id">删除</button>
-        <nz-divider nzType="vertical"></nz-divider>
-        <button nz-button nzType="primary" nzSize="small" data-method="reply" [attr.data-id]="item.id">答复</button>
+        <ng-container *ngIf="!item.replyId">
+          <nz-divider nzType="vertical"></nz-divider>
+          <button nz-button nzType="primary" nzSize="small" data-method="reply" [attr.data-id]="item.id">答复</button>
+        </ng-container>
       </td>
     </tr>
     </tbody>

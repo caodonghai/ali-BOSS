@@ -37,6 +37,13 @@ export class InformationNoticeComponent implements OnInit {
   selectedTenantList: any[] = [];
   isGetTenantListLoading = false;
 
+  noticeTypeEnum = {
+    '1': '通知',
+    '2': '产品',
+    '3': '安全',
+    '4': '服务',
+  };
+
   addForm: FormGroup;
 
   uploadUrl = '';
@@ -148,7 +155,7 @@ export class InformationNoticeComponent implements OnInit {
       nzContent: '确定要撤回这条信息通知吗？',
       nzOnOk: () =>
         new Promise((resolve, reject) => {
-          this.manageService.recallInfomationNotice({id: this.selected.id}).subscribe(() => {
+          this.manageService.recallInformationNotice({id: this.selected.id}).subscribe(() => {
               this.msg.success('撤回成功');
               this.getInformationNoticeList();
             }, () => {

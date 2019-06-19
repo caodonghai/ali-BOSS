@@ -20,6 +20,8 @@ export class RichTextEditorComponent implements OnInit, OnDestroy {
     language: 'zh-cn'
   };
 
+  private instance;
+
   constructor(private router: Router, private el: ElementRef) {
   }
 
@@ -38,12 +40,17 @@ export class RichTextEditorComponent implements OnInit, OnDestroy {
   }
 
   onReady(e) {
-    this.router.events
-      .pipe(filter(event => event instanceof NavigationStart))
-      .subscribe(
-        () => {
-          e.ui.destroy();
-        }
-      );
+    this.instance = e;
+    // this.router.events
+    //   .pipe(filter(event => event instanceof NavigationStart))
+    //   .subscribe(
+    //     () => {
+    //       try {
+    //         e.ui.destroy();
+    //       } catch (e) {
+    //         console.error(e);
+    //       }
+    //     }
+    //   );
   }
 }

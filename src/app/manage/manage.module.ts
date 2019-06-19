@@ -18,6 +18,9 @@ import {NgxEchartsModule} from 'ngx-echarts';
 import { ProductPercentComponent } from './home/product-percent/product-percent.component';
 import { DistributeChartComponent } from './home/distribute-chart/distribute-chart.component';
 import { ActualUseComponent } from './home/actual-use/actual-use.component';
+import { MenuSettingComponent } from './system-setting/menu-setting/menu-setting.component';
+import { UserSettingComponent } from './system-setting/user-setting/user-setting.component';
+import { PermissionSettingComponent } from './system-setting/permission-setting/permission-setting.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,10 @@ import { ActualUseComponent } from './home/actual-use/actual-use.component';
     SalesStatisticsComponent,
     ProductPercentComponent,
     DistributeChartComponent,
-    ActualUseComponent
+    ActualUseComponent,
+    MenuSettingComponent,
+    UserSettingComponent,
+    PermissionSettingComponent
   ],
   imports: [
     CommonModule,

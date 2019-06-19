@@ -1,4 +1,4 @@
-<nz-card style="width:100%;height: 100%" [nzBordered]="false" nzTitle="信息通知">
+<nz-card style="width:100%;min-height: 100%;" [nzBordered]="false" nzTitle="信息通知">
   <form nz-form [nzLayout]="'inline'">
     <nz-form-item>
       <nz-form-label>标题</nz-form-label>
@@ -64,15 +64,17 @@
     <tr *ngFor="let item of informationNoticeList;let i=index;">
       <td>{{i+pageSize*(pageNumber-1)+1}}</td>
       <td>{{item.title}}</td>
-      <td>{{item.type}}</td>
+      <td>{{noticeTypeEnum[item.type]}}</td>
       <td>{{item.content}}</td>
       <td>{{item.createTime}}</td>
       <td>{{item.readedNumber}}</td>
       <td>{{item.unreadedNumber}}</td>
       <td style="text-align: center">
         <button nz-button nzType="default" nzSize="small" data-method="detail" [attr.data-id]="item.id">查看</button>
-        <nz-divider nzType="vertical"></nz-divider>
-        <button nz-button nzType="primary" nzSize="small" data-method="recall" [attr.data-id]="item.id">撤回</button>
+        <ng-container *ngIf="item.status!==2">
+          <nz-divider nzType="vertical"></nz-divider>
+          <button nz-button nzType="primary" nzSize="small" data-method="recall" [attr.data-id]="item.id">撤回</button>
+        </ng-container>
         <nz-divider nzType="vertical"></nz-divider>
         <button nz-button nzType="danger" nzSize="small" data-method="delete" [attr.data-id]="item.id">删除</button>
       </td>
