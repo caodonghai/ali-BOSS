@@ -26,6 +26,7 @@ export class InformationNoticeComponent implements OnInit {
   selected: any = {};
   isAddModalVisible = false;
   isChooseUserModalVisible = false;
+  isDetailModalVisible = false;
   isSaveLoading = false;
 
   product: '';
@@ -140,7 +141,7 @@ export class InformationNoticeComponent implements OnInit {
     if (method && id) {
       this.selected = this.informationNoticeList.find(item => item.id === id);
       if (method === 'detail') {
-        // this.isDetailModalVisible = true;
+        this.isDetailModalVisible = true;
       } else if (method === 'recall') {
         this.recall();
       } else if (method === 'delete') {
@@ -222,14 +223,20 @@ export class InformationNoticeComponent implements OnInit {
 
   confirmTenantSelect() {
     this.isChooseUserModalVisible = false;
+    const selectedTenantNameList = [];
+    this.selectedTenantList.forEach(id => {
+      const name = this.tenantList.find(item => id === item.id).mobile;
+      selectedTenantNameList.push(name);
+    });
     this.addForm.patchValue({
-      receiveIds: this.selectedTenantList
+      receiveIds: selectedTenantNameList
     });
   }
 
   submitForm() {
     this.addForm.patchValue({
-      content: this.richEditorContent
+      content: this.richEditorContent,
+      receiveIds: this.selectedTenantList
     });
     for (const i in this.addForm.controls) {
       this.addForm.controls[i].markAsDirty();

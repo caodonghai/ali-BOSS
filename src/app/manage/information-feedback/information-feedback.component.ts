@@ -27,7 +27,6 @@ export class InformationFeedbackComponent implements OnInit {
   selected: any = {};
   isSaveLoading = false;
 
-  uploadUrl = '';
   fileList: any = [];
   filters: UploadFilter[] = [
     {
@@ -82,7 +81,6 @@ export class InformationFeedbackComponent implements OnInit {
 
   ngOnInit() {
     this.getInformationFeedbackList();
-    this.uploadUrl = this.appService.getUploadUrl();
   }
 
   getInformationFeedbackList() {

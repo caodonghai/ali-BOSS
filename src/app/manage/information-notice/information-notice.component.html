@@ -36,7 +36,10 @@
       </nz-form-control>
     </nz-form-item>
   </form>
-  <button nz-button nzType="primary" style="margin: 20px 0 4px 0;" (click)="isAddModalVisible=true;"><i nz-icon nzType="plus" nzTheme="outline"></i>新增</button>
+  <button nz-button nzType="primary" style="margin: 20px 0 4px 0;" (click)="isAddModalVisible=true;"><i nz-icon
+                                                                                                        nzType="plus"
+                                                                                                        nzTheme="outline"></i>新增
+  </button>
   <nz-table #basicTable nzBordered
             [nzData]="informationNoticeList" (click)="handleTableClick($event)"
             [nzLoading]="loading"
@@ -95,7 +98,7 @@
         <nz-form-item>
           <nz-form-label [nzSpan]="4" nzRequired>标题</nz-form-label>
           <nz-form-control [nzSpan]="18">
-            <input nz-input formControlName="title" placeholder="请输入标题" />
+            <input nz-input formControlName="title" placeholder="请输入标题"/>
             <nz-form-explain
               *ngIf=" (addForm.get('title')?.dirty && addForm.get('title')?.errors) || addForm.get('title')?.pending ">
               <ng-container *ngIf="addForm.get('title')?.hasError('required')">
@@ -130,7 +133,7 @@
         <nz-form-item>
           <nz-form-label [nzSpan]="4" nzRequired>接收人</nz-form-label>
           <nz-form-control [nzSpan]="18">
-            <input nz-input readonly formControlName="receiveIds" placeholder="请选择接收人" />
+            <input nz-input readonly formControlName="receiveIds" placeholder="请选择接收人"/>
             <nz-form-explain
               *ngIf=" (addForm.get('receiveIds')?.dirty && addForm.get('receiveIds')?.errors) || addForm.get('receiveIds')?.pending ">
               <ng-container *ngIf="addForm.get('receiveIds')?.hasError('required')">
@@ -141,7 +144,9 @@
         </nz-form-item>
       </div>
       <div nz-col [nzSpan]="12">
-        <button nz-button nzType="primary" type="button" (click)="isChooseUserModalVisible=true" style="transform: translateY(4px)">选择</button>
+        <button nz-button nzType="primary" type="button" (click)="isChooseUserModalVisible=true"
+                style="transform: translateY(4px)">选择
+        </button>
       </div>
     </div>
     <nz-form-item>
@@ -166,7 +171,7 @@
       <nz-form-control [nzSpan]="20">
         <app-rich-text-editor [show]="isAddModalVisible" (getContent)="getContent($event)"></app-rich-text-editor>
         <nz-form-explain style="color: #f5222d"
-          *ngIf=" (addForm.get('content')?.dirty && addForm.get('content')?.errors) || addForm.get('content')?.pending ">
+                         *ngIf=" (addForm.get('content')?.dirty && addForm.get('content')?.errors) || addForm.get('content')?.pending ">
           <ng-container *ngIf="addForm.get('content')?.hasError('required')">
             请输入内容!
           </ng-container>
@@ -176,7 +181,9 @@
     <nz-form-item>
       <nz-form-control [nzOffset]="2">
         <button nz-button nzType="primary" type="submit" [nzLoading]="isSaveLoading">保存</button>
-        <button nz-button nzType="default" type="button" style="margin-left: 20px" (click)="isAddModalVisible=false">取消</button>
+        <button nz-button nzType="default" type="button" style="margin-left: 20px" (click)="isAddModalVisible=false">
+          取消
+        </button>
       </nz-form-control>
     </nz-form-item>
   </form>
@@ -189,31 +196,64 @@
   (nzOnCancel)="isChooseUserModalVisible=false"
   nzWidth="800"
 >
-<form nz-form>
-  <nz-form-item>
-    <nz-form-label [nzSpan]="3">套餐名称</nz-form-label>
-    <nz-form-control [nzSpan]="18">
-      <nz-select [(ngModel)]="product" name="product" (ngModelChange)="getTenantList()" nzPlaceHolder="请选择套餐">
-        <nz-option nzValue="" nzLabel="全部"></nz-option>
-        <nz-option *ngFor="let item of productList" [nzValue]="item" [nzLabel]="item"></nz-option>
-      </nz-select>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label [nzSpan]="3">租户选择</nz-form-label>
-    <nz-form-control [nzSpan]="18">
-      <nz-select nzMode="multiple" [(ngModel)]="selectedTenantList" (nzScrollToBottom)="loadMore()" name="123" nzPlaceHolder="请选择租户" nzAllowClear>
-        <nz-option *ngFor="let item of tenantList" [nzValue]="item.id" [nzLabel]="item.mobile"></nz-option>
-        <nz-option *ngIf="isGetTenantListLoading" nzDisabled nzCustomContent>
-          <i nz-icon type="loading" class="loading-icon"></i> 正在加载...
-        </nz-option>
-      </nz-select>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-control [nzSpan]="18" [nzOffset]="3">
-      <button nz-button nzType="primary" (click)="confirmTenantSelect()">确定</button>
-    </nz-form-control>
-  </nz-form-item>
-</form>
+  <form nz-form>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="3">套餐名称</nz-form-label>
+      <nz-form-control [nzSpan]="18">
+        <nz-select [(ngModel)]="product" name="product" (ngModelChange)="getTenantList()" nzPlaceHolder="请选择套餐">
+          <nz-option nzValue="" nzLabel="全部"></nz-option>
+          <nz-option *ngFor="let item of productList" [nzValue]="item" [nzLabel]="item"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="3">租户选择</nz-form-label>
+      <nz-form-control [nzSpan]="18">
+        <nz-select nzMode="multiple" [(ngModel)]="selectedTenantList" (nzScrollToBottom)="loadMore()" name="123"
+                   nzPlaceHolder="请选择租户" nzAllowClear>
+          <nz-option *ngFor="let item of tenantList" [nzValue]="item.id" [nzLabel]="item.mobile"></nz-option>
+          <nz-option *ngIf="isGetTenantListLoading" nzDisabled nzCustomContent>
+            <i nz-icon type="loading" class="loading-icon"></i> 正在加载...
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzSpan]="18" [nzOffset]="3">
+        <button nz-button nzType="primary" (click)="confirmTenantSelect()">确定</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>
+<nz-modal
+  [(nzVisible)]="isDetailModalVisible"
+  nzTitle="详情"
+  [nzFooter]="null"
+  (nzOnCancel)="isDetailModalVisible=false"
+  nzWidth="600"
+>
+  <div nz-row class="detail-modal-item">
+    <div nz-col [nzSpan]="4" [nzOffset]="2">标题：</div>
+    <div nz-col [nzSpan]="14">{{selected.title}}</div>
+  </div>
+  <div nz-row class="detail-modal-item">
+    <div nz-col [nzSpan]="4" [nzOffset]="2">类型：</div>
+    <div nz-col [nzSpan]="14">{{noticeTypeEnum[selected.type]}}</div>
+  </div>
+  <div nz-row class="detail-modal-item">
+    <div nz-col [nzSpan]="4" [nzOffset]="2">内容：</div>
+    <div nz-col [nzSpan]="14" [innerHTML]="selected.content"></div>
+  </div>
+  <div nz-row class="detail-modal-item">
+    <div nz-col [nzSpan]="4" [nzOffset]="2">发布时间：</div>
+    <div nz-col [nzSpan]="14">{{selected.createTime}}</div>
+  </div>
+  <div nz-row class="detail-modal-item">
+    <div nz-col [nzSpan]="4" [nzOffset]="2">已读数：</div>
+    <div nz-col [nzSpan]="14">{{selected.readedNumber}}</div>
+  </div>
+  <div nz-row class="detail-modal-item">
+    <div nz-col [nzSpan]="4" [nzOffset]="2">未读数：</div>
+    <div nz-col [nzSpan]="14">{{selected.unreadedNumber}}</div>
+  </div>
 </nz-modal>

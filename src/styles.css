@@ -11,7 +11,7 @@ table {
   flex-direction: column;
   margin-left: 20px;
 }
-.detail-modal .detail-modal-item{
+.detail-modal-item{
   padding: 8px 0;
   display: flex;
   align-items: flex-start;
@@ -38,9 +38,9 @@ table {
 }
 
 /*ztree设置*/
-.ztree .span{
+#manageContent .ztree span{
   font-size: 14px;
 }
-.ztree li[treenode]{
+#manageContent .ztree li[treenode]{
   padding: 1px 0;
 }

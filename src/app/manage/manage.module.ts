@@ -21,6 +21,7 @@ import { ActualUseComponent } from './home/actual-use/actual-use.component';
 import { MenuSettingComponent } from './system-setting/menu-setting/menu-setting.component';
 import { UserSettingComponent } from './system-setting/user-setting/user-setting.component';
 import { PermissionSettingComponent } from './system-setting/permission-setting/permission-setting.component';
+import { AddMenuComponent } from './system-setting/menu-setting/add-menu/add-menu.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { PermissionSettingComponent } from './system-setting/permission-setting/
     ActualUseComponent,
     MenuSettingComponent,
     UserSettingComponent,
-    PermissionSettingComponent
+    PermissionSettingComponent,
+    AddMenuComponent
   ],
   imports: [
     CommonModule,

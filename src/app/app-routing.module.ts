@@ -19,7 +19,7 @@ const appRoutes: Routes = [
   declarations: [],
   imports: [
     CommonModule,
-    RouterModule.forRoot(appRoutes, {preloadingStrategy: PreloadStrategyService})
+    RouterModule.forRoot(appRoutes, {preloadingStrategy: PreloadStrategyService, useHash: true})
   ],
   exports: [
     RouterModule

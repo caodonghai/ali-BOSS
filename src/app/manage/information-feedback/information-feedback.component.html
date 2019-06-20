@@ -100,23 +100,23 @@
     </div>
     <div class="detail-modal-item">
     <span class="detail-modal-item-label">答复：</span>
-    <span class="detail-modal-item-content">{{selected.price?selected.price+'万元':''}}</span>
+    <span class="detail-modal-item-content">{{selected.replyContent}}</span>
     </div>
     <div class="detail-modal-item">
     <span class="detail-modal-item-label">类型：</span>
     <span class="detail-modal-item-content">{{typeEnum[selected.status]}}</span>
     </div>
     <div class="detail-modal-item">
-    <span class="detail-modal-item-label">剩余天数：</span>
-    <span class="detail-modal-item-content">{{selected.restDay}}</span>
+    <span class="detail-modal-item-label">提出时间：</span>
+    <span class="detail-modal-item-content">{{selected.createTime}}</span>
     </div>
     <div class="detail-modal-item">
-    <span class="detail-modal-item-label">剩余许可：</span>
-    <span class="detail-modal-item-content">{{selected.rest}}个</span>
+    <span class="detail-modal-item-label">答复时间：</span>
+    <span class="detail-modal-item-content">{{selected.replyTime}}个</span>
     </div>
     <div class="detail-modal-item">
-    <span class="detail-modal-item-label">访问地址：</span>
-    <a [href]="'http://'+selected.systemDomain" class="detail-modal-item-content">{{selected.systemDomain}}</a>
+    <span class="detail-modal-item-label">答复人：</span>
+    <span class="detail-modal-item-content">{{selected.replyUsername}}</span>
     </div>
 
   </div>
@@ -186,7 +186,6 @@
       <nz-form-label [nzSpan]="3">附件</nz-form-label>
       <nz-form-control [nzSpan]="18">
         <nz-upload
-          [nzAction]="uploadUrl"
           [nzFileList]="fileList"
           nzMultiple
           [nzLimit]="4"
