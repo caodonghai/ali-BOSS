@@ -7,7 +7,6 @@ import {HttpClient} from '@angular/common/http';
   providedIn: 'root'
 })
 export class ManageService {
-  private tempUrl = 'http://hezhangzhi.net/api';
 
   constructor(private http: HttpClient) {
   }
@@ -100,15 +99,5 @@ export class ManageService {
   // 答复信息反馈
   replyInformationFeedback(params: any) {
     return this.http.post<Response>(BASE_URL + '/boss/ttIdeaReply/add', null, {params: params});
-  }
-
-  // 获取菜单列表，用于树形组件
-  getMenuTreeList() {
-    return this.http.get<Response>(this.tempUrl + '/uip/smMenu/queryMenuTree');
-  }
-
-  // 获取菜单列表，用于表格
-  getMenuList(params: any) {
-    return this.http.get<Response>(this.tempUrl + '/uip/smMenu/queryMenuList', {params: params});
   }
 }

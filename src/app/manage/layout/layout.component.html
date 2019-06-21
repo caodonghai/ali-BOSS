@@ -18,8 +18,10 @@
         </ng-container>
       </ul>
     </nz-sider>
-    <nz-content style="margin:24px;" id="manageContent">
-      <router-outlet></router-outlet>
+    <nz-content id="manageContent">
+      <div style="overflow-y: auto;padding: 24px">
+        <router-outlet></router-outlet>
+      </div>
     </nz-content>
   </nz-layout>
 </nz-layout>

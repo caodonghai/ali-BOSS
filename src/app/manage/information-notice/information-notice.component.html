@@ -40,11 +40,11 @@
                                                                                                         nzType="plus"
                                                                                                         nzTheme="outline"></i>新增
   </button>
-  <nz-table #basicTable nzBordered
+  <nz-table #basicTable [nzBordered]="true"
             [nzData]="informationNoticeList" (click)="handleTableClick($event)"
             [nzLoading]="loading"
-            nzShowSizeChanger
-            nzShowQuickJumper
+            [nzShowSizeChanger]="true"
+            [nzShowQuickJumper]="true"
             [nzFrontPagination]="false"
             [(nzPageIndex)]="pageNumber"
             [(nzPageSize)]="pageSize"

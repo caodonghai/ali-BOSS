@@ -37,11 +37,11 @@
       </nz-form-control>
     </nz-form-item>
   </form>
-  <nz-table #basicTable nzBordered
+  <nz-table #basicTable [nzBordered]="true"
             [nzData]="tenantList" style="margin-top: 24px" (click)="handleTableClick($event)"
             [nzLoading]="loading"
-            nzShowSizeChanger
-            nzShowQuickJumper
+            [nzShowSizeChanger]="true"
+            [nzShowQuickJumper]="true"
             [nzFrontPagination]="false"
             [(nzPageIndex)]="pageNumber"
             [(nzPageSize)]="pageSize"

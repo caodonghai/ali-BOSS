@@ -35,11 +35,11 @@
       </nz-form-control>
     </nz-form-item>
   </form>
-  <nz-table #basicTable nzBordered [nzData]="informationFeedbackList" style="margin-top: 24px"
+  <nz-table #basicTable [nzBordered]="true" [nzData]="informationFeedbackList" style="margin-top: 24px;"
             (click)="handleTableClick($event)"
             [nzLoading]="loading"
-            nzShowQuickJumper
-            nzShowSizeChanger
+            [nzShowQuickJumper]="true"
+            [nzShowSizeChanger]="true"
             [nzFrontPagination]="false"
             [(nzPageIndex)]="pageNumber"
             [(nzPageSize)]="pageSize"

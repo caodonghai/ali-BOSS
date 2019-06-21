@@ -37,11 +37,11 @@
     </nz-form-item>
   </form>
   <button nz-button nzType="primary" style="margin: 20px 0 4px 0;" (click)="isAddModalVisible=true;isEdit=false;"><i nz-icon nzType="plus" nzTheme="outline"></i>新增</button>
-  <nz-table #basicTable nzBordered
+  <nz-table #basicTable [nzBordered]="true"
             [nzData]="productManageList" (click)="handleTableClick($event)"
             [nzLoading]="loading"
-            nzShowSizeChanger
-            nzShowQuickJumper
+            [nzShowSizeChanger]="true"
+            [nzShowQuickJumper]="true"
             [nzFrontPagination]="false"
             [(nzPageIndex)]="pageNumber"
             [(nzPageSize)]="pageSize"
@@ -287,10 +287,10 @@
   (nzOnCancel)="isUserModalVisible=false;pageNumber1=1;pageSize1=10;total1=0"
   [nzWidth]="800"
 >
-  <nz-table #userTable nzBordered style="width: 700px"
+  <nz-table #userTable style="width: 700px"
             [nzData]="userList"
             [nzLoading]="loading1"
-            nzShowQuickJumper
+            [nzShowQuickJumper]="true"
             [nzFrontPagination]="false"
             [(nzPageIndex)]="pageNumber1"
             [(nzPageSize)]="pageSize1"

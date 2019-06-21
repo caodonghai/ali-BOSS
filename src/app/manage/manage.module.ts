@@ -22,6 +22,8 @@ import { MenuSettingComponent } from './system-setting/menu-setting/menu-setting
 import { UserSettingComponent } from './system-setting/user-setting/user-setting.component';
 import { PermissionSettingComponent } from './system-setting/permission-setting/permission-setting.component';
 import { AddMenuComponent } from './system-setting/menu-setting/add-menu/add-menu.component';
+import { RolePermissionComponent } from './system-setting/role-permission/role-permission.component';
+import { MenuPermissionComponent } from './system-setting/menu-permission/menu-permission.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import { AddMenuComponent } from './system-setting/menu-setting/add-menu/add-men
     MenuSettingComponent,
     UserSettingComponent,
     PermissionSettingComponent,
-    AddMenuComponent
+    AddMenuComponent,
+    RolePermissionComponent,
+    MenuPermissionComponent
   ],
   imports: [
     CommonModule,

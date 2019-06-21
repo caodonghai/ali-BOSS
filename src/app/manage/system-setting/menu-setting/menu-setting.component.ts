@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ManageService} from '../../service/manage.service';
+import {SystemSettingService} from '../../service/systemSetting.service';
 
 @Component({
   selector: 'app-menu-setting',
@@ -16,7 +16,7 @@ export class MenuSettingComponent implements OnInit {
 
   selected: any = {};
 
-  constructor(private manageService: ManageService) {
+  constructor(private systemSettingService: SystemSettingService) {
   }
 
   ngOnInit() {
@@ -25,7 +25,7 @@ export class MenuSettingComponent implements OnInit {
   }
 
   getMenuTreeList() {
-    this.manageService.getMenuTreeList().subscribe(res => {
+    this.systemSettingService.getMenuTreeList().subscribe(res => {
       if (res.resCode === 1) {
         this.menuTreeList = this.handleData(res.data);
         $.fn.zTree.init($('#menuTree'), {}, this.menuTreeList);
@@ -41,7 +41,7 @@ export class MenuSettingComponent implements OnInit {
       pid: 0,
       status: -1
     };
-    this.manageService.getMenuList(params).subscribe(res => {
+    this.systemSettingService.getMenuList(params).subscribe(res => {
       this.loading = false;
       if (res.resCode === 1) {
         this.menuList = res.data.records;

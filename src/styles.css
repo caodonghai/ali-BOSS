@@ -1,6 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
-table {
+/*表格内容不换行，溢出显示省略号*/
+table{
+  table-layout: fixed;
+}
+table td{
   white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
 }
 

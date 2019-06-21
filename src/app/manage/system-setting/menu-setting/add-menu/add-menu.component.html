@@ -1,3 +1,31 @@
-<p>
-  add-menu works!
-</p>
+<nz-card>
+  <div nz-row style="min-height: 400px">
+    <div nz-col [nzSpan]="8">
+      <p>模块功能列表信息:</p>
+      <ul class="ztree" id="leftTree"></ul>
+    </div>
+    <div nz-col [nzSpan]="6">
+      <p>操作方式</p>
+      <nz-divider></nz-divider>
+      <div>
+        <button nz-button (click)="leftTreeOpen()">左侧树全部展开</button>
+        <button nz-button style="margin-left: 20px" (click)="rightTreeOpen()">右侧树全部展开</button>
+      </div>
+      <div style="margin-top: 20px">
+        <button nz-button (click)="leftTreeClose()">左侧树全部闭合</button>
+        <button nz-button style="margin-left: 20px" (click)="rightTreeClose()">右侧树全部闭合</button>
+      </div>
+      <nz-divider></nz-divider>
+      <button nz-button (click)="removeLeftToRight()">添加左侧节点到右侧</button>
+      <nz-divider></nz-divider>
+      <button nz-button nzType="primary" (click)="save()" [nzLoading]="isSaveLoading">保存</button>
+      <button nz-button style="margin-left: 20px" (click)="goBack()">返回</button>
+    </div>
+    <div nz-col [nzSpan]="7" [nzOffset]="2">
+      <ul class="ztree" id="rightTree"></ul>
+      <nz-divider></nz-divider>
+      <button nz-button (click)="addRootNode()">添加根节点</button>
+      <button nz-button style="margin-left: 20px" (click)="addChildNode()">添加子节点</button>
+    </div>
+  </div>
+</nz-card>
