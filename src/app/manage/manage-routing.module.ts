@@ -8,9 +8,8 @@ import {TenantManageComponent} from './tenant-manage/tenant-manage.component';
 import {PackageManageComponent} from './package-manage/package-manage.component';
 import {SalesStatisticsComponent} from './sales-statistics/sales-statistics.component';
 import {MenuSettingComponent} from './system-setting/menu-setting/menu-setting.component';
-import {UserSettingComponent} from './system-setting/user-setting/user-setting.component';
-import {PermissionSettingComponent} from './system-setting/permission-setting/permission-setting.component';
 import {AddMenuComponent} from './system-setting/menu-setting/add-menu/add-menu.component';
+import {RolePermissionComponent} from './system-setting/role-permission/role-permission.component';
 
 const routes: Routes = [
   {
@@ -26,8 +25,7 @@ const routes: Routes = [
       {path: 'information-feedback', component: InformationFeedbackComponent},
       {path: 'system-setting/menu-setting', component: MenuSettingComponent},
       {path: 'system-setting/menu-setting/add', component: AddMenuComponent},
-      {path: 'system-setting/user-setting', component: UserSettingComponent},
-      {path: 'system-setting/permission-setting', component: PermissionSettingComponent},
+      {path: 'system-setting/role-permission', component: RolePermissionComponent},
     ]
   }
 ];

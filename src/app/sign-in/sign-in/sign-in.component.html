@@ -56,7 +56,7 @@
     </nz-form-item>
     <nz-form-item>
       <nz-form-control>
-        <label nz-checkbox formControlName="remember">
+        <label nz-checkbox (nzCheckedChange)="handleRememberChange($event)" [(ngModel)]="remember" [ngModelOptions]="{standalone: true}">
           <span>记住用户名</span>
         </label>
         <button nz-button class="login-form-button" style="width: 100%;margin-top: 10px" nzSize="large" nzType="primary" [disabled]="!signInForm.valid" [nzLoading]="isSigning">登 录</button>

@@ -93,7 +93,7 @@ export class ManageService {
 
   // 删除一条信息反馈
   deleteInformationFeedback(params: any) {
-    return this.http.delete<Response>(BASE_URL + '/ttIdeaReply/delete', {params: params});
+    return this.http.delete<Response>(BASE_URL + '/boss/ttIdeaReply/delete', {params: params});
   }
 
   // 答复信息反馈

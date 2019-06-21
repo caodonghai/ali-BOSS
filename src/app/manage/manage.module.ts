@@ -19,11 +19,8 @@ import { ProductPercentComponent } from './home/product-percent/product-percent.
 import { DistributeChartComponent } from './home/distribute-chart/distribute-chart.component';
 import { ActualUseComponent } from './home/actual-use/actual-use.component';
 import { MenuSettingComponent } from './system-setting/menu-setting/menu-setting.component';
-import { UserSettingComponent } from './system-setting/user-setting/user-setting.component';
-import { PermissionSettingComponent } from './system-setting/permission-setting/permission-setting.component';
 import { AddMenuComponent } from './system-setting/menu-setting/add-menu/add-menu.component';
 import { RolePermissionComponent } from './system-setting/role-permission/role-permission.component';
-import { MenuPermissionComponent } from './system-setting/menu-permission/menu-permission.component';
 
 @NgModule({
   declarations: [
@@ -39,11 +36,8 @@ import { MenuPermissionComponent } from './system-setting/menu-permission/menu-p
     DistributeChartComponent,
     ActualUseComponent,
     MenuSettingComponent,
-    UserSettingComponent,
-    PermissionSettingComponent,
     AddMenuComponent,
-    RolePermissionComponent,
-    MenuPermissionComponent
+    RolePermissionComponent
   ],
   imports: [
     CommonModule,

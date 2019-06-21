@@ -13,6 +13,7 @@ import {Router} from '@angular/router';
 export class SignInComponent implements OnInit {
   signInForm: FormGroup;
 
+  remember = !!localStorage.getItem('remember');
   isSigning = false;
   uuid: string;
   verificationCodeStyle: any = {};
@@ -31,7 +32,6 @@ export class SignInComponent implements OnInit {
       password: ['', [Validators.required], [this.passwordAsyncValidator]],
       imageCode: ['', [Validators.required, Validators.minLength(4)]],
       imageCodeId: [''],
-      remember: [true],
     });
     this.signInForm.patchValue({
       loginName: username.toString()
@@ -54,8 +54,10 @@ export class SignInComponent implements OnInit {
     this.signInService.signIn(this.signInForm.value).subscribe(res => {
       this.isSigning = false;
       if (res.resCode === 1) {
-        if (this.signInForm.value.remember) {
+        if (this.remember) {
           localStorage.setItem('username', this.signInForm.value.loginName);
+        } else {
+          localStorage.removeItem('username');
         }
         sessionStorage.setItem('Access-Token', res.data.tokenInfo.token);
         sessionStorage.setItem('userDTO', JSON.stringify(res.data.userDTO));
@@ -67,8 +69,7 @@ export class SignInComponent implements OnInit {
         );
       } else {
         this.signInForm.reset({
-          loginName: this.signInForm.value.loginName,
-          remember: true
+          loginName: this.signInForm.value.loginName
         });
         for (const key in this.signInForm.controls) {
           this.signInForm.controls[key].markAsPristine();
@@ -110,4 +111,12 @@ export class SignInComponent implements OnInit {
       observer.complete();
     }, 500);
   });
+
+  handleRememberChange(e) {
+    if (e) {
+      localStorage.setItem('remember', 'true');
+    } else {
+      localStorage.removeItem('remember');
+    }
+  }
 }

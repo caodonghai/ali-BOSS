@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {SystemSettingService} from '../../service/systemSetting.service';
+import {NzMessageService, NzModalService} from 'ng-zorro-antd';
+import {reject} from 'q';
 
 @Component({
   selector: 'app-menu-setting',
@@ -16,13 +18,16 @@ export class MenuSettingComponent implements OnInit {
 
   selected: any = {};
 
-  constructor(private systemSettingService: SystemSettingService) {
+  constructor(private systemSettingService: SystemSettingService,
+              private msg: NzMessageService,
+              private modal: NzModalService) {
   }
 
   ngOnInit() {
     this.getMenuTreeList();
     this.getMenuList();
   }
+
 
   getMenuTreeList() {
     this.systemSettingService.getMenuTreeList().subscribe(res => {
@@ -68,7 +73,7 @@ export class MenuSettingComponent implements OnInit {
     const method = e.target.dataset.method;
     const id = e.target.dataset.id;
     if (id && method) {
-      this.selected = this.menuList.filter(item => item.id === id);
+      this.selected = this.menuList.find(item => item.id === id);
       if (method === 'enable') {
         this.enable();
       } else if (method === 'disable') {
@@ -85,22 +90,66 @@ export class MenuSettingComponent implements OnInit {
   }
 
   enable() {
-
+    const params = {
+      id: this.selected.id,
+      status: 1
+    };
+    this.systemSettingService.modifyMenuStatus(params).subscribe(res => {
+      if (res.resCode === 1) {
+        this.msg.success('启用成功');
+        this.getMenuList();
+      }
+    });
   }
 
   disable() {
-
+    const params = {
+      id: this.selected.id,
+      status: 2
+    };
+    this.systemSettingService.modifyMenuStatus(params).subscribe(res => {
+      if (res.resCode === 1) {
+        this.msg.success('禁用成功');
+        this.getMenuList();
+      }
+    });
   }
 
   up() {
-
+    this.systemSettingService.moveUpMenu({id: this.selected.id}).subscribe(res => {
+      if (res.resCode === 1) {
+        this.msg.success('上移菜单成功');
+        this.getMenuList();
+      }
+    });
   }
 
   down() {
-
+    this.systemSettingService.moveDownMenu({id: this.selected.id}).subscribe(res => {
+      if (res.resCode === 1) {
+        this.msg.success('下移移菜单成功');
+        this.getMenuList();
+      }
+    });
   }
 
   deleteItem() {
-
+    this.modal.confirm({
+      nzTitle: '删除',
+      nzContent: `你确定要删除${this.selected.name}吗?`,
+      nzOnOk: () => {
+        new Promise((resolve, reject) => {
+          this.systemSettingService.deleteMenu({id: this.selected.id}).subscribe(res => {
+              if (res.resCode === 1) {
+                this.msg.success('删除成功');
+              }
+            }, () => {
+            },
+            () => {
+              resolve();
+            });
+        });
+      }
+    });
   }
 }

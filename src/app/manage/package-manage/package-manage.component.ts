@@ -13,7 +13,7 @@ export class PackageManageComponent implements OnInit {
   productList: any[] = []; // 用于表单下拉框
   userList: any[] = []; // 某套餐用户列表
   name = '';
-  type:string = null;
+  type: string = null;
   status = '';
   loading = false;
   pageSize = 10;
@@ -30,6 +30,12 @@ export class PackageManageComponent implements OnInit {
   pageSize1 = 10;
   pageNumber1 = 1;
   total1 = 0;
+
+  statusEnum = {
+    '1': '正常',
+    '2': '过期-有用户',
+    '3': '终止-无用户'
+  };
 
   isEdit = false; // 表单是否处于编辑模式
 

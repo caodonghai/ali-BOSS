@@ -1,3 +1,27 @@
-<p>
-  role-permission works!
-</p>
+<div style="display: flex;justify-content: space-between;width: 100%;">
+  <nz-card style="width: 32%;min-height: 600px">
+    <p class="title">角色</p>
+    <nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixIconButton">
+      <input type="text" id="searchInput1" nz-input placeholder="请输入角色名称"/>
+    </nz-input-group>
+    <ng-template #suffixIconButton>
+      <button nz-button nzType="primary" nzSize="large" nzSearch><i nz-icon type="search"></i></button>
+    </ng-template>
+    <nz-empty *ngIf="filterRoleList.length===0" style="margin-top: 10px"></nz-empty>
+    <ul id="roleList" (click)="handleRoleListClick($event)">
+      <ng-container *ngFor="let item of filterRoleList;let i=index">
+        <li *ngIf="i<10" class="role-item" [attr.data-id]="item.id"
+            [style.background-color]="selectedRole.id===item.id?'#f2f2f2':''">{{item.name}}
+        </li>
+      </ng-container>
+    </ul>
+  </nz-card>
+  <nz-card style="width: 32%">
+    <p class="title">当前操作的角色：<span>{{selectedRole.name?selectedRole.name:'无'}}</span></p>
+    <ul class="ztree" id="checkTree"></ul>
+  </nz-card>
+  <nz-card style="width: 32%">
+    <p class="title">当前角色拥有的权限如下：</p>
+    <ul class="ztree" id="resultTree"></ul>
+  </nz-card>
+</div>

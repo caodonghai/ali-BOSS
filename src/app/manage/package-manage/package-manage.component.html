@@ -52,13 +52,13 @@
     <tr>
       <th width="60">序号</th>
       <th width="120">套餐名称</th>
-      <th width="140">套餐价格 （万元）</th>
-      <th width="180">许可证数</th>
+      <th width="160">套餐价格 （万元）</th>
+      <th width="100">许可证数</th>
       <th>套餐描述</th>
       <th width="120">售卖周期</th>
-      <th width="120">发布日期</th>
+      <th width="160">发布日期</th>
       <th width="120">用户数</th>
-      <th width="100">状态</th>
+      <th width="120">状态</th>
       <th width="200">操作</th>
     </tr>
     </thead>
@@ -72,7 +72,7 @@
       <td>{{item.sellCycle}}</td>
       <td>{{item.createTime}}</td>
       <td style="cursor: pointer" data-method="user-count" [attr.data-id]="item.id"><a data-method="user-count" [attr.data-id]="item.id">{{item.userCount}}</a></td>
-      <td>{{item.enable==='1'?'启用':'禁用'}}</td>
+      <td>{{statusEnum[item.status]}}</td>
       <td style="text-align: center">
         <button nz-button nzType="default" nzSize="small" data-method="detail" [attr.data-id]="item.id">详情</button>
         <nz-divider nzType="vertical"></nz-divider>
@@ -287,7 +287,7 @@
   (nzOnCancel)="isUserModalVisible=false;pageNumber1=1;pageSize1=10;total1=0"
   [nzWidth]="800"
 >
-  <nz-table #userTable style="width: 700px"
+  <nz-table #userTable
             [nzData]="userList"
             [nzLoading]="loading1"
             [nzShowQuickJumper]="true"

@@ -23,8 +23,7 @@ export class AppService {
       icon: 'setting',
       children: [
         {id: '171', name: '菜单设置', funcUrl: '/manage/system-setting/menu-setting'},
-        {id: '172', name: '用户设置', funcUrl: '/manage/system-setting/user-setting'},
-        {id: '173', name: '权限设置', funcUrl: '/manage/system-setting/permission-setting'},
+        {id: '172', name: '角色权限', funcUrl: '/manage/system-setting/role-permission'}
       ]
     },
   ];

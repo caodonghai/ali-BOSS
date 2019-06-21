@@ -8,7 +8,7 @@
         <nz-table #basicTable [nzBordered]="true"
                   [nzData]="menuList" style="margin-top: 4px" (click)="handleTableClick($event)"
                   [nzLoading]="loading"
-                  nzShowSizeChanger
+                  [nzShowSizeChanger]="true"
                   [nzFrontPagination]="false"
                   [(nzPageIndex)]="pageNumber"
                   [(nzPageSize)]="pageSize"
@@ -19,18 +19,21 @@
           <tr>
             <th width="60">序号</th>
             <th width="120">功能标题</th>
-            <th width="140">状态</th>
+            <th width="100">状态</th>
             <th>功能路径</th>
             <th width="120">样式</th>
             <th width="180">备注</th>
-            <th width="240">操作</th>
+            <th width="312">操作</th>
           </tr>
           </thead>
           <tbody>
           <tr *ngFor="let item of menuList;let i=index;">
             <td>{{i+1}}</td>
             <td>{{item.name}}</td>
-            <td>{{item.status}}</td>
+            <td>
+              <nz-tag nzColor="#87d068" *ngIf="item.status===1">启用</nz-tag>
+              <nz-tag nzColor="#f50" *ngIf="item.status!==1">禁用</nz-tag>
+            </td>
             <td>{{item.funcurl}}</td>
             <td>{{item.ico}}</td>
             <td>{{item.description}}</td>
@@ -38,7 +41,7 @@
               <button nz-button nzType="danger" nzSize="small" data-method="disable" *ngIf="item.status===1"
                       [attr.data-id]="item.id">禁用
               </button>
-              <button nz-button nzType="primary" nzSize="small" data-method="enable" *ngIf="item.status!==1"
+              <button nz-button nzType="primary" nzSize="small" data-method="enable" *ngIf="item.status===2"
                       [attr.data-id]="item.id">启用
               </button>
               <nz-divider nzType="vertical"></nz-divider>
@@ -56,91 +59,3 @@
     </div>
   </div>
 </nz-card>
-
-<!--<nz-card style="width:100%;height: 100%" [nzBordered]="false" nzTitle="菜单设置">-->
-
-<!--<form nz-form [nzLayout]="'inline'">-->
-<!--<nz-form-item>-->
-<!--<nz-form-label>租户名称</nz-form-label>-->
-<!--<nz-form-control>-->
-<!--<input [(ngModel)]="name" nz-input [ngModelOptions]="{standalone: true}" placeholder="请输入标题"/>-->
-<!--</nz-form-control>-->
-<!--</nz-form-item>-->
-<!--<nz-form-item style="margin-left: 40px">-->
-<!--<nz-form-label>套餐名称</nz-form-label>-->
-<!--<nz-form-control>-->
-<!--<nz-select style="width: 170px;" [(ngModel)]="productName" [ngModelOptions]="{standalone: true}" nzAllowClear nzPlaceHolder="请选择套餐名称">-->
-<!--<nz-option [nzValue]="product" [nzLabel]="product" *ngFor="let product of productList"></nz-option>-->
-<!--</nz-select>-->
-<!--</nz-form-control>-->
-<!--</nz-form-item>-->
-<!--<nz-form-item style="margin-left: 40px">-->
-<!--<nz-form-label>购买时间</nz-form-label>-->
-<!--<nz-form-control>-->
-<!--<nz-range-picker (ngModelChange)="handleDateChange($event)" [nzShowTime]="{ nzFormat: 'HH:mm:ss' }" nzFormat="yyyy-MM-dd HH:mm:ss" [(ngModel)]="buyTime" [ngModelOptions]="{standalone: true}"></nz-range-picker>-->
-<!--</nz-form-control>-->
-<!--</nz-form-item>-->
-<!--<nz-form-item style="margin-left: 40px">-->
-<!--<nz-form-label>状态</nz-form-label>-->
-<!--<nz-form-control>-->
-<!--<nz-select style="width: 170px;" [(ngModel)]="status" [ngModelOptions]="{standalone: true}" nzAllowClear nzPlaceHolder="请选择套餐名称">-->
-<!--<nz-option nzValue="1" nzLabel="全部"></nz-option>-->
-<!--<nz-option nzValue="2" nzLabel="正常"></nz-option>-->
-<!--<nz-option nzValue="3" nzLabel="过期"></nz-option>-->
-<!--</nz-select>-->
-<!--</nz-form-control>-->
-<!--</nz-form-item>-->
-<!--<nz-form-item style="margin-left: 40px">-->
-<!--<nz-form-control>-->
-<!--<button nz-button nzType="primary" (click)="getTenantList()">查询</button>-->
-<!--<button nz-button nzType="default" type="reset" style="margin-left: 20px" (click)="status='1';startTime='';endTime=''">重置</button>-->
-<!--</nz-form-control>-->
-<!--</nz-form-item>-->
-<!--</form>-->
-<!--<nz-table #basicTable nzBordered-->
-<!--[nzData]="tenantList" style="margin-top: 24px" (click)="handleTableClick($event)"-->
-<!--[nzLoading]="loading"-->
-<!--nzShowSizeChanger-->
-<!--nzShowQuickJumper-->
-<!--[nzFrontPagination]="false"-->
-<!--[(nzPageIndex)]="pageNumber"-->
-<!--[(nzPageSize)]="pageSize"-->
-<!--(nzPageIndexChange)="getTenantList()"-->
-<!--(nzPageSizeChange)="pageNumber = 1;getTenantList()"-->
-<!--[nzTotal]="total">-->
-<!--<thead>-->
-<!--<tr>-->
-<!--<th width="60">序号</th>-->
-<!--<th width="120">租户名称</th>-->
-<!--<th width="140">联系方式</th>-->
-<!--<th width="180">所购套餐</th>-->
-<!--<th width="180">购买时间</th>-->
-<!--<th width="120">剩余天数</th>-->
-<!--<th width="120">剩余许可</th>-->
-<!--<th>访问地址</th>-->
-<!--<th width="100">状态</th>-->
-<!--<th width="200">操作</th>-->
-<!--</tr>-->
-<!--</thead>-->
-<!--<tbody>-->
-<!--<tr *ngFor="let item of tenantList;let i=index;">-->
-<!--<td>{{i+pageSize*(pageNumber-1)+1}}</td>-->
-<!--<td>{{item.username}}</td>-->
-<!--<td>{{item.mobile}}</td>-->
-<!--<td>{{item.productName}}</td>-->
-<!--<td>{{item.buyTime}}</td>-->
-<!--<td>{{item.restDay}}</td>-->
-<!--<td>{{item.rest}}个</td>-->
-<!--<td>{{item.systemDomain}}</td>-->
-<!--<td>{{item.enable==='1'?'启用':'禁用'}}</td>-->
-<!--<td style="text-align: center">-->
-<!--<button nz-button nzType="default" nzSize="small" data-method="detail" [attr.data-id]="item.id">详情</button>-->
-<!--<nz-divider nzType="vertical"></nz-divider>-->
-<!--<button nz-button nzType="danger" nzSize="small" data-method="disable" *ngIf="item.enable==='1'" [attr.data-id]="item.id">禁用</button>-->
-<!--<button nz-button nzType="primary" nzSize="small" data-method="enable" *ngIf="item.enable==='2'" [attr.data-id]="item.id">启用</button>-->
-<!--</td>-->
-<!--</tr>-->
-<!--</tbody>-->
-<!--</nz-table>-->
-<!--</nz-card>-->
-
