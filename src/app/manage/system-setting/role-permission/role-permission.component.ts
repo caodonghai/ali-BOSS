@@ -11,7 +11,7 @@ import {NzMessageService} from 'ng-zorro-antd';
 })
 export class RolePermissionComponent implements OnInit, OnDestroy, AfterViewInit {
   roleList: any = [];
-  filterRoleList: any = [];
+  filterRoleList: any;
   selectedRole: any = {};
   isButtonLoading = false;
 
@@ -103,7 +103,7 @@ export class RolePermissionComponent implements OnInit, OnDestroy, AfterViewInit
       powers: checkedRoleList,
       roleId: this.selectedRole.id,
     };
-    this.systemSettingService.authorize(params).subscribe(res => {
+    this.systemSettingService.authorizeRole(params).subscribe(res => {
         if (res.resCode === 1) {
           this.msg.success('授权成功');
           this.getPermissionByRoleId(this.selectedRole.id);

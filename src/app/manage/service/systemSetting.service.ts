@@ -67,7 +67,27 @@ export class SystemSettingService {
   }
 
   // 授权
-  authorize(params:any) {
+  authorizeRole(params: any) {
     return this.http.post<Response>(this.tempUrl + '/uip/smAuthority/authorizedRole', null, {params: params});
+  }
+
+  // 获取菜单树，用于菜单权限
+  getAuthorizeMenuTree() {
+    return this.http.get<Response>(this.tempUrl + '/uip/smAuthority/queryUserAuthorizedRoleList?pageSize=-1&pageNumber=-1');
+  }
+
+  // 根据roleId获取菜单树,获取的是所有权限树，包括未选中的
+  getMenuTreeByRoleId(params: any) {
+    return this.http.get<Response>(this.tempUrl + '/uip/smAuthority/queryAuthorityMenuTree', {params: params});
+  }
+
+  // 根据roleId获取选中的菜单树
+  getCheckedMenuTreeByRoleId(params: any) {
+    return this.http.get<Response>(this.tempUrl + '/uip/smAuthority/queryAuthorityMenuTreeDetail', {params: params});
+  }
+
+  // 给角色授权菜单
+  authorizeMenu(params: any) {
+    return this.http.post<Response>(this.tempUrl + '/uip/smAuthority/authorizedMenu', null, {params: params});
   }
 }
