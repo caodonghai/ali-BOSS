@@ -19,6 +19,7 @@
   <nz-card style="width: 32%">
     <p class="title">当前操作的角色：<span>{{selectedRole.name?selectedRole.name:'无'}}</span></p>
     <ul class="ztree" id="checkTree"></ul>
+    <button nz-button nzType="primary" (click)="authorize()" [nzLoading]="isButtonLoading" *ngIf="selectedRole.id" style="margin-top: 20px">授权</button>
   </nz-card>
   <nz-card style="width: 32%">
     <p class="title">当前角色拥有的权限如下：</p>

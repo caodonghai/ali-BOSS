@@ -65,4 +65,9 @@ export class SystemSettingService {
   getPermissionByRoleId(id: string) {
     return this.http.get<Response>(this.tempUrl + '/uip/smAuthority/queryAuthorityRoleList?roleId=' + id);
   }
+
+  // 授权
+  authorize(params:any) {
+    return this.http.post<Response>(this.tempUrl + '/uip/smAuthority/authorizedRole', null, {params: params});
+  }
 }

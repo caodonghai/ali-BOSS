@@ -2,6 +2,7 @@ import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit} from '@angular/
 import {SystemSettingService} from '../../service/systemSetting.service';
 import {fromEvent, of, Subscription} from 'rxjs';
 import {delay, map} from 'rxjs/operators';
+import {NzMessageService} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-role-permission',
@@ -12,6 +13,7 @@ export class RolePermissionComponent implements OnInit, OnDestroy, AfterViewInit
   roleList: any = [];
   filterRoleList: any = [];
   selectedRole: any = {};
+  isButtonLoading = false;
 
   checkableTreeSetting = {
     check: {
@@ -19,16 +21,14 @@ export class RolePermissionComponent implements OnInit, OnDestroy, AfterViewInit
       chkStyle: 'checkbox',
       chkboxType: {'Y': 's', 'N': 's'}
     },
-    enable: true,
-    callback: {
-      onCheck: this.zTreeOnCheck.bind(this)
-    }
+    enable: true
   };
 
   subscription: Subscription;
 
   constructor(private systemSettingService: SystemSettingService,
-              private el: ElementRef) {
+              private el: ElementRef,
+              private msg: NzMessageService) {
   }
 
   ngOnInit() {
@@ -56,7 +56,7 @@ export class RolePermissionComponent implements OnInit, OnDestroy, AfterViewInit
     const target = this.el.nativeElement.querySelector('#searchInput1');
     this.subscription = fromEvent(target, 'keyup')
       .pipe(
-        map(event => event.target.value),
+        map((event: any) => event.target.value),
         delay(400)
       )
       .subscribe(res => {
@@ -80,12 +80,38 @@ export class RolePermissionComponent implements OnInit, OnDestroy, AfterViewInit
   getPermissionByRoleId(id) {
     this.systemSettingService.getPermissionByRoleId(id).subscribe(res => {
       if (res.resCode === 1) {
+        this.initCheckAbleTree(res.data);
         $.fn.zTree.init($('#resultTree'), {}, res.data);
       }
     });
   }
 
-  zTreeOnCheck() {
+  initCheckAbleTree(checkedList) {
+    const checkedAbleTreeData = JSON.parse(JSON.stringify(this.roleList)).map(role => {
+      if (checkedList.find(item => item.id === role.id)) {
+        role.checked = true;
+      }
+      return role;
+    });
+    $.fn.zTree.init($('#checkTree'), this.checkableTreeSetting, checkedAbleTreeData);
+  }
 
+  authorize() {
+    this.isButtonLoading = true;
+    const checkedRoleList = $.fn.zTree.getZTreeObj('checkTree').getCheckedNodes().map(item => item.id);
+    const params = {
+      powers: checkedRoleList,
+      roleId: this.selectedRole.id,
+    };
+    this.systemSettingService.authorize(params).subscribe(res => {
+        if (res.resCode === 1) {
+          this.msg.success('授权成功');
+          this.getPermissionByRoleId(this.selectedRole.id);
+        }
+      }, () => {
+      },
+      () => {
+        this.isButtonLoading = false;
+      });
   }
 }

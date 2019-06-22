@@ -25,21 +25,25 @@ export class BaseInterceptor implements HttpInterceptor {
         // 正常返回，处理具体返回参数
         if (event instanceof HttpResponse) {
           if (event.status === 200 && event.body.resCode !== 1) {
-            this.handleError(event);
+            this.handleBusinessError(event);
           }
         }
       })),
       catchError((event: HttpErrorResponse) => {
-        this.msg.error('服务器异常，请稍后再试');
+        this.handleHttpError(event);
         return of(null);
       })
     );
   }
 
 
-  handleError(event) {
+  handleBusinessError(event) {
     const body = event.body;
     this.msg.error(body.resMsg);
+  }
+
+  handleHttpError(error: HttpErrorResponse) {
+    this.msg.error('服务器异常，请稍后再试');
   }
 
 }
