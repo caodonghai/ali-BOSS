@@ -101,7 +101,7 @@ export class SignInComponent implements OnInit {
   passwordAsyncValidator = (control: FormControl) => Observable.create((observer: Observer<ValidationErrors>) => {
     setTimeout(() => {
       const length = control.value.toString().length;
-      if (length < 6) {
+      if (length < 7) {
         observer.next({error: true, shorterThanExpected: true});
       } else if (length > 16) {
         observer.next({error: true, longerThanExpected: true});

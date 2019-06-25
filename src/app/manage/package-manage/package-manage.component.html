@@ -47,7 +47,10 @@
             [(nzPageSize)]="pageSize"
             (nzPageIndexChange)="getProductManageList()"
             (nzPageSizeChange)="pageNumber = 1;getProductManageList()"
-            [nzTotal]="total">
+            [nzTotal]="total"
+            [nzShowTotal]="totalTemplate">
+    <thead>
+    <ng-template #totalTemplate let-total> 共 {{ total }} 条 </ng-template>
     <thead>
     <tr>
       <th width="60">序号</th>
@@ -296,7 +299,10 @@
             [(nzPageSize)]="pageSize1"
             (nzPageIndexChange)="getUserList()"
             (nzPageSizeChange)="pageNumber1 = 1;getUserList()"
-            [nzTotal]="total1">
+            [nzTotal]="total1"
+            [nzShowTotal]="totalTemplate1">
+    <thead>
+    <ng-template #totalTemplate1 let-total> 共 {{ total1 }} 条 </ng-template>
     <thead>
     <tr>
       <th width="60">序号</th>

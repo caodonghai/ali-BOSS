@@ -47,7 +47,10 @@
             [(nzPageSize)]="pageSize"
             (nzPageIndexChange)="getTenantList()"
             (nzPageSizeChange)="pageNumber = 1;getTenantList()"
-            [nzTotal]="total">
+            [nzTotal]="total"
+            [nzShowTotal]="totalTemplate">
+    <thead>
+    <ng-template #totalTemplate let-total> 共 {{ total }} 条 </ng-template>
     <thead>
     <tr>
       <th width="60">序号</th>
@@ -105,6 +108,10 @@
     <div class="detail-modal-item">
       <span class="detail-modal-item-label">购买时间：</span>
       <span class="detail-modal-item-content">{{selected.buyTime}}</span>
+    </div>
+    <div class="detail-modal-item">
+      <span class="detail-modal-item-label">过期时间：</span>
+      <span class="detail-modal-item-content">{{selected.expiredOn}}</span>
     </div>
     <div class="detail-modal-item">
       <span class="detail-modal-item-label">剩余天数：</span>

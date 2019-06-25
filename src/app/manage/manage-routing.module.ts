@@ -12,6 +12,7 @@ import {AddMenuComponent} from './system-setting/menu-setting/add-menu/add-menu.
 import {RolePermissionComponent} from './system-setting/role-permission/role-permission.component';
 import {MenuPermissionComponent} from './system-setting/menu-permission/menu-permission.component';
 import {UserManageComponent} from './system-setting/user-manage/user-manage.component';
+import {UserAddComponent} from './system-setting/user-manage/user-add/user-add.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,7 @@ const routes: Routes = [
       {path: 'system-setting/role-permission', component: RolePermissionComponent},
       {path: 'system-setting/menu-permission', component: MenuPermissionComponent},
       {path: 'system-setting/user-manage', component: UserManageComponent},
+      {path: 'system-setting/user-add', component: UserAddComponent},
     ]
   }
 ];

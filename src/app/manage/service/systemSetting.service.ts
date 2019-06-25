@@ -90,4 +90,14 @@ export class SystemSettingService {
   authorizeMenu(params: any) {
     return this.http.post<Response>(this.tempUrl + '/uip/smAuthority/authorizedMenu', null, {params: params});
   }
+
+  // 获取用户列表
+  getUserList(params: any) {
+    return this.http.get<Response>(this.tempUrl + '/uip/smUser/queryUserListByRegion', {params: params});
+  }
+
+  // 给用户赋予角色
+  giveRole(params: any) {
+    return this.http.post<Response>(this.tempUrl + '/uip/smUser/updateUserRoleByIds', null, {params: params});
+  }
 }

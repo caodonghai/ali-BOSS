@@ -74,6 +74,7 @@ export class TenantManageComponent implements OnInit {
   handleData(list: any[]): any[] {
     return list.map(item => {
       item.buyTime = item.buyTime.split('.')[0];
+      item.expiredOn = item.expiredOn.split('.')[0];
       item.rest = parseInt(item.accountQuantity) - parseInt(item.accountQuantityInUserd);
       item.restDay = calculateExpiredTime(item.expiredOn);
       return item;

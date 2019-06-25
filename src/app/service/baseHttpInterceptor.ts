@@ -7,7 +7,6 @@ import {NzMessageService} from 'ng-zorro-antd';
 import {of, throwError} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 
-
 @Injectable()
 export class BaseInterceptor implements HttpInterceptor {
 
@@ -24,7 +23,7 @@ export class BaseInterceptor implements HttpInterceptor {
       (tap((event: any) => {
         // 正常返回，处理具体返回参数
         if (event instanceof HttpResponse) {
-          if (event.status === 200 && event.body.resCode !== 1) {
+          if (event.status === 200 && event.body.resCode !== 1 && !(event.body instanceof Blob)) {
             this.handleBusinessError(event);
           }
         }

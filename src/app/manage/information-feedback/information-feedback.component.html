@@ -45,8 +45,10 @@
             [(nzPageSize)]="pageSize"
             (nzPageIndexChange)="getInformationFeedbackList()"
             (nzPageSizeChange)="pageNumber = 1;getInformationFeedbackList()"
-            [nzTotal]="total">
+            [nzTotal]="total"
+            [nzShowTotal]="totalTemplate">
     <thead>
+    <ng-template #totalTemplate let-total> 共 {{ total }} 条 </ng-template>
     <tr>
       <th width="60">序号</th>
       <th width="100">编号</th>

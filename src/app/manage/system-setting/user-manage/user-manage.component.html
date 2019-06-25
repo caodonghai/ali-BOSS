@@ -1,3 +1,120 @@
-<p>
-  user-manage works!
-</p>
+<nz-card style="width:100%;min-height: 100%;" [nzBordered]="false" nzTitle="用户管理">
+  <form nz-form [nzLayout]="'inline'">
+    <nz-form-item>
+      <nz-form-label>用户名</nz-form-label>
+      <nz-form-control>
+        <input [(ngModel)]="name" nz-input [ngModelOptions]="{standalone: true}" placeholder="请输入用户名"/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item style="margin-left: 40px">
+      <nz-form-label>所属区域</nz-form-label>
+      <nz-form-control>
+        <input [(ngModel)]="regionName" nz-input [ngModelOptions]="{standalone: true}" placeholder="请选择所属区域"/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item style="margin-left: 40px">
+      <nz-form-label>用户角色</nz-form-label>
+      <nz-form-control>
+        <nz-select style="width: 170px;" [(ngModel)]="roleId" name="roleId" [nzAllowClear]="true" nzPlaceHolder="请选择角色">
+          <nz-option *ngFor="let item of roleList" [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item style="margin-left: 40px">
+      <nz-form-control>
+        <button nz-button nzType="primary" (click)="getUserList()">查询</button>
+        <button nz-button nzType="default" type="reset" style="margin-left: 20px">重置</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <button nz-button nzType="primary" style="margin: 20px 0 4px 0;" (click)="isEdit=false;isUserFormModalVisible=true;"><i nz-icon nzType="plus"></i>新增</button>
+  <button nz-button nzType="danger" style="margin: 20px 0 4px 10px;"><i nz-icon nzType="delete"></i>删除用户</button>
+  <button nz-button style="margin: 20px 0 4px 10px;" (click)="showGiveRoleModal()"><i nz-icon nzType="edit"></i>赋予角色</button>
+  <button nz-button style="margin: 20px 0 4px 10px;" [nzLoading]="isExportUserLoading" (click)="exportUser()"><i nz-icon nzType="export"></i>导出</button>
+  <nz-table #userTable id="userTable" [nzBordered]="true"
+            [nzData]="userList" (click)="handleTableClick($event)"
+            [nzLoading]="loading"
+            [nzShowSizeChanger]="true"
+            [nzShowQuickJumper]="true"
+            [nzFrontPagination]="false"
+            [(nzPageIndex)]="pageNumber"
+            [(nzPageSize)]="pageSize"
+            (nzPageIndexChange)="getUserList()"
+            (nzPageSizeChange)="pageNumber = 1;getUserList()"
+            [nzTotal]="total"
+            [nzShowTotal]="totalTemplate">
+    <thead>
+    <ng-template #totalTemplate let-total> 共 {{ total }} 条 </ng-template>
+    <tr>
+      <th width="60"
+          [nzShowCheckbox]="true"
+          [nzChecked]="checkedUserList.length===userList.length"
+          [nzIndeterminate]="checkedUserList.length!==0&&checkedUserList.length!==pageSize"
+          (nzCheckedChange)="checkAll($event)">
+      </th>
+      <th width="60">序号</th>
+      <th>用户名</th>
+      <th>姓名</th>
+      <th>性别</th>
+      <th>手机号</th>
+      <th>创建时间</th>
+      <th width="280">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of userList;let i=index;">
+      <td [nzShowCheckbox]="true"
+          (nzCheckedChange)="checkOne($event,item)"
+          [(nzChecked)]="mapOfCheckedId[item.id]"
+      ></td>
+      <td>{{i+pageSize*(pageNumber-1)+1}}</td>
+      <td>{{item.userName}}</td>
+      <td>{{item.name}}</td>
+      <td>{{item.gender===1?'男':'女'}}</td>
+      <td>{{item.cellphone}}</td>
+      <td>{{item.createTime}}</td>
+      <td style="text-align: center">
+        <button nz-button nzSize="small" data-method="detail" [attr.data-id]="item.id">详情</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="primary" nzSize="small" data-method="modify" [attr.data-id]="item.id">修改</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzSize="small" data-method="reset" [attr.data-id]="item.id">重置密码</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="danger" nzSize="small" data-method="delete" [attr.data-id]="item.id">删除</button>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</nz-card>
+<!--赋予角色-->
+<nz-modal
+  [(nzVisible)]="isGiveRoleModalVisible"
+  nzTitle="赋予角色"
+  nzWidth="600"
+  [nzOkLoading]="isGiveRoleOkLoading"
+  (nzOnOk)="giveRole()"
+  (nzOnCancel)="isGiveRoleModalVisible=false;"
+>
+<div style="height: 300px;display: flex;justify-content: center">
+  <nz-select
+    style="width: 500px;"
+    [nzShowSearch]="true"
+    [nzAllowClear]="true"
+    nzPlaceHolder="请选择角色"
+    [(ngModel)]="selectedRole"
+  >
+    <nz-option *ngFor="let item of roleList" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
+  </nz-select>
+</div>
+</nz-modal>
+<!--新增或者编辑-->
+<nz-modal
+  [(nzVisible)]="isUserFormModalVisible"
+  [nzTitle]="isEdit?'新增用户':'编辑用户'"
+  [nzFooter]="null"
+  nzWidth="800"
+  (nzOnCancel)="isUserFormModalVisible=false;"
+>
+<form nz-form [formGroup]="userForm" (ngSubmit)="submitForm()"></form>
+</nz-modal>
+
