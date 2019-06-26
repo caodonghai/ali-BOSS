@@ -225,8 +225,8 @@ export class InformationNoticeComponent implements OnInit {
     this.isChooseUserModalVisible = false;
     const selectedTenantNameList = [];
     this.selectedTenantList.forEach(id => {
-      const name = this.tenantList.find(item => id === item.id).mobile;
-      selectedTenantNameList.push(name);
+      // const name = this.tenantList.find(item => id === item.id).mobile;
+      selectedTenantNameList.push(id);
     });
     this.addForm.patchValue({
       receiveIds: selectedTenantNameList
@@ -248,9 +248,11 @@ export class InformationNoticeComponent implements OnInit {
       const params = Object.assign({}, this.addForm.value, {accessoryIds: uploadFileResponseList});
       this.manageService.addInformationNotice(params).subscribe(res => {
         this.isSaveLoading = false;
-        this.msg.success('新增成功');
-        this.isAddModalVisible = false;
-        this.getInformationNoticeList();
+        if (res.resCode === 1) {
+          this.msg.success('新增成功');
+          this.isAddModalVisible = false;
+          this.getInformationNoticeList();
+        }
       });
     }
   }

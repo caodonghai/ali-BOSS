@@ -100,4 +100,19 @@ export class SystemSettingService {
   giveRole(params: any) {
     return this.http.post<Response>(this.tempUrl + '/uip/smUser/updateUserRoleByIds', null, {params: params});
   }
+
+  // 判断用户名是否存在
+  checkUserNameExist(userName: string) {
+    return this.http.get<Response>(this.tempUrl + '/uip/common/checkUserNameExist?userName=' + userName);
+  }
+
+  // 获取用户密码提示信息以及验证的正则表达式
+  getCheckPasswordInfo() {
+    return this.http.get<Response>(this.tempUrl + '/uip/common/getPasswordStrength');
+  }
+
+  // 验证手机号码是否已经注册
+  checkCellphoneExist(cellphone: string) {
+    return this.http.get<Response>(this.tempUrl + '/uip/common/checkCellphoneExist?cellphone=' + cellphone);
+  }
 }

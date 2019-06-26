@@ -23,7 +23,7 @@ import { AddMenuComponent } from './system-setting/menu-setting/add-menu/add-men
 import { RolePermissionComponent } from './system-setting/role-permission/role-permission.component';
 import { MenuPermissionComponent } from './system-setting/menu-permission/menu-permission.component';
 import { UserManageComponent } from './system-setting/user-manage/user-manage.component';
-import { UserAddComponent } from './system-setting/user-manage/user-add/user-add.component';
+import { UserFormComponent } from './system-setting/user-manage/user-form/user-form.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +43,7 @@ import { UserAddComponent } from './system-setting/user-manage/user-add/user-add
     RolePermissionComponent,
     MenuPermissionComponent,
     UserManageComponent,
-    UserAddComponent
+    UserFormComponent
   ],
   imports: [
     CommonModule,

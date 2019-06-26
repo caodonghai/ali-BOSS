@@ -6,13 +6,13 @@
     <nz-sider id="layout" [nzCollapsible]="true" [(nzCollapsed)]="isCollapsed" [nzWidth]="width" [nzReverseArrow]="isReverseArrow">
       <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
         <ng-container *ngFor="let menu of menus">
-          <li nz-menu-item nz-tooltip [nzTitle]="isCollapsed?menu.name:''" nzPlacement="right" [nzSelected]="currentRoute===menu.funcUrl" *ngIf="!menu.children||menu.children.length===0" [routerLink]="menu.funcUrl">
+          <li nz-menu-item nz-tooltip [nzTitle]="isCollapsed?menu.name:''" nzPlacement="right" routerLinkActive="route-active" *ngIf="!menu.children||menu.children.length===0" [routerLink]="menu.funcUrl">
             <span><i nz-icon [type]="menu.icon?menu.icon:'file'"></i><span class="nav-text">{{menu.name}}</span></span>
           </li>
           <li nz-submenu [nzOpen]="true" *ngIf="menu.children&&menu.children.length!==0">
             <span title><i nz-icon [type]="menu.icon?menu.icon:'file'"></i><span class="nav-text">{{menu.name}}</span></span>
             <ul>
-              <li nz-menu-item *ngFor="let subMenu of menu.children" [routerLink]="subMenu.funcUrl" [nzSelected]="currentRoute===subMenu.funcUrl">{{subMenu.name}}</li>
+              <li nz-menu-item *ngFor="let subMenu of menu.children" [routerLink]="subMenu.funcUrl" routerLinkActive="route-active">{{subMenu.name}}</li>
             </ul>
           </li>
         </ng-container>

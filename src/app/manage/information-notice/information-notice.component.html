@@ -212,7 +212,7 @@
       <nz-form-control [nzSpan]="18">
         <nz-select nzMode="multiple" [(ngModel)]="selectedTenantList" (nzScrollToBottom)="loadMore()" name="123"
                    nzPlaceHolder="请选择租户" nzAllowClear>
-          <nz-option *ngFor="let item of tenantList" [nzValue]="item.id" [nzLabel]="item.mobile"></nz-option>
+          <nz-option *ngFor="let item of tenantList" [nzValue]="item" [nzLabel]="item"></nz-option>
           <nz-option *ngIf="isGetTenantListLoading" nzDisabled nzCustomContent>
             <i nz-icon type="loading" class="loading-icon"></i> 正在加载...
           </nz-option>

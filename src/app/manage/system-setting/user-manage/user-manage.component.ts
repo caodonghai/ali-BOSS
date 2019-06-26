@@ -1,8 +1,11 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {SystemSettingService} from '../../service/systemSetting.service';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {NzMessageService} from 'ng-zorro-antd';
 import {ExportService} from '../../service/export.service';
+import {from, interval, Observable, Observer, of} from 'rxjs';
+import {catchError, debounce, debounceTime, delay, distinctUntilChanged, first, map, mergeMap, throttle} from 'rxjs/operators';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-user-manage',
@@ -35,21 +38,25 @@ export class UserManageComponent implements OnInit {
   isUserFormModalVisible = false;
   isEdit = false;
   userForm: FormGroup;
+  showChooseRegion = false;
 
   // 导出角色
   isExportUserLoading = false;
+
+  // 密码验证提示信息以及正则表达式
+  passwordCheckInfo: any = {};
 
   constructor(private systemSettingService: SystemSettingService,
               private fb: FormBuilder,
               private msg: NzMessageService,
               private exportService: ExportService,
-              private el: ElementRef) {
+              private el: ElementRef,
+              private router: Router) {
   }
 
   ngOnInit() {
     this.getUserList();
     this.getRoleList();
-    this.userForm = this.fb.group({});
   }
 
   getUserList() {
@@ -79,6 +86,12 @@ export class UserManageComponent implements OnInit {
       }
     });
   }
+
+  addUser() {
+    this.isEdit = false;
+    this.router.navigate(['/manage/system-setting/user-manage/user-form', {status: 'add'}]);
+  }
+
 
   handleTableClick(e) {
 
@@ -138,7 +151,24 @@ export class UserManageComponent implements OnInit {
     });
   }
 
-  submitForm(){
+  submitForm() {
+    console.log(this.userForm);
+  }
 
+  beforeUpload = (file: File) => {
+    return new Observable((observer: Observer<boolean>) => {
+      const isPicture = file.type === 'image/*';
+      if (!isPicture) {
+        this.msg.error('请选择一张图片');
+        observer.complete();
+        return;
+      }
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        this.msg.error('图片不能超过2M');
+        observer.complete();
+        return;
+      }
+    });
   }
 }

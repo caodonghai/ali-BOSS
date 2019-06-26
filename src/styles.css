@@ -9,6 +9,10 @@ table td{
   text-overflow: ellipsis;
 }
 
+/*激活菜单的背景颜色*/
+.route-active{
+  background-color: #1890ff;
+}
 
 /*弹出框详情样式*/
 .detail-modal{
