@@ -140,16 +140,16 @@
         <nz-form-item>
           <nz-form-label [nzSpan]="6" [nzRequired]="true">所属区域</nz-form-label>
           <nz-form-control [nzSpan]="17">
-            <input nz-input formControlName="regionName"  placeholder="请选择所属区域" style="cursor: pointer" readonly (click)="showChooseRegion=true"/>
+            <input nz-input [value]="regionName"  placeholder="请选择所属区域" style="cursor: pointer" readonly (click)="showChooseRegion=true"/>
             <nz-form-explain
-              *ngIf=" (userForm.get('regionName')?.dirty && userForm.get('regionName')?.errors) || userForm.get('regionName')?.pending ">
-              <ng-container *ngIf="userForm.get('regionName')?.hasError('required')">
+              *ngIf=" (userForm.get('regionId')?.dirty && userForm.get('regionId')?.errors) || userForm.get('regionId')?.pending ">
+              <ng-container *ngIf="userForm.get('regionId')?.hasError('required')">
                 请选择所属区域!
               </ng-container>
             </nz-form-explain>
           </nz-form-control>
         </nz-form-item>
-        <app-choose-region [show]="showChooseRegion" [showMask]="false"></app-choose-region>
+        <app-tree-modal [(show)]="showChooseRegion" (result)="getRegion($event)"></app-tree-modal>
       </div>
     </div>
     <div nz-row>

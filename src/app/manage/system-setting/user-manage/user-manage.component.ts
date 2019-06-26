@@ -37,14 +37,11 @@ export class UserManageComponent implements OnInit {
   // 新增或者编辑用户相关
   isUserFormModalVisible = false;
   isEdit = false;
-  userForm: FormGroup;
-  showChooseRegion = false;
+
 
   // 导出角色
   isExportUserLoading = false;
 
-  // 密码验证提示信息以及正则表达式
-  passwordCheckInfo: any = {};
 
   constructor(private systemSettingService: SystemSettingService,
               private fb: FormBuilder,

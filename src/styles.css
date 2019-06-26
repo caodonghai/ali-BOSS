@@ -47,9 +47,9 @@ table td{
 }
 
 /*ztree设置*/
-#manageContent .ztree span{
+.ztree span{
   font-size: 14px;
 }
-#manageContent .ztree li[treenode]{
+.ztree li[treenode]{
   padding: 1px 0;
 }

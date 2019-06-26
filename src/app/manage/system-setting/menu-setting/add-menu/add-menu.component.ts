@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NzMessageService, NzModalService} from 'ng-zorro-antd';
 import {SystemSettingService} from '../../../service/systemSetting.service';
+import {ZTreeSetting} from '../../../../interface';
 
 @Component({
   selector: 'app-add-menu',
@@ -9,7 +10,7 @@ import {SystemSettingService} from '../../../service/systemSetting.service';
 })
 export class AddMenuComponent implements OnInit {
   private moduleTree: any[] = [];
-  private leftTreeSetting = {
+  private leftTreeSetting: ZTreeSetting = {
     check: {
       enable: true,
       autoCheckTrigger: true,
@@ -26,7 +27,7 @@ export class AddMenuComponent implements OnInit {
   };
 
   private rightTreeData: any[] = [];
-  private rightTreeSetting = {
+  private rightTreeSetting: ZTreeSetting = {
     data: {
       simpleData: {
         enable: true

@@ -3,6 +3,7 @@ import {SystemSettingService} from '../../service/systemSetting.service';
 import {fromEvent, Subscription} from 'rxjs';
 import {NzMessageService} from 'ng-zorro-antd';
 import {delay, map} from 'rxjs/operators';
+import {ZTreeSetting} from '../../../interface';
 
 @Component({
   selector: 'app-menu-permission',
@@ -17,13 +18,12 @@ export class MenuPermissionComponent implements OnInit, AfterViewInit, OnDestroy
 
   functionType = 1;
 
-  checkableTreeSetting = {
+  checkableTreeSetting: ZTreeSetting = {
     check: {
       enable: true,
       chkStyle: 'checkbox',
       chkboxType: {'Y': 's', 'N': 's'}
-    },
-    enable: true
+    }
   };
 
   subscription: Subscription;

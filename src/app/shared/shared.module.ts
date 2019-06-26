@@ -3,19 +3,21 @@ import {CommonModule} from '@angular/common';
 import {RichTextEditorComponent} from './rich-text-editor/rich-text-editor.component';
 import {CKEditorModule} from '@ckeditor/ckeditor5-angular';
 import { FilterHtmlTagDirective } from './directive/filter-html-tag/filter-html-tag.directive';
-import { ChooseRegionComponent } from './choose-region/choose-region.component';
-import {NzModalModule} from 'ng-zorro-antd';
+import {NgZorroAntdModule} from 'ng-zorro-antd';
+import { TreeModalComponent } from './tree-modal/tree-modal.component';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
-  declarations: [RichTextEditorComponent, FilterHtmlTagDirective, ChooseRegionComponent],
+  declarations: [RichTextEditorComponent, FilterHtmlTagDirective, TreeModalComponent],
   imports: [
     CommonModule,
     CKEditorModule,
-    NzModalModule
+    NgZorroAntdModule,
+    FormsModule
   ],
   exports: [
     RichTextEditorComponent,
-    ChooseRegionComponent,
+    TreeModalComponent,
     FilterHtmlTagDirective
   ]
 })

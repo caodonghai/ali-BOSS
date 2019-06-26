@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ChooseRegionComponent } from './choose-region.component';
+import { TreeModalComponent } from './tree-modal.component';
 
-describe('ChooseRegionComponent', () => {
-  let component: ChooseRegionComponent;
-  let fixture: ComponentFixture<ChooseRegionComponent>;
+describe('TreeModalComponent', () => {
+  let component: TreeModalComponent;
+  let fixture: ComponentFixture<TreeModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChooseRegionComponent ]
+      declarations: [ TreeModalComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ChooseRegionComponent);
+    fixture = TestBed.createComponent(TreeModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

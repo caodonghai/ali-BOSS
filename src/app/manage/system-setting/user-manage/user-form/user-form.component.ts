@@ -15,6 +15,10 @@ export class UserFormComponent implements OnInit {
   passwordCheckInfo: any = {};
   roleList: any[] = [];
   formStatus: string; // 表单状态，新增或者编辑
+  userForm: FormGroup;
+  showChooseRegion = false;
+
+  regionName = '';
 
   userForm: FormGroup;
 
@@ -49,9 +53,15 @@ export class UserFormComponent implements OnInit {
       secondInputPassword: ['', [Validators.required], [this.secondInputPasswordAsyncValidator]],
       position: [''],
       cellphone: ['', [Validators.required, Validators.pattern('^[1][3,4,5,7,8][0-9]{9}$')], [this.cellphoneAsyncValidators]],
-      regionName: ['', [Validators.required]],
+      regionId: ['', [Validators.required]],
       allowLogWeb: [true],
-      allowLogMobile: [true]
+      allowLogMobile: [true],
+      gender: [true],
+      birthday: [''],
+      email: [''],
+      weixin: [''],
+      qq: [''],
+      description: [''],
     });
   }
 
@@ -76,6 +86,13 @@ export class UserFormComponent implements OnInit {
         );
       }
     });
+  }
+
+  getRegion(e) {
+    this.userForm.patchValue({
+      regionId: e.id
+    });
+    this.regionName = e.name;
   }
 
   userNameAsyncValidator = (ctrl: AbstractControl): Observable<ValidationErrors | null> => {

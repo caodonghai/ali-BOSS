@@ -115,4 +115,9 @@ export class SystemSettingService {
   checkCellphoneExist(cellphone: string) {
     return this.http.get<Response>(this.tempUrl + '/uip/common/checkCellphoneExist?cellphone=' + cellphone);
   }
+
+  // 获取区域树权限树等各种树
+  getTree(url) {
+    return this.http.get<Response>(url);
+  }
 }
