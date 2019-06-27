@@ -1,23 +1,25 @@
 import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
-import {catchError, debounceTime, first, map, mergeMap} from 'rxjs/operators';
-import {Observable, of} from 'rxjs';
-import {NzMessageService, UploadFile, UploadFilter, UploadXHRArgs} from 'ng-zorro-antd';
-import {SystemSettingService} from '../../../service/systemSetting.service';
-import {ActivatedRoute} from '@angular/router';
 import {HttpEvent, HttpEventType, HttpResponse} from '@angular/common/http';
+import {SystemSettingService} from '../../../service/systemSetting.service';
+import {catchError, debounceTime, first, map, mergeMap} from 'rxjs/operators';
 import {AppService} from '../../../../service/app.service';
 import {formControlMarkAsDirty} from '../../../../../util/formControlMarkAsDirty';
+import {Observable, of} from 'rxjs';
+import {NzMessageService, UploadFile, UploadFilter, UploadXHRArgs} from 'ng-zorro-antd';
+import {ActivatedRoute} from '@angular/router';
 import {formatDate} from '../../../../../util/formatDate';
 
 @Component({
-  selector: 'app-user-form',
-  templateUrl: './user-form.component.html',
-  styleUrls: ['./user-form.component.css']
+  selector: 'app-modify-user',
+  templateUrl: './modify-user.component.html',
+  styleUrls: ['./modify-user.component.css']
 })
-export class UserFormComponent implements OnInit {
-  passwordCheckInfo: any = {};
+export class ModifyUserComponent implements OnInit {
+  private id: string;
   roleList: any[] = [];
+  statusList: any[] = [];
+  formStatus: string; // 表单状态，新增或者编辑
   showChooseRegion = false;
 
   regionName = '';
@@ -57,9 +59,10 @@ export class UserFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getCheckPasswordInfo();
     this.getRoleList();
+    this.getStatusList();
     this.initUserForm();
+    this.getUserDetail();
   }
 
   initUserForm() {
@@ -68,11 +71,10 @@ export class UserFormComponent implements OnInit {
       name: ['', [Validators.required]],
       userName: ['', [Validators.required, Validators.pattern('^[A-Za-z0-9]+$')], [this.userNameAsyncValidator]],
       alias: [''],
-      password: [''],
-      secondInputPassword: ['', [Validators.required], [this.secondInputPasswordAsyncValidator]],
       position: [''],
       cellphone: ['', [Validators.required, Validators.pattern('^[1][3,4,5,7,8][0-9]{9}$')], [this.cellphoneAsyncValidators]],
       regionId: ['', [Validators.required]],
+      status: ['', [Validators.required]],
       allowLogWeb: [true],
       allowLogMobile: [true],
       userImage: [''],
@@ -102,21 +104,62 @@ export class UserFormComponent implements OnInit {
       for (const i in this.userForm.value) {
         data.append(i, this.userForm.value[i]);
       }
-      this.addUser(data);
+      data.append('id', this.id);
+      this.modifyUser(data);
     }
   }
 
-  addUser(data) {
-    this.systemSettingService.addUser(data).subscribe(res => {
-      this.buttonLoading = false;
+
+  modifyUser(data) {
+    this.systemSettingService.modifyUser(data).subscribe(res => {
       if (res.resCode === 1) {
-        this.msg.success('新增用户成功');
+        this.msg.success('修改成功');
+        this.buttonLoading = false;
         setTimeout(() => {
           history.go(-1);
         }, 1500);
       }
     });
   }
+
+  getUserDetail() {
+    this.id = this.route.snapshot.paramMap.get('id');
+    this.systemSettingService.getUserDetailById(this.id).subscribe(res => {
+      if (res.resCode === 1) {
+        const user = res.data;
+        this.userForm.patchValue({
+          roleIds: user.roleList.map(item => item.id),
+          name: user.name,
+          userName: user.userName,
+          alias: user.alias,
+          position: user.position,
+          cellphone: user.cellphone,
+          regionId: user.regionId,
+          status: user.status,
+          allowLogWeb: user.allowLogWeb,
+          allowLogMobile: user.allowLogMobile,
+          userImage: user.userImage,
+          gender: user.gender,
+          birthday: user.birthday,
+          email: user.email,
+          weixin: user.weixin,
+          qq: user.qq,
+          description: user.description
+        });
+        if (res.data.userImage) {
+          this.fileList = [
+            {
+              uid: -1,
+              name: 'xxx.png',
+              status: 'done',
+              url: `${this.appService.getFileUrl()}${res.data.userImage}`
+            }
+          ];
+        }
+      }
+    });
+  }
+
 
   getRoleList() {
     this.systemSettingService.getRoleList().subscribe(res => {
@@ -126,17 +169,10 @@ export class UserFormComponent implements OnInit {
     });
   }
 
-  getCheckPasswordInfo() {
-    this.systemSettingService.getCheckPasswordInfo().subscribe(res => {
+  getStatusList() {
+    this.systemSettingService.getUserStatusList().subscribe(res => {
       if (res.resCode === 1) {
-        this.passwordCheckInfo = res.data;
-        this.userForm.get('password').setValidators(
-          [
-            Validators.required,
-            Validators.minLength(7),
-            Validators.pattern(`${res.data.regex}`)
-          ]
-        );
+        this.statusList = res.data;
       }
     });
   }
@@ -148,32 +184,35 @@ export class UserFormComponent implements OnInit {
     this.regionName = e.name;
   }
 
-  userNameAsyncValidator = (ctrl: AbstractControl): Observable<ValidationErrors | null> =>
-    ctrl.valueChanges.pipe(
-      debounceTime(800),
-      mergeMap(() => this.systemSettingService.checkUserNameExist(ctrl.value)),
-      map(res => (res.resCode === 1 ? null : {userNameExistError: true})),
-      first(),
-      catchError(() => of(null))
-    )
+  userNameAsyncValidator = (ctrl: AbstractControl): Observable<ValidationErrors | null> => {
+    if (ctrl.dirty) {
+      return ctrl.valueChanges.pipe(
+        debounceTime(800),
+        mergeMap(() => this.systemSettingService.checkUserNameExist(ctrl.value)),
+        map(res => (res.resCode === 1 ? null : {userNameExistError: true})),
+        first(),
+        catchError(() => of(null))
+      );
+    } else {
+      return of(null);
+    }
+  }
 
 
-  cellphoneAsyncValidators = (ctrl: AbstractControl): Observable<ValidationErrors | null> =>
-    ctrl.valueChanges.pipe(
-      debounceTime(800),
-      mergeMap(() => this.systemSettingService.checkCellphoneExist(ctrl.value)),
-      map(res => (res.resCode === 1 ? null : {cellphoneExistError: true})),
-      first(),
-      catchError(() => of(null))
-    )
+  cellphoneAsyncValidators = (ctrl: AbstractControl): Observable<ValidationErrors | null> => {
+    if (ctrl.dirty) {
+      ctrl.valueChanges.pipe(
+        debounceTime(800),
+        mergeMap(() => this.systemSettingService.checkCellphoneExist(ctrl.value)),
+        map(res => (res.resCode === 1 ? null : {cellphoneExistError: true})),
+        first(),
+        catchError(() => of(null))
+      );
+    } else {
+      return of(null);
+    }
+  }
 
-
-  secondInputPasswordAsyncValidator = (ctrl: AbstractControl): Observable<ValidationErrors | null> =>
-    ctrl.valueChanges.pipe(
-      debounceTime(800),
-      map(res => (res === this.userForm.value.password ? null : {notEqualWithFirstInput: true})),
-      first()
-    )
 
   customUploadReq = (item: UploadXHRArgs) => {
     const formData = new FormData();

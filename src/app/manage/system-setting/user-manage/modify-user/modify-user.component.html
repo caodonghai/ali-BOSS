@@ -1,8 +1,7 @@
 <nz-card
   [nzBordered]="false"
-  [nzTitle]="formStatus==='add'?'新增用户':'编辑用户'"
+  nzTitle="编辑用户"
 >
-
   <nz-divider nzText="基本信息" nzOrientation="left"></nz-divider>
   <form nz-form [formGroup]="userForm" (ngSubmit)="submitForm()">
     <div nz-row>
@@ -68,45 +67,6 @@
       </div>
       <div nz-col [nzSpan]="8">
         <nz-form-item>
-          <nz-form-label [nzSpan]="6" [nzRequired]="true">登录密码</nz-form-label>
-          <nz-form-control [nzSpan]="17" [nzHasFeedback]="true">
-            <input nz-input type="password" formControlName="password" placeholder="请输入登录密码" nz-tooltip
-                   [nzTitle]="passwordCheckInfo.msg"/>
-            <nz-form-explain
-              *ngIf=" (userForm.get('password')?.dirty && userForm.get('password')?.errors) || userForm.get('password')?.pending ">
-              <ng-container *ngIf="userForm.get('password')?.hasError('required')">
-                请输入登录密码!
-              </ng-container>
-              <ng-container *ngIf="userForm.get('password')?.hasError('minlength')">
-                密码长度不少于7位!
-              </ng-container>
-              <ng-container
-                *ngIf="!userForm.get('password')?.hasError('minlength')&&userForm.get('password')?.hasError('pattern')">
-                请输入符合要求的密码!
-              </ng-container>
-            </nz-form-explain>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-      <div nz-col [nzSpan]="8">
-        <nz-form-item>
-          <nz-form-label [nzSpan]="6" [nzRequired]="true">确认密码</nz-form-label>
-          <nz-form-control [nzSpan]="17" [nzHasFeedback]="true">
-            <input nz-input type="password" formControlName="secondInputPassword" placeholder="请再次输入登录密码"/>
-            <nz-form-explain
-              *ngIf=" (userForm.get('secondInputPassword')?.dirty && userForm.get('secondInputPassword')?.errors) || userForm.get('secondInputPassword')?.pending ">
-              <ng-container *ngIf="userForm.get('secondInputPassword')?.hasError('required')">
-                请确认登录密码!
-              </ng-container>
-              <ng-container *ngIf="userForm.get('secondInputPassword')?.hasError('notEqualWithFirstInput')">
-                前后两次输入不一致!
-              </ng-container>
-            </nz-form-explain>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-      <div nz-col [nzSpan]="8">
-        <nz-form-item>
           <nz-form-label [nzSpan]="6">用户职位</nz-form-label>
           <nz-form-control [nzSpan]="17">
             <input nz-input formControlName="position" placeholder="请输入用户职位"/>
@@ -148,6 +108,22 @@
           </nz-form-control>
         </nz-form-item>
         <app-tree-modal [(show)]="showChooseRegion" (result)="getRegion($event)"></app-tree-modal>
+      </div>
+      <div nz-col [nzSpan]="8">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6" [nzRequired]="true">用户状态</nz-form-label>
+          <nz-form-control [nzSpan]="17">
+            <nz-select formControlName="status" nzPlaceHolder="请选择用户状态">
+              <nz-option *ngFor="let status of statusList" [nzLabel]="status.description" [nzValue]="status.status"></nz-option>
+            </nz-select>
+            <nz-form-explain
+              *ngIf=" (userForm.get('status')?.dirty && userForm.get('roleIds')?.errors) || userForm.get('roleIds')?.pending ">
+              <ng-container *ngIf="userForm.get('roleIds')?.hasError('required')">
+                请选择用户角色!
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
       </div>
       <div nz-col [nzSpan]="8">
         <nz-form-item>

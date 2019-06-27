@@ -101,6 +101,16 @@ export class SystemSettingService {
     return this.http.post<Response>(this.tempUrl + '/uip/smUser/updateUserRoleByIds', null, {params: params});
   }
 
+  // 批量赋予用户角色
+  batchGiveRole(params: any) {
+    return this.http.post<Response>(this.tempUrl + '/uip/smUser/updateUserRoleByIds', null, {params: params});
+  }
+
+  // 根据id查找用户详情
+  getUserDetailById(id: string) {
+    return this.http.get<Response>(this.tempUrl + '/uip/smUser/getById?id=' + id);
+  }
+
   // 判断用户名是否存在
   checkUserNameExist(userName: string) {
     return this.http.get<Response>(this.tempUrl + '/uip/common/checkUserNameExist?userName=' + userName);
@@ -124,6 +134,16 @@ export class SystemSettingService {
   // 新增用户
   addUser(data) {
     return this.http.post<Response>(this.tempUrl + '/uip/smUser/addUser', data);
+  }
+
+  // 修改用户
+  modifyUser(data) {
+    return this.http.post<Response>(this.tempUrl + '/uip/smUser/updateById', data);
+  }
+
+  // 获取用户状态列表
+  getUserStatusList() {
+    return this.http.get<Response>(this.tempUrl + '/uip/common/getStates');
   }
 
   // 删除用户

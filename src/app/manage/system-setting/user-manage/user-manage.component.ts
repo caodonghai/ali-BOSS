@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit} from '@angular/core';
 import {SystemSettingService} from '../../service/systemSetting.service';
-import { FormBuilder} from '@angular/forms';
+import {FormBuilder} from '@angular/forms';
 import {NzMessageService, NzModalService} from 'ng-zorro-antd';
 import {ExportService} from '../../service/export.service';
 import {Router} from '@angular/router';
@@ -32,14 +32,10 @@ export class UserManageComponent implements OnInit {
   isGiveRoleOkLoading = false;
   isGiveRoleModalVisible = false;
 
-  // 新增或者编辑用户相关
-  isEdit = false;
-
-
   // 导出角色
   isExportUserLoading = false;
 
-  seletedUser: any = {};
+  selectedUser: any = {};
 
   constructor(private systemSettingService: SystemSettingService,
               private fb: FormBuilder,
@@ -84,8 +80,7 @@ export class UserManageComponent implements OnInit {
   }
 
   addUser() {
-    this.isEdit = false;
-    this.router.navigate(['/manage/system-setting/user-manage/user-form', {status: 'add'}]);
+    this.router.navigate(['/manage/system-setting/user-manage/user-form']);
   }
 
 
@@ -93,11 +88,11 @@ export class UserManageComponent implements OnInit {
     const method = e.target.dataset.method;
     const id = e.target.dataset.id;
     if (id && method) {
-      this.seletedUser = this.userList.find(item => item.id === id);
+      this.selectedUser = this.userList.find(item => item.id === id);
       if (method === 'detail') {
 
       } else if (method === 'modify') {
-
+        this.router.navigate(['/manage/system-setting/user-manage/user-modify', {id: this.selectedUser.id}]);
       } else if (method === 'reset') {
 
       } else if (method === 'delete') {
@@ -111,7 +106,7 @@ export class UserManageComponent implements OnInit {
       nzTitle: '删除',
       nzContent: '确定要删除该用户吗？',
       nzOnOk: () => new Promise((resolve, reject) => {
-        this.systemSettingService.deleteUser(this.seletedUser.id).subscribe(res => {
+        this.systemSettingService.deleteUser(this.selectedUser.id).subscribe(res => {
           if (res.resCode === 1) {
             this.msg.success('删除成功');
             this.getUserList();

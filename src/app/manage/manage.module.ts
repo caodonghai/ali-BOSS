@@ -24,6 +24,7 @@ import { RolePermissionComponent } from './system-setting/role-permission/role-p
 import { MenuPermissionComponent } from './system-setting/menu-permission/menu-permission.component';
 import { UserManageComponent } from './system-setting/user-manage/user-manage.component';
 import { UserFormComponent } from './system-setting/user-manage/user-form/user-form.component';
+import { ModifyUserComponent } from './system-setting/user-manage/modify-user/modify-user.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { UserFormComponent } from './system-setting/user-manage/user-form/user-f
     RolePermissionComponent,
     MenuPermissionComponent,
     UserManageComponent,
-    UserFormComponent
+    UserFormComponent,
+    ModifyUserComponent
   ],
   imports: [
     CommonModule,
