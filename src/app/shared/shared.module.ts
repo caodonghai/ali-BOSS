@@ -6,9 +6,10 @@ import { FilterHtmlTagDirective } from './directive/filter-html-tag/filter-html-
 import {NgZorroAntdModule} from 'ng-zorro-antd';
 import { TreeModalComponent } from './tree-modal/tree-modal.component';
 import {FormsModule} from '@angular/forms';
+import { BackButtonComponent } from './back-button/back-button.component';
 
 @NgModule({
-  declarations: [RichTextEditorComponent, FilterHtmlTagDirective, TreeModalComponent],
+  declarations: [RichTextEditorComponent, FilterHtmlTagDirective, TreeModalComponent, BackButtonComponent],
   imports: [
     CommonModule,
     CKEditorModule,
@@ -18,6 +19,7 @@ import {FormsModule} from '@angular/forms';
   exports: [
     RichTextEditorComponent,
     TreeModalComponent,
+    BackButtonComponent,
     FilterHtmlTagDirective
   ]
 })

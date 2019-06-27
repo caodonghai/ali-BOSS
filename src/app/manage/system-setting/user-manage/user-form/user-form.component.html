@@ -2,6 +2,7 @@
   [nzBordered]="false"
   [nzTitle]="formStatus==='add'?'新增用户':'编辑用户'"
 >
+
   <nz-divider nzText="基本信息" nzOrientation="left"></nz-divider>
   <form nz-form [formGroup]="userForm" (ngSubmit)="submitForm()">
     <div nz-row>
@@ -71,7 +72,7 @@
         <nz-form-item>
           <nz-form-label [nzSpan]="6" [nzRequired]="true">登录密码</nz-form-label>
           <nz-form-control [nzSpan]="17" [nzHasFeedback]="true">
-            <input nz-input formControlName="password" placeholder="请输入登录密码" nz-tooltip
+            <input nz-input type="password" formControlName="password" placeholder="请输入登录密码" nz-tooltip
                    [nzTitle]="passwordCheckInfo.msg"/>
             <nz-form-explain
               *ngIf=" (userForm.get('password')?.dirty && userForm.get('password')?.errors) || userForm.get('password')?.pending ">
@@ -93,7 +94,7 @@
         <nz-form-item>
           <nz-form-label [nzSpan]="6" [nzRequired]="true">确认密码</nz-form-label>
           <nz-form-control [nzSpan]="17" [nzHasFeedback]="true">
-            <input nz-input formControlName="secondInputPassword" placeholder="请再次输入登录密码"/>
+            <input nz-input type="password" formControlName="secondInputPassword" placeholder="请再次输入登录密码"/>
             <nz-form-explain
               *ngIf=" (userForm.get('secondInputPassword')?.dirty && userForm.get('secondInputPassword')?.errors) || userForm.get('secondInputPassword')?.pending ">
               <ng-container *ngIf="userForm.get('secondInputPassword')?.hasError('required')">
@@ -140,8 +141,9 @@
         <nz-form-item>
           <nz-form-label [nzSpan]="6" [nzRequired]="true">所属区域</nz-form-label>
           <nz-form-control [nzSpan]="17">
-            <input nz-input [value]="regionName"  placeholder="请选择所属区域" style="cursor: pointer" readonly (click)="showChooseRegion=true"/>
-            <nz-form-explain
+            <input nz-input [value]="regionName" placeholder="请选择所属区域" style="cursor: pointer" readonly
+                   (click)="showChooseRegion=true"/>
+            <nz-form-explain style="color: red"
               *ngIf=" (userForm.get('regionId')?.dirty && userForm.get('regionId')?.errors) || userForm.get('regionId')?.pending ">
               <ng-container *ngIf="userForm.get('regionId')?.hasError('required')">
                 请选择所属区域!
@@ -177,42 +179,106 @@
           <nz-form-control [nzSpan]="17">
             <nz-upload
               class="avatar-uploader"
-              nzAction="https://jsonplaceholder.typicode.com/posts/"
+              [nzCustomRequest]="customUploadReq"
               nzName="avatar"
               nzListType="picture-card"
-              [nzShowUploadList]="false"
-              [nzBeforeUpload]="beforeUpload"
+              [(nzFileList)]="fileList"
+              [nzShowButton]="fileList.length < 1"
+              [nzShowUploadList]="showUploadList"
+              [nzPreview]="handlePreview"
+              [nzFilter]="filters"
             >
-              <ng-container *ngIf="!avatarUrl">
-                <i class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></i>
-                <div class="ant-upload-text">上传头像</div>
-              </ng-container>
-              <img *ngIf="avatarUrl" [src]="avatarUrl" class="avatar" />
+              <i nz-icon nzType="plus"></i>
+              <div class="ant-upload-text">上传头像</div>
             </nz-upload>
+            <nz-modal
+              [nzVisible]="previewVisible"
+              [nzContent]="modalContent"
+              [nzFooter]="null"
+              (nzOnCancel)="previewVisible = false"
+            >
+              <ng-template #modalContent>
+                <img [src]="previewImage" style="width: 100%"/>
+              </ng-template>
+            </nz-modal>
           </nz-form-control>
         </nz-form-item>
       </div>
     </div>
-    <nz-divider style="margin: 0" nzText="其他信息" nzOrientation="left"></nz-divider>
+    <nz-divider style="margin-bottom: 4px" nzText="其他信息" nzOrientation="left"></nz-divider>
     <div nz-row>
-      <div nz-col [nzSpan]="8">1</div>
-      <div nz-col [nzSpan]="8"></div>
-      <div nz-col [nzSpan]="8"></div>
-    </div>
-    <div nz-row>
-      <div nz-col [nzSpan]="8">1</div>
-      <div nz-col [nzSpan]="8"></div>
-      <div nz-col [nzSpan]="8"></div>
-    </div>
-    <div nz-row>
-      <div nz-col [nzSpan]="8">1</div>
-      <div nz-col [nzSpan]="8"></div>
-      <div nz-col [nzSpan]="8"></div>
+      <div nz-col [nzSpan]="8">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6">性别</nz-form-label>
+          <nz-form-control [nzSpan]="16" [nzOffset]="1">
+            <nz-radio-group formControlName="gender">
+              <label nz-radio nzValue="1">男</label>
+              <label nz-radio nzValue="2">女</label>
+            </nz-radio-group>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="8">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6">生日</nz-form-label>
+          <nz-form-control [nzSpan]="17">
+            <nz-date-picker formControlName="birthday"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="8">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6">邮箱地址</nz-form-label>
+          <nz-form-control [nzSpan]="17">
+            <input nz-input formControlName="email" placeholder="请输入邮箱地址"/>
+            <nz-form-explain
+              *ngIf=" (userForm.get('email')?.dirty && userForm.get('email')?.errors) || userForm.get('email')?.pending ">
+              <ng-container *ngIf="userForm.get('email')?.hasError('email')">
+                请输入正确的邮箱地址!
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
     </div>
     <div nz-row>
       <div nz-col [nzSpan]="8">
-        1
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6">微信账号</nz-form-label>
+          <nz-form-control [nzSpan]="17">
+            <input nz-input formControlName="weixin" placeholder="请输入微信账号"/>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="8">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6">QQ号</nz-form-label>
+          <nz-form-control [nzSpan]="17">
+            <input nz-input formControlName="qq" type="number" placeholder="请输入QQ号"/>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row>
+      <div nz-col [nzSpan]="16">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="3">备注</nz-form-label>
+          <nz-form-control [nzSpan]="20">
+            <textarea nz-input formControlName="description" rows="3" placeholder="请输入描述"></textarea>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row>
+      <div nz-col [nzSpan]="8">
+        <nz-form-item>
+          <nz-form-control [nzSpan]="17" [nzOffset]="6">
+            <button nz-button nzType="primary" type="submit" [nzLoading]="buttonLoading">保存</button>
+            <app-back-button style="margin-left: 20px">返回</app-back-button>
+          </nz-form-control>
+        </nz-form-item>
       </div>
     </div>
   </form>
+
 </nz-card>

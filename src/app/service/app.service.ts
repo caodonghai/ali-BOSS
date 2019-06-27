@@ -45,6 +45,15 @@ export class AppService {
     return this.http.request(req);
   }
 
+  // uip模块上传
+  upLoadFileUip(formData: FormData) {
+    const req = new HttpRequest('POST', 'http://10.0.9.201:8080/api/uip/fileUpload/upload', formData, {
+      reportProgress: true,
+      withCredentials: false
+    });
+    return this.http.request(req);
+  }
+
   getFileUrl(): string {
     return this.fileUrl;
   }

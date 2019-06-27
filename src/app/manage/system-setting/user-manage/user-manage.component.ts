@@ -1,10 +1,8 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit} from '@angular/core';
 import {SystemSettingService} from '../../service/systemSetting.service';
-import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
-import {NzMessageService} from 'ng-zorro-antd';
+import { FormBuilder} from '@angular/forms';
+import {NzMessageService, NzModalService} from 'ng-zorro-antd';
 import {ExportService} from '../../service/export.service';
-import {from, interval, Observable, Observer, of} from 'rxjs';
-import {catchError, debounce, debounceTime, delay, distinctUntilChanged, first, map, mergeMap, throttle} from 'rxjs/operators';
 import {Router} from '@angular/router';
 
 @Component({
@@ -35,20 +33,21 @@ export class UserManageComponent implements OnInit {
   isGiveRoleModalVisible = false;
 
   // 新增或者编辑用户相关
-  isUserFormModalVisible = false;
   isEdit = false;
 
 
   // 导出角色
   isExportUserLoading = false;
 
+  seletedUser: any = {};
 
   constructor(private systemSettingService: SystemSettingService,
               private fb: FormBuilder,
               private msg: NzMessageService,
               private exportService: ExportService,
               private el: ElementRef,
-              private router: Router) {
+              private router: Router,
+              private modal: NzModalService) {
   }
 
   ngOnInit() {
@@ -91,7 +90,38 @@ export class UserManageComponent implements OnInit {
 
 
   handleTableClick(e) {
+    const method = e.target.dataset.method;
+    const id = e.target.dataset.id;
+    if (id && method) {
+      this.seletedUser = this.userList.find(item => item.id === id);
+      if (method === 'detail') {
 
+      } else if (method === 'modify') {
+
+      } else if (method === 'reset') {
+
+      } else if (method === 'delete') {
+        this.deleteUser();
+      }
+    }
+  }
+
+  deleteUser() {
+    this.modal.confirm({
+      nzTitle: '删除',
+      nzContent: '确定要删除该用户吗？',
+      nzOnOk: () => new Promise((resolve, reject) => {
+        this.systemSettingService.deleteUser(this.seletedUser.id).subscribe(res => {
+          if (res.resCode === 1) {
+            this.msg.success('删除成功');
+            this.getUserList();
+          }
+        }, () => {
+        }, () => {
+          resolve();
+        });
+      })
+    });
   }
 
   checkAll(e) {
@@ -145,27 +175,6 @@ export class UserManageComponent implements OnInit {
     this.isExportUserLoading = true;
     this.exportService.exportData(this.el.nativeElement.querySelector('#userTable'), '用户列表', '用户列表').finally(() => {
       this.isExportUserLoading = false;
-    });
-  }
-
-  submitForm() {
-    console.log(this.userForm);
-  }
-
-  beforeUpload = (file: File) => {
-    return new Observable((observer: Observer<boolean>) => {
-      const isPicture = file.type === 'image/*';
-      if (!isPicture) {
-        this.msg.error('请选择一张图片');
-        observer.complete();
-        return;
-      }
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isLt2M) {
-        this.msg.error('图片不能超过2M');
-        observer.complete();
-        return;
-      }
     });
   }
 }

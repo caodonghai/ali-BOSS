@@ -120,4 +120,14 @@ export class SystemSettingService {
   getTree(url) {
     return this.http.get<Response>(url);
   }
+
+  // 新增用户
+  addUser(data) {
+    return this.http.post<Response>(this.tempUrl + '/uip/smUser/addUser', data);
+  }
+
+  // 删除用户
+  deleteUser(id: string) {
+    return this.http.delete<Response>(this.tempUrl + '/uip/smUser/deleteById?id=' + id);
+  }
 }
