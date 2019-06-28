@@ -150,4 +150,14 @@ export class SystemSettingService {
   deleteUser(id: string) {
     return this.http.delete<Response>(this.tempUrl + '/uip/smUser/deleteById?id=' + id);
   }
+
+  // 删除用户
+  batchDeleteUser(idArray: string) {
+    return this.http.delete<Response>(this.tempUrl + '/uip/smUser/deleteByIds?ids=' + idArray);
+  }
+
+  // 重置用户密码
+  resetUserPassword(id: string) {
+    return this.http.put<Response>(this.tempUrl + '/uip/smUser/resetPassword?id=' + id,null);
+  }
 }

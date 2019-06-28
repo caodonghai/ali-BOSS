@@ -12,6 +12,7 @@ export class TreeModalComponent implements OnInit, OnChanges {
   @Output() showChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @Input() showMask = true;
+  @Input() type = 'region';
 
   @Output() result: EventEmitter<string> = new EventEmitter<string>();
 
@@ -28,7 +29,7 @@ export class TreeModalComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.treeModalSetting = this.getTreeModalSetting('region');
+    this.treeModalSetting = this.getTreeModalSetting(this.type);
     this.setting = this.treeModalSetting.setting;
   }
 

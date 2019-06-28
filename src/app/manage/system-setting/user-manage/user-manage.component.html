@@ -9,8 +9,9 @@
     <nz-form-item style="margin-left: 40px">
       <nz-form-label>所属区域</nz-form-label>
       <nz-form-control>
-        <input [(ngModel)]="regionName" nz-input [ngModelOptions]="{standalone: true}" placeholder="请选择所属区域"/>
+        <input [value]="regionName" nz-input placeholder="请选择所属区域" readonly (click)="showChooseRegionModal=true"/>
       </nz-form-control>
+      <app-tree-modal [(show)]="showChooseRegionModal" (result)="getResult($event)"></app-tree-modal>
     </nz-form-item>
     <nz-form-item style="margin-left: 40px">
       <nz-form-label>用户角色</nz-form-label>
@@ -30,7 +31,9 @@
   <button nz-button nzType="primary" style="margin: 20px 0 4px 0;" (click)="addUser()">
     <i nz-icon nzType="plus"></i>新增
   </button>
-  <button nz-button nzType="danger" style="margin: 20px 0 4px 10px;"><i nz-icon nzType="delete"></i>删除用户</button>
+  <button nz-button nzType="danger" style="margin: 20px 0 4px 10px;" (click)="batchDeleteUser()"><i nz-icon
+                                                                                                    nzType="delete"></i>删除用户
+  </button>
   <button nz-button style="margin: 20px 0 4px 10px;" (click)="showGiveRoleModal()"><i nz-icon nzType="edit"></i>赋予角色
   </button>
   <button nz-button style="margin: 20px 0 4px 10px;" [nzLoading]="isExportUserLoading" (click)="exportUser()"><i nz-icon
@@ -110,6 +113,80 @@
     >
       <nz-option *ngFor="let item of roleList" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
     </nz-select>
+  </div>
+</nz-modal>
+<nz-modal
+  [(nzVisible)]="isDetailModalVisible"
+  nzTitle="详情"
+  nzWidth="800"
+  [nzFooter]="null"
+  (nzOnCancel)="isDetailModalVisible=false;"
+>
+  <nz-divider nzText="基本信息" nzOrientation="left"></nz-divider>
+  <div style="padding-left: 10px">
+    <div nz-row class="detail-modal-item">
+      <div nz-col [nzSpan]="3">用户角色：</div>
+      <div nz-col [nzSpan]="7">{{selectedUser.roleNameList}}</div>
+    </div>
+    <div nz-row class="detail-modal-item">
+      <div nz-col [nzSpan]="3">姓名：</div>
+      <div nz-col [nzSpan]="7">{{selectedUser.name}}</div>
+      <div nz-col [nzSpan]="3" [nzOffset]="2">用户名：</div>
+      <div nz-col [nzSpan]="7">{{selectedUser.userName}}</div>
+    </div>
+    <div nz-row class="detail-modal-item">
+      <div nz-col [nzSpan]="3">别名：</div>
+      <div nz-col [nzSpan]="7">{{selectedUser.alias}}</div>
+      <div nz-col [nzSpan]="3" [nzOffset]="2">所属区域：</div>
+      <div nz-col [nzSpan]="7">{{selectedUser.regionName}}</div>
+    </div>
+    <div nz-row class="detail-modal-item">
+      <div nz-col [nzSpan]="3">状态：</div>
+      <div nz-col [nzSpan]="7">{{selectedUser.statusText}}</div>
+      <div nz-col [nzSpan]="3" [nzOffset]="2">用户职位：</div>
+      <div nz-col [nzSpan]="7">{{selectedUser.position}}</div>
+    </div>
+    <div nz-row class="detail-modal-item">
+      <div nz-col [nzSpan]="3">手机号码：</div>
+      <div nz-col [nzSpan]="7">{{selectedUser.cellphone}}</div>
+      <div nz-col [nzSpan]="3" [nzOffset]="2">网页端登录：</div>
+      <div nz-col [nzSpan]="7">{{selectedUser.allowLogWeb?'允许':'不允许'}}</div>
+    </div>
+    <div nz-row class="detail-modal-item">
+      <div nz-col [nzSpan]="3">手机端登录：</div>
+      <div nz-col [nzSpan]="7">{{selectedUser.allowLogMobile?'允许':'不允许'}}</div>
+    </div>
+    <div nz-row class="detail-modal-item">
+      <div nz-col [nzSpan]="3">用户头像：</div>
+      <div nz-col [nzSpan]="7">
+        <img [src]="fileUrl+selectedUser.userImage" style="height: 72px;width: 72px;border-radius: 4px">
+      </div>
+    </div>
+  </div>
+  <nz-divider nzText="其他信息" nzOrientation="left"></nz-divider>
+  <div style="padding-left: 10px">
+    <div nz-row class="detail-modal-item">
+      <div nz-col [nzSpan]="3">性别：</div>
+      <div nz-col [nzSpan]="7">{{selectedUser.gender===1?'男':'女'}}</div>
+      <div nz-col [nzSpan]="3" [nzOffset]="2">生日：</div>
+      <div nz-col [nzSpan]="7">{{selectedUser.birthday}}</div>
+    </div>
+    <div nz-row class="detail-modal-item">
+      <div nz-col [nzSpan]="3">生日：</div>
+      <div nz-col [nzSpan]="7">{{selectedUser.name}}</div>
+      <div nz-col [nzSpan]="3" [nzOffset]="2">邮箱地址：</div>
+      <div nz-col [nzSpan]="7">{{selectedUser.email}}</div>
+    </div>
+    <div nz-row class="detail-modal-item">
+      <div nz-col [nzSpan]="3">微信账号：</div>
+      <div nz-col [nzSpan]="7">{{selectedUser.weixin}}</div>
+      <div nz-col [nzSpan]="3" [nzOffset]="2">QQ号：</div>
+      <div nz-col [nzSpan]="7">{{selectedUser.qq}}</div>
+    </div>
+    <div nz-row class="detail-modal-item">
+      <div nz-col [nzSpan]="3">备注：</div>
+      <div nz-col [nzSpan]="19">{{selectedUser.description}}</div>
+    </div>
   </div>
 </nz-modal>
 

@@ -25,7 +25,8 @@ export class AppService {
         {id: '171', name: '菜单设置', funcUrl: '/manage/system-setting/menu-setting'},
         {id: '172', name: '角色权限', funcUrl: '/manage/system-setting/role-permission'},
         {id: '173', name: '菜单权限', funcUrl: '/manage/system-setting/menu-permission'},
-        {id: '174', name: '用户管理', funcUrl: '/manage/system-setting/user-manage'}
+        {id: '174', name: '用户管理', funcUrl: '/manage/system-setting/user-manage'},
+        {id: '175', name: '角色管理', funcUrl: '/manage/system-setting/role-manage'}
       ]
     },
   ];
