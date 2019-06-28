@@ -1,86 +1,110 @@
 <nz-card style="width:100%;min-height: 100%;" [nzBordered]="false" nzTitle="角色管理">
-  <!--<form nz-form [nzLayout]="'inline'">-->
-    <!--<nz-form-item>-->
-      <!--<nz-form-label>用户名</nz-form-label>-->
-      <!--<nz-form-control>-->
-        <!--<input [(ngModel)]="name" nz-input [ngModelOptions]="{standalone: true}" placeholder="请输入用户名"/>-->
-      <!--</nz-form-control>-->
-    <!--</nz-form-item>-->
-    <!--<nz-form-item style="margin-left: 40px">-->
-      <!--<nz-form-label>所属区域</nz-form-label>-->
-      <!--<nz-form-control>-->
-        <!--<input [(ngModel)]="regionName" nz-input [ngModelOptions]="{standalone: true}" placeholder="请选择所属区域"/>-->
-      <!--</nz-form-control>-->
-    <!--</nz-form-item>-->
-    <!--<nz-form-item style="margin-left: 40px">-->
-      <!--<nz-form-label>用户角色</nz-form-label>-->
-      <!--<nz-form-control>-->
-        <!--<nz-select style="width: 170px;" [(ngModel)]="roleId" name="roleId" [nzAllowClear]="true" nzPlaceHolder="请选择角色">-->
-          <!--<nz-option *ngFor="let item of roleList" [nzValue]="item.id" [nzLabel]="item.name"></nz-option>-->
-        <!--</nz-select>-->
-      <!--</nz-form-control>-->
-    <!--</nz-form-item>-->
-    <!--<nz-form-item style="margin-left: 40px">-->
-      <!--<nz-form-control>-->
-        <!--<button nz-button nzType="primary" (click)="getUserList()">查询</button>-->
-        <!--<button nz-button nzType="default" type="reset" style="margin-left: 20px">重置</button>-->
-      <!--</nz-form-control>-->
-    <!--</nz-form-item>-->
-  <!--</form>-->
-  <!--<nz-table #userTable id="userTable" [nzBordered]="true"-->
-            <!--[nzData]="userList" (click)="handleTableClick($event)"-->
-            <!--[nzLoading]="loading"-->
-            <!--[nzShowSizeChanger]="true"-->
-            <!--[nzShowQuickJumper]="true"-->
-            <!--[nzFrontPagination]="false"-->
-            <!--[(nzPageIndex)]="pageNumber"-->
-            <!--[(nzPageSize)]="pageSize"-->
-            <!--(nzPageIndexChange)="getUserList()"-->
-            <!--(nzPageSizeChange)="pageNumber = 1;getUserList()"-->
-            <!--[nzTotal]="total"-->
-            <!--[nzShowTotal]="totalTemplate">-->
-    <!--<thead>-->
-    <!--<ng-template #totalTemplate let-total> 共 {{ total }} 条</ng-template>-->
-    <!--<tr>-->
-      <!--<th width="60"-->
-          <!--[nzShowCheckbox]="true"-->
-          <!--[nzChecked]="checkedUserList.length===userList.length"-->
-          <!--[nzIndeterminate]="checkedUserList.length!==0&&checkedUserList.length!==pageSize"-->
-          <!--(nzCheckedChange)="checkAll($event)">-->
-      <!--</th>-->
-      <!--<th width="60">序号</th>-->
-      <!--<th>用户名</th>-->
-      <!--<th>姓名</th>-->
-      <!--<th>性别</th>-->
-      <!--<th>手机号</th>-->
-      <!--<th>创建时间</th>-->
-      <!--<th width="280">操作</th>-->
-    <!--</tr>-->
-    <!--</thead>-->
-    <!--<tbody>-->
-    <!--<tr *ngFor="let item of userList;let i=index;">-->
-      <!--<td [nzShowCheckbox]="true"-->
-          <!--(nzCheckedChange)="checkOne($event,item)"-->
-          <!--[(nzChecked)]="mapOfCheckedId[item.id]"-->
-      <!--&gt;</td>-->
-      <!--<td>{{i+pageSize*(pageNumber-1)+1}}</td>-->
-      <!--<td>{{item.userName}}</td>-->
-      <!--<td>{{item.name}}</td>-->
-      <!--<td>{{item.gender===1?'男':'女'}}</td>-->
-      <!--<td>{{item.cellphone}}</td>-->
-      <!--<td>{{item.createTime}}</td>-->
-      <!--<td style="text-align: center">-->
-        <!--<button nz-button nzSize="small" data-method="detail" [attr.data-id]="item.id">详情</button>-->
-        <!--<nz-divider nzType="vertical"></nz-divider>-->
-        <!--<button nz-button nzType="primary" nzSize="small" data-method="modify" [attr.data-id]="item.id">修改</button>-->
-        <!--<nz-divider nzType="vertical"></nz-divider>-->
-        <!--<button nz-button nzSize="small" data-method="reset" [attr.data-id]="item.id">重置密码</button>-->
-        <!--<nz-divider nzType="vertical"></nz-divider>-->
-        <!--<button nz-button nzType="danger" nzSize="small" data-method="delete" [attr.data-id]="item.id">删除</button>-->
-      <!--</td>-->
-    <!--</tr>-->
-    <!--</tbody>-->
-  <!--</nz-table>-->
+  <form nz-form [nzLayout]="'inline'">
+    <nz-form-item>
+      <nz-form-label>角色名称</nz-form-label>
+      <nz-form-control>
+        <input [(ngModel)]="name" nz-input [ngModelOptions]="{standalone: true}" placeholder="请输入角色名称"/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item style="margin-left: 40px">
+      <nz-form-control>
+        <button nz-button nzType="primary" type="button" (click)="getRoleList()">查询</button>
+        <button nz-button nzType="default" type="button" (click)="reset()" style="margin-left: 20px">重置</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <button style="margin:20px 0 4px 0" nz-button nzType="primary" (click)="isRoleFormModalVisible=true;isEdit=false"><i
+    nz-icon nzType="plus"></i>新增
+  </button>
+  <nz-table [nzBordered]="true"
+            [nzData]="roleList" (click)="handleTableClick($event)"
+            [nzLoading]="loading"
+            [nzShowSizeChanger]="true"
+            [nzShowQuickJumper]="true"
+            [nzFrontPagination]="false"
+            [(nzPageIndex)]="pageNumber"
+            [(nzPageSize)]="pageSize"
+            (nzPageIndexChange)="getRoleList()"
+            (nzPageSizeChange)="pageNumber = 1;getRoleList()"
+            [nzTotal]="total"
+            [nzShowTotal]="totalTemplate">
+    <thead>
+    <ng-template #totalTemplate let-total> 共 {{ total }} 条</ng-template>
+    <tr>
+      <th width="60" nzAlign="center">序号</th>
+      <th nzAlign="center">角色名称</th>
+      <th nzAlign="center">状态</th>
+      <th nzAlign="center">备注</th>
+      <th nzAlign="center" width="240">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of roleList;let i=index;">
+      <td nzAlign="center">{{i+pageSize*(pageNumber-1)+1}}</td>
+      <td nzAlign="center">{{item.name}}</td>
+      <td nzAlign="center">
+        <nz-tag *ngIf="item.status!==1" [nzColor]="'#f50'">禁用</nz-tag>
+        <nz-tag *ngIf="item.status===1" [nzColor]="'#87d068'">启用</nz-tag>
+      </td>
+      <td nzAlign="center">{{item.description}}</td>
+      <td nzAlign="center">
+        <button *ngIf="item.status!==1" nz-button nzType="primary" nzSize="small" data-method="enable"
+                [attr.data-id]="item.id">启用
+        </button>
+        <button *ngIf="item.status===1" nz-button nzType="danger" nzSize="small" data-method="disable"
+                [attr.data-id]="item.id">禁用
+        </button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="primary" nzSize="small" data-method="modify" [attr.data-id]="item.id">修改</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="danger" nzSize="small" data-method="delete" [attr.data-id]="item.id">删除</button>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
 </nz-card>
+<nz-modal
+  [(nzVisible)]="isRoleFormModalVisible"
+  [nzTitle]="isEdit?'编辑角色':'新增角色'"
+  nzWidth="600"
+  [nzFooter]="null"
+  (nzOnCancel)="isRoleFormModalVisible=false;"
+>
+  <form nz-form [formGroup]="roleForm" (ngSubmit)="submitForm()">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5" [nzRequired]="true">角色名称</nz-form-label>
+      <nz-form-control [nzSpan]="16">
+        <input nz-input formControlName="name" placeholder="请输入角色名称"/>
+        <nz-form-explain
+          *ngIf="(roleForm.get('name')?.dirty && roleForm.get('name')?.errors) ||roleForm.get('name')?.pending">
+          <ng-container *ngIf="roleForm.get('name')?.hasError('required')">
+            请输入角色名称!
+          </ng-container>
+          <ng-container *ngIf="roleForm.get('name')?.hasError('maxlength')">
+            角色名称不能超过30个字符!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">描述</nz-form-label>
+      <nz-form-control [nzSpan]="16">
+        <textarea nz-input formControlName="description" rows="3" placeholder="请输入描述"></textarea>
+        <nz-form-explain
+          *ngIf="(roleForm.get('description')?.dirty && roleForm.get('description')?.errors) ||roleForm.get('description')?.pending">
+          <ng-container *ngIf="roleForm.get('description')?.hasError('maxlength')">
+            描述长度不能超过100个字符!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzSpan]="16" [nzOffset]="5">
+        <button nz-button type="submit" nzType="primary" [nzLoading]="isSaveLoading">保存</button>
+        <button nz-button type="button" (click)="isRoleFormModalVisible=false" style="margin-left: 20px">取消</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>
 
 

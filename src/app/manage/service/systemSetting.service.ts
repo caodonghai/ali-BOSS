@@ -158,6 +158,31 @@ export class SystemSettingService {
 
   // 重置用户密码
   resetUserPassword(id: string) {
-    return this.http.put<Response>(this.tempUrl + '/uip/smUser/resetPassword?id=' + id,null);
+    return this.http.put<Response>(this.tempUrl + '/uip/smUser/resetPassword?id=' + id, null);
+  }
+
+  // 获取角色列表，带分页和查询条件
+  getRoleListWithPaginationAndSearchCondition(params: any) {
+    return this.http.get<Response>(this.tempUrl + '/uip/smRole/queryRoleList', {params: params});
+  }
+
+  // 启用或禁用角色
+  disableOrEnableRoleById(params: any) {
+    return this.http.put<Response>(this.tempUrl + '/uip/smRole/updateById', null, {params: params});
+  }
+
+  // 新增角色
+  addRole(params: any) {
+    return this.http.post<Response>(this.tempUrl + '/uip/smRole/addRole', null, {params: params});
+  }
+
+  // 修改角色
+  modifyRole(params: any) {
+    return this.http.put<Response>(this.tempUrl + '/uip/smRole/updateById', null, {params: params});
+  }
+
+  // 删除角色
+  deleteRole(id: string) {
+    return this.http.delete<Response>(this.tempUrl + '/uip/smRole/deleteById?id=' + id);
   }
 }
