@@ -26,6 +26,9 @@ import { UserManageComponent } from './system-setting/user-manage/user-manage.co
 import { UserFormComponent } from './system-setting/user-manage/user-form/user-form.component';
 import { ModifyUserComponent } from './system-setting/user-manage/modify-user/modify-user.component';
 import { RoleManageComponent } from './system-setting/role-manage/role-manage.component';
+import { DataDictionaryComponent } from './system-setting/data-dictionary/data-dictionary.component';
+import { AppMenuSettingComponent } from './system-setting/app-menu-setting/app-menu-setting.component';
+import { AppPermissionSettingComponent } from './system-setting/app-permission-setting/app-permission-setting.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +50,10 @@ import { RoleManageComponent } from './system-setting/role-manage/role-manage.co
     UserManageComponent,
     UserFormComponent,
     ModifyUserComponent,
-    RoleManageComponent
+    RoleManageComponent,
+    DataDictionaryComponent,
+    AppMenuSettingComponent,
+    AppPermissionSettingComponent
   ],
   imports: [
     CommonModule,

@@ -15,6 +15,9 @@ import {UserManageComponent} from './system-setting/user-manage/user-manage.comp
 import {UserFormComponent} from './system-setting/user-manage/user-form/user-form.component';
 import {ModifyUserComponent} from './system-setting/user-manage/modify-user/modify-user.component';
 import {RoleManageComponent} from './system-setting/role-manage/role-manage.component';
+import {DataDictionaryComponent} from './system-setting/data-dictionary/data-dictionary.component';
+import {AppMenuSettingComponent} from './system-setting/app-menu-setting/app-menu-setting.component';
+import {AppPermissionSettingComponent} from './system-setting/app-permission-setting/app-permission-setting.component';
 
 const routes: Routes = [
   {
@@ -35,7 +38,10 @@ const routes: Routes = [
       {path: 'system-setting/user-manage', component: UserManageComponent},
       {path: 'system-setting/user-manage/user-form', component: UserFormComponent},
       {path: 'system-setting/user-manage/user-modify', component: ModifyUserComponent},
-      {path: 'system-setting/role-manage', component: RoleManageComponent}
+      {path: 'system-setting/role-manage', component: RoleManageComponent},
+      {path: 'system-setting/data-dictionary', component: DataDictionaryComponent},
+      {path: 'system-setting/app-menu', component: AppMenuSettingComponent},
+      {path: 'system-setting/app-permission', component: AppPermissionSettingComponent},
     ]
   }
 ];

@@ -16,7 +16,6 @@ export class UserManageComponent implements OnInit {
   name = '';
   private regionId: number;
   regionName = '';
-  private regionId = '';
   showChooseRegionModal = false;
   roleId: string;
   roleList: any[] = [];
@@ -66,7 +65,7 @@ export class UserManageComponent implements OnInit {
   getUserList() {
     this.loading = true;
     const params = {
-      regionId: this.regionId,
+      regionId: this.regionId ? this.regionId : '',
       name: this.name,
       pageNumber: this.pageNumber,
       pageSize: this.pageSize,

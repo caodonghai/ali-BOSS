@@ -56,7 +56,7 @@
     <tr>
       <th width="60"
           [nzShowCheckbox]="true"
-          [nzChecked]="checkedUserList.length===userList.length"
+          [nzChecked]="checkedUserList.length!==0&&checkedUserList.length===userList.length"
           [nzIndeterminate]="checkedUserList.length!==0&&checkedUserList.length!==pageSize"
           (nzCheckedChange)="checkAll($event)">
       </th>

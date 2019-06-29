@@ -6,14 +6,14 @@
   <div style="margin-right: 24px;">
     <nz-dropdown nzPlacement="bottomLeft">
       <div class="alain-default__nav-item d-flex align-items-center px-sm" nz-dropdown>
-        <nz-avatar [nzSrc]="avatar" nzSize="large" class="mr-md"></nz-avatar>
+        <nz-avatar [nzSrc]="avatar" nzSize="large" class="mr-md" (click)="showModifyAvatarModal()"></nz-avatar>
         <span style="margin-left: 10px">{{userInfo.userName}}</span>
       </div>
       <div nz-menu class="width-sm">
         <div nz-menu-item (click)="seeUserInfo()"><i nz-icon type="user" class="mr-md"></i>
           个人信息
         </div>
-        <div nz-menu-item (click)="showModifyPasswordModal()"><i nz-icon type="setting" class="mr-md"></i>
+        <div nz-menu-item (click)="isModifyPasswordModalVisible=true"><i nz-icon type="setting" class="mr-md"></i>
           修改密码
         </div>
         <li nz-menu-divider></li>
@@ -28,17 +28,199 @@
 <nz-modal
   [(nzVisible)]="isDetailModalVisible"
   nzTitle="个人信息"
-  [nzFooter]="null"
-  (nzOnCancel)="handleDetailModalCancel()"
+  nzWidth="700"
+  (nzOnOk)="modifyUserInfo()"
+  nzOkText="修改"
+  [nzOkLoading]="isModifyUserInfoButtonLoading"
+  (nzOnCancel)="isDetailModalVisible=false"
 >
-  <p>Modal Content</p>
+  <form nz-form [formGroup]="userInfoForm">
+    <div nz-row>
+      <div nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6">用户名</nz-form-label>
+          <nz-form-control [nzSpan]="16">
+            <input nz-input formControlName="userName" readonly/>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6">真实姓名</nz-form-label>
+          <nz-form-control [nzSpan]="16">
+            <input nz-input formControlName="name" placeholder="请输入真实姓名" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6">性别</nz-form-label>
+          <nz-form-control [nzSpan]="15" [nzOffset]="1">
+            <nz-radio-group formControlName="gender">
+              <label nz-radio [nzValue]="1">男</label>
+              <label nz-radio [nzValue]="2">女</label>
+            </nz-radio-group>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6">移动电话</nz-form-label>
+          <nz-form-control [nzSpan]="16">
+            <input nz-input formControlName="cellphone" placeholder="请输入移动电话" />
+            <nz-form-explain *ngIf="(userInfoForm.get('cellphone')?.dirty && userInfoForm.get('cellphone')?.errors) ||userInfoForm.get('cellphone')?.pending">
+              <ng-container *ngIf="userInfoForm.get('cellphone')?.hasError('pattern')">
+                请输入正确的移动电话!
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6">生日</nz-form-label>
+          <nz-form-control [nzSpan]="16">
+            <nz-date-picker formControlName="birthday" [nzStyle]="{width:'216px'}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6">邮箱地址</nz-form-label>
+          <nz-form-control [nzSpan]="16">
+            <input nz-input formControlName="email" placeholder="请输入邮箱地址" />
+            <nz-form-explain *ngIf="(userInfoForm.get('email')?.dirty && userInfoForm.get('email')?.errors) ||userInfoForm.get('email')?.pending">
+              <ng-container *ngIf="userInfoForm.get('email')?.hasError('pattern')">
+                请输入正确的邮箱地址!
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6">微信账号</nz-form-label>
+          <nz-form-control [nzSpan]="16">
+            <input nz-input formControlName="weixin" placeholder="请输入微信账号" />
+            <nz-form-explain *ngIf="(userInfoForm.get('weixin')?.dirty && userInfoForm.get('weixin')?.errors) ||userInfoForm.get('weixin')?.pending">
+              <ng-container *ngIf="userInfoForm.get('weixin')?.hasError('pattern')">
+                请输入正确的微信账号!
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6">QQ号</nz-form-label>
+          <nz-form-control [nzSpan]="16">
+            <input nz-input formControlName="qq" placeholder="请输入QQ号" />
+            <nz-form-explain *ngIf="(userInfoForm.get('qq')?.dirty && userInfoForm.get('qq')?.errors) ||userInfoForm.get('qq')?.pending">
+              <ng-container *ngIf="userInfoForm.get('qq')?.hasError('pattern')">
+                请输入正确的QQ号!
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6">部门信息</nz-form-label>
+          <nz-form-control [nzSpan]="16">
+            <input nz-input formControlName="department" placeholder="请输入部门信息" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6">用户职位</nz-form-label>
+          <nz-form-control [nzSpan]="16">
+            <input nz-input formControlName="position" placeholder="请输入用户职位" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  </form>
 </nz-modal>
 
 <nz-modal
   [(nzVisible)]="isModifyPasswordModalVisible"
   nzTitle="修改密码"
-  (nzOnCancel)="handleModifyPasswordModalCancel()"
+  [nzOkLoading]="isModifyPasswordButtonLoading"
   (nzOnOk)="modifyPassword()"
 >
-  <p>Modal Content</p>
+  <form nz-form [formGroup]="modifyPasswordForm">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5" [nzRequired]="true">原密码</nz-form-label>
+      <nz-form-control [nzSpan]="16">
+        <input nz-input type="password" formControlName="oldPassword" placeholder="请输入原密码" />
+        <nz-form-explain *ngIf="(modifyPasswordForm.get('oldPassword')?.dirty && modifyPasswordForm.get('oldPassword')?.errors) ||modifyPasswordForm.get('oldPassword')?.pending">
+          <ng-container *ngIf="modifyPasswordForm.get('oldPassword')?.hasError('required')">
+            请输入原密码!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5" [nzRequired]="true">新密码</nz-form-label>
+      <nz-form-control [nzSpan]="16">
+        <input nz-input type="password" formControlName="newPassword" placeholder="请输入新密码" />
+        <nz-form-explain *ngIf="(modifyPasswordForm.get('newPassword')?.dirty && modifyPasswordForm.get('newPassword')?.errors) ||modifyPasswordForm.get('newPassword')?.pending">
+          <ng-container *ngIf="modifyPasswordForm.get('newPassword')?.hasError('required')">
+            请输入新密码!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5" [nzRequired]="true">确认密码</nz-form-label>
+      <nz-form-control [nzSpan]="16">
+        <input nz-input type="password" formControlName="secondInput" placeholder="请再次输入密码" />
+        <nz-form-explain *ngIf="(modifyPasswordForm.get('secondInput')?.dirty && modifyPasswordForm.get('secondInput')?.errors) ||modifyPasswordForm.get('secondInput')?.pending">
+          <ng-container *ngIf="modifyPasswordForm.get('secondInput')?.hasError('required')">
+            请再次输入密码!
+          </ng-container>
+          <ng-container *ngIf="modifyPasswordForm.get('secondInput')?.hasError('notEqualWithFirstInput')">
+            两次输入密码不一致!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isModifyAvatarModalVisible"
+  nzTitle="修改头像"
+  (nzOnCancel)="isModifyAvatarModalVisible=false"
+  [nzOkLoading]="isModifyPasswordButtonLoading"
+  (nzOnOk)="modifyAvatar()"
+>
+  <div style="height: 80px;display: flex;justify-content: center;align-items: center">
+    <nz-upload
+      class="avatar-uploader"
+      [nzCustomRequest]="customUploadReq"
+      nzName="avatar"
+      nzListType="picture-card"
+      [(nzFileList)]="fileList"
+      [nzShowButton]="fileList.length < 1"
+      [nzShowUploadList]="showUploadList"
+      [nzPreview]="handlePreview"
+      [nzFilter]="filters"
+    >
+      <i nz-icon nzType="plus"></i>
+      <div class="ant-upload-text">上传头像</div>
+    </nz-upload>
+    <nz-modal
+      [nzVisible]="previewVisible"
+      [nzContent]="modalContent"
+      [nzFooter]="null"
+      [nzMask]="false"
+      (nzOnCancel)="previewVisible = false"
+    >
+      <ng-template #modalContent>
+        <img [src]="previewImage" style="width: 100%"/>
+      </ng-template>
+    </nz-modal>
+  </div>
 </nz-modal>

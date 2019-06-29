@@ -11,6 +11,21 @@ export class SystemSettingService {
   constructor(private http: HttpClient) {
   }
 
+  // 获取用户信息
+  getUserInfoById(id: string) {
+    return this.http.get<Response>(this.tempUrl + '/uip/smUser/getById?id=' + id);
+  }
+
+  // 修改密码
+  modifyPassword(params: any) {
+    return this.http.put<Response>(this.tempUrl + '/uip//smUser/updatePassword', null, {params: params});
+  }
+
+  // 修改头像
+  modifyAvatar(params: any) {
+    return this.http.post<Response>(this.tempUrl + '/uip/smUser/updateById', null, {params: params});
+  }
+
   // 获取菜单列表，用于树形组件
   getMenuTreeList() {
     return this.http.get<Response>(this.tempUrl + '/uip/smMenu/queryMenuTree');
@@ -184,5 +199,10 @@ export class SystemSettingService {
   // 删除角色
   deleteRole(id: string) {
     return this.http.delete<Response>(this.tempUrl + '/uip/smRole/deleteById?id=' + id);
+  }
+
+  // 获取数据字典树
+  getDataDictionaryTree() {
+    return this.http.get<Response>(this.tempUrl + '/information/v1/dictionary/initTree');
   }
 }
