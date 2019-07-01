@@ -2,7 +2,7 @@
   <nz-card style="width: 32%;min-height: 600px">
     <p class="title">角色</p>
     <nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixIconButton">
-      <input type="text" id="searchInput2" nz-input placeholder="请输入角色名称"/>
+      <input type="text" [formControl]="searchCondition" nz-input placeholder="请输入角色名称"/>
     </nz-input-group>
     <ng-template #suffixIconButton>
       <button nz-button nzType="primary" nzSize="large" nzSearch><i nz-icon type="search"></i></button>

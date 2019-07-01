@@ -217,7 +217,17 @@ export class SystemSettingService {
   }
 
   // 启用或禁用app功能
-  enableOrDisableAppFunction(params: any) {
+  editAppFunction(params: any) {
     return this.http.put<Response>(this.tempUrl + '/uip/appFunction/update', null, {params: params});
+  }
+
+  // 新增app功能菜单
+  addAppFunction(params: any) {
+    return this.http.post<Response>(this.tempUrl + '/uip/appFunction/add', null, {params: params});
+  }
+
+  // 删除APP功能次啊单
+  deleteAppFuction(id: string) {
+    return this.http.delete<Response>(this.tempUrl + '/uip/appFunction/delete?id=' + id);
   }
 }

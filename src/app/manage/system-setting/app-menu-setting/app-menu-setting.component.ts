@@ -2,7 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {SystemSettingService} from '../../service/systemSetting.service';
 import {ZTreeSetting} from '../../../interface';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {NzMessageService, UploadFile, UploadFilter} from 'ng-zorro-antd';
+import {NzMessageService, NzModalService, UploadFile, UploadFilter, UploadXHRArgs} from 'ng-zorro-antd';
+import {HttpEvent, HttpEventType, HttpResponse} from '@angular/common/http';
+import {AppService} from '../../../service/app.service';
+import {formControlMarkAsDirty} from '../../../../util/formControlMarkAsDirty';
+import {$SEMICOLON} from 'codelyzer/angular/styles/chars';
+import {reject} from 'q';
 
 @Component({
   selector: 'app-app-menu-setting',
@@ -23,7 +28,7 @@ export class AppMenuSettingComponent implements OnInit {
   pageSize = 10;
   pageNumber = 1;
   total = 0;
-  parentCode: string;
+  parentNode: any = {};
 
   selectedFunction: any = {}; // 当前选中的app功能
 
@@ -31,6 +36,7 @@ export class AppMenuSettingComponent implements OnInit {
   isEdit = false;
   appFunctionForm: FormGroup;
   isAppFunctionFormVisible = false;
+  isSaveLoading = false;
 
   // 修改图标
   fileList: any = [];
@@ -57,7 +63,9 @@ export class AppMenuSettingComponent implements OnInit {
 
   constructor(private systemSettingService: SystemSettingService,
               private msg: NzMessageService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private appService: AppService,
+              private modal: NzModalService) {
   }
 
   ngOnInit() {
@@ -70,7 +78,7 @@ export class AppMenuSettingComponent implements OnInit {
     this.appFunctionForm = this.fb.group({
       name: ['', [Validators.required]],
       parents: [''],
-      functionType: [''],
+      functionType: ['M'],
       imageUrl: [''],
       funcUrl: [''],
       iosFuncUrl: [''],
@@ -80,7 +88,7 @@ export class AppMenuSettingComponent implements OnInit {
 
   getAppMenuListWithTreeParentCode() {
     const params = {
-      pid: this.parentCode ? this.parentCode : 0,
+      pid: this.parentNode.id ? this.parentNode.id : 0,
       pageNumber: this.pageNumber,
       pageSize: this.pageSize,
       status: -1
@@ -103,6 +111,7 @@ export class AppMenuSettingComponent implements OnInit {
     this.systemSettingService.getAppMenuTreeList(params).subscribe(res => {
       if (res.resCode === 1) {
         $.fn.zTree.init($('#appMenuTree'), this.appMenuTreeSetting, res.data);
+        this.parentNode = res.data[0];
       }
     });
   }
@@ -122,7 +131,7 @@ export class AppMenuSettingComponent implements OnInit {
   }
 
   zTreeOnClick(event, treeId, treeNode) {
-    this.parentCode = treeNode.id;
+    this.parentNode = treeNode;
     this.getAppMenuListWithTreeParentCode();
   }
 
@@ -148,7 +157,7 @@ export class AppMenuSettingComponent implements OnInit {
       id: this.selectedFunction.id,
       status: 1
     };
-    this.systemSettingService.enableOrDisableAppFunction(params).subscribe(res => {
+    this.systemSettingService.editAppFunction(params).subscribe(res => {
       if (res.resCode === 1) {
         this.msg.success('启用成功');
         this.getAppMenuListWithTreeParentCode();
@@ -161,7 +170,7 @@ export class AppMenuSettingComponent implements OnInit {
       id: this.selectedFunction.id,
       status: 2
     };
-    this.systemSettingService.enableOrDisableAppFunction(params).subscribe(res => {
+    this.systemSettingService.editAppFunction(params).subscribe(res => {
       if (res.resCode === 1) {
         this.msg.success('禁用成功');
         this.getAppMenuListWithTreeParentCode();
@@ -172,9 +181,122 @@ export class AppMenuSettingComponent implements OnInit {
   edit() {
     this.isEdit = true;
     this.isAppFunctionFormVisible = true;
+    this.appFunctionForm.patchValue({
+      name: this.selectedFunction.name,
+      parents: this.selectedFunction.parents,
+      functionType: this.selectedFunction.functionType,
+      imageUrl: this.selectedFunction.imageUrl,
+      funcUrl: this.selectedFunction.funcUrl,
+      iosFuncUrl: this.selectedFunction.iosFuncUrl,
+      remark: this.selectedFunction.remark
+    });
   }
 
   deleteAppFunction() {
+    this.modal.confirm({
+      nzTitle: '删除',
+      nzContent: '确定要删除功能？删除该功能会将其子功能一起删除！',
+      nzOnOk: () => new Promise((resolve, reject) => {
+        this.systemSettingService.deleteAppFuction(this.selectedFunction.id).subscribe(res => {
+          if (res.resCode === 1) {
+            this.msg.success('删除成功');
+            this.getAppMenuListWithTreeParentCode();
+            this.removeTreeNode(this.selectedFunction.id);
+          }
+        }, () => {
+        }, () => {
+          resolve();
+        });
+      })
+    });
+  }
 
+  removeTreeNode(id: string) {
+    const treeObj = $.fn.zTree.getZTreeObj(appMenuTree);
+    const node = treeObj.getNodeByParam('id', id, null);
+    if (node) {
+      treeObj.removeNode(node);
+    }
+  }
+
+  showAddAppFunctionModal() {
+    if (this.parentNode.functionType !== 'M') {
+      this.msg.warning('不能在非菜单节点下添加子菜单！');
+    } else {
+      this.isEdit = false;
+      this.isAppFunctionFormVisible = true;
+      this.appFunctionForm.patchValue({
+        parents: this.parentNode.parentspath,
+      });
+    }
+  }
+
+  submitForm() {
+    formControlMarkAsDirty(this.appFunctionForm);
+    if (this.appFunctionForm.valid) {
+      if (this.fileList[0] && this.fileList[0].response && this.fileList[0].response.data.resCode === 1) {
+        this.appFunctionForm.patchValue({
+          imageUrl: this.fileList[0].response.data.url
+        });
+      }
+      this.isSaveLoading = true;
+      if (this.isEdit) {
+        this.editAppFunction();
+      } else {
+        this.addAppFunction();
+      }
+    }
+  }
+
+  addAppFunction() {
+    this.systemSettingService.addAppFunction(this.appFunctionForm.value).subscribe(res => {
+      this.isSaveLoading = false;
+      if (res.resCode === 1) {
+        this.msg.success('新增成功');
+        this.getAppMenuListWithTreeParentCode();
+        setTimeout(() => {
+          this.isAppFunctionFormVisible = false;
+          this.appFunctionForm.reset();
+        }, 1500);
+      }
+    });
+  }
+
+  editAppFunction() {
+    const params = Object.assign({}, this.appFunctionForm.value, {id: this.selectedFunction.id});
+    this.systemSettingService.editAppFunction(params).subscribe(res => {
+      this.isSaveLoading = false;
+      if (res.resCode === 1) {
+        this.msg.success('修改成功');
+        this.getAppMenuListWithTreeParentCode();
+        setTimeout(() => {
+          this.isAppFunctionFormVisible = false;
+        }, 1500);
+      }
+    });
+  }
+
+  customUploadReq = (item: UploadXHRArgs) => {
+    const formData = new FormData();
+    formData.append('file', item.file as any);
+    return this.appService.upLoadFileUip(formData).subscribe((event: HttpEvent<{}>) => {
+      if (event.type === HttpEventType.UploadProgress) {
+        if (event.total > 0) {
+          (event as any).percent = event.loaded / event.total * 100;
+        }
+        item.onProgress(event, item.file);
+      } else if (event instanceof HttpResponse) {
+        item.onSuccess(event.body, item.file, event);
+        item.file.response = event.body;
+      }
+    }, (err) => { /* error */
+      item.onError(err, item.file);
+      this.msg.error('上传出错，请稍后再试');
+    });
+  }
+
+  handlePreview = (file: UploadFile) => {
+    this.previewImage = file.url || file.thumbUrl;
+    this.previewVisible = true;
   }
 }
