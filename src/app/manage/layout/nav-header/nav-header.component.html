@@ -147,6 +147,7 @@
   [(nzVisible)]="isModifyPasswordModalVisible"
   nzTitle="修改密码"
   [nzOkLoading]="isModifyPasswordButtonLoading"
+  (nzOnCancel)="isModifyPasswordModalVisible=false"
   (nzOnOk)="modifyPassword()"
 >
   <form nz-form [formGroup]="modifyPasswordForm">

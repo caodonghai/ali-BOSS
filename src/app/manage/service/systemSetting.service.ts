@@ -205,4 +205,19 @@ export class SystemSettingService {
   getDataDictionaryTree() {
     return this.http.get<Response>(this.tempUrl + '/information/v1/dictionary/initTree');
   }
+
+  // 获取app菜单树
+  getAppMenuTreeList(params: any) {
+    return this.http.get<Response>(this.tempUrl + '/uip/appFunction/queryAppFunctionTree', {params: params});
+  }
+
+  // 点击树形组件，加载该节点下的菜单列表
+  getAppMenuListWithTreeParentCode(params: any) {
+    return this.http.get<Response>(this.tempUrl + '/uip/appFunction/listAppFunctions', {params: params});
+  }
+
+  // 启用或禁用app功能
+  enableOrDisableAppFunction(params: any) {
+    return this.http.put<Response>(this.tempUrl + '/uip/appFunction/update', null, {params: params});
+  }
 }
