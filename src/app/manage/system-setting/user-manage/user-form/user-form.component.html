@@ -27,14 +27,8 @@
       <div nz-col [nzSpan]="8">
         <nz-form-item>
           <nz-form-label [nzSpan]="6" [nzRequired]="true">姓名</nz-form-label>
-          <nz-form-control [nzSpan]="17">
+          <nz-form-control [nzSpan]="17" nzErrorTip="请输入姓名!">
             <input nz-input formControlName="name" placeholder="请输入姓名"/>
-            <nz-form-explain
-              *ngIf=" (userForm.get('name')?.dirty && userForm.get('name')?.errors) || userForm.get('name')?.pending ">
-              <ng-container *ngIf="userForm.get('name')?.hasError('required')">
-                请输入姓名!
-              </ng-container>
-            </nz-form-explain>
           </nz-form-control>
         </nz-form-item>
       </div>

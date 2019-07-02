@@ -6,8 +6,6 @@ import {NzMessageService, NzModalService, UploadFile, UploadFilter, UploadXHRArg
 import {HttpEvent, HttpEventType, HttpResponse} from '@angular/common/http';
 import {AppService} from '../../../service/app.service';
 import {formControlMarkAsDirty} from '../../../../util/formControlMarkAsDirty';
-import {$SEMICOLON} from 'codelyzer/angular/styles/chars';
-import {reject} from 'q';
 
 @Component({
   selector: 'app-app-menu-setting',
@@ -212,7 +210,7 @@ export class AppMenuSettingComponent implements OnInit {
   }
 
   removeTreeNode(id: string) {
-    const treeObj = $.fn.zTree.getZTreeObj(appMenuTree);
+    const treeObj = $.fn.zTree.getZTreeObj('appMenuTree');
     const node = treeObj.getNodeByParam('id', id, null);
     if (node) {
       treeObj.removeNode(node);

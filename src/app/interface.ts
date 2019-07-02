@@ -22,7 +22,7 @@ interface ZTreeAsync {
   dataType?: string;
   dataFilter?: any;
   otherParam?: string[];
-  type?: string;
+  type?: 'post'|'get';
   header?: any;
   xhrFields?: any;
   url: string;

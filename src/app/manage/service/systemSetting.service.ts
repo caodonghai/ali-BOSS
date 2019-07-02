@@ -11,6 +11,10 @@ export class SystemSettingService {
   constructor(private http: HttpClient) {
   }
 
+  getTempUrl(): string {
+    return this.tempUrl;
+  }
+
   // 获取用户信息
   getUserInfoById(id: string) {
     return this.http.get<Response>(this.tempUrl + '/uip/smUser/getById?id=' + id);
@@ -204,6 +208,86 @@ export class SystemSettingService {
   // 获取数据字典树
   getDataDictionaryTree() {
     return this.http.get<Response>(this.tempUrl + '/information/v1/dictionary/initTree');
+  }
+
+  // 获取数据字典列表
+  getDataDictionaryList(params: any) {
+    return this.http.get<Response>(this.tempUrl + '/information/v1/dictionary/list', {params: params});
+  }
+
+  // 获取数据字典列表，带类型的搜索,也就是点击左侧树搜索
+  getDataDictionaryListWithType(params: any) {
+    return this.http.get<Response>(this.tempUrl + '/information/v1/dictionaryType/list', {params: params});
+  }
+
+  // 数据字典全局搜索
+  dataDictionaryGlobalSearch(params: any) {
+    return this.http.get<Response>(this.tempUrl + '/information/v1/dictionary/globalSearch', {params: params});
+  }
+
+  // 获取uuid，用于新增数据字典表单
+  getDataDictionaryUUID() {
+    return this.http.get<Response>(this.tempUrl + '/information/v1/dictionary/uuid');
+  }
+
+  // 新增数据字典
+  addDataDictionary(params: any) {
+    return this.http.post<Response>(this.tempUrl + '/information/v1/dictionary/add', null, {params: params});
+  }
+
+  // 新增数据 类型 字典
+  addDataDictionaryType(params: any) {
+    return this.http.post<Response>(this.tempUrl + '/information/v1/dictionaryType/add', null, {params: params});
+  }
+
+  // 根据id获取数据字典节点
+  getDataDictionaryNodeById(id: string) {
+    return this.http.get<Response>(this.tempUrl + '/information/v1/dictionary/getNodeById?id=' + id);
+  }
+
+  // 根据id获取数据字典 类型 节点
+  getDataDictionaryTypeNodeById(id: string) {
+    return this.http.get<Response>(this.tempUrl + '/information/v1/dictionaryType/getNodeById?id=' + id);
+  }
+
+  // 修改数据字典
+  editDataDictionary(params: any) {
+    return this.http.put<Response>(this.tempUrl + '/information/v1/dictionary/update', null, {params: params});
+  }
+
+  // 修改数据 类型 字典
+  editDataDictionaryType(params: any) {
+    return this.http.put<Response>(this.tempUrl + '/information/v1/dictionaryType/update', null, {params: params});
+  }
+
+  // 上移数据字典
+  moveUpDataDictionary(params: any) {
+    return this.http.put<Response>(this.tempUrl + '/information/v1/dictionary/moveUp', null, {params: params})
+  }
+
+  // 上移数据字典类型
+  moveUpDataDictionaryType(params: any) {
+    return this.http.put<Response>(this.tempUrl + '/information/v1/dictionaryType/moveUp', null, {params: params})
+  }
+
+  // 下移数据字典
+  moveDownDataDictionary(params: any) {
+    return this.http.put<Response>(this.tempUrl + '/information/v1/dictionary/moveDown', null, {params: params})
+  }
+
+  // 下移数据字典类型
+  moveDownDataDictionaryType(params: any) {
+    return this.http.put<Response>(this.tempUrl + '/information/v1/dictionaryType/moveDown', null, {params: params})
+  }
+
+  // 删除数据字典
+  deleteDataDictionary(id: string) {
+    return this.http.delete<Response>(this.tempUrl + '/information/v1/dictionary/delete?id=' + id);
+  }
+
+  // 删除数据字典类型
+  deleteDataDictionaryType(id: string) {
+    return this.http.delete<Response>(this.tempUrl + '/information/v1/dictionaryType/delete?id=' + id);
   }
 
   // 获取app菜单树
