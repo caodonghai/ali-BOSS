@@ -73,29 +73,18 @@
   <form nz-form [formGroup]="roleForm" (ngSubmit)="submitForm()">
     <nz-form-item>
       <nz-form-label [nzSpan]="5" [nzRequired]="true">角色名称</nz-form-label>
-      <nz-form-control [nzSpan]="16">
+      <nz-form-control [nzSpan]="16" [nzErrorTip]="nameErrorTpl">
         <input nz-input formControlName="name" placeholder="请输入角色名称"/>
-        <nz-form-explain
-          *ngIf="(roleForm.get('name')?.dirty && roleForm.get('name')?.errors) ||roleForm.get('name')?.pending">
-          <ng-container *ngIf="roleForm.get('name')?.hasError('required')">
-            请输入角色名称!
-          </ng-container>
-          <ng-container *ngIf="roleForm.get('name')?.hasError('maxlength')">
-            角色名称不能超过30个字符!
-          </ng-container>
-        </nz-form-explain>
+        <ng-template #nameErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">请输入角色名称!</ng-container>
+          <ng-container *ngIf="control.hasError('maxlength')">角色名称不能超过30个字符!</ng-container>
+        </ng-template>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label [nzSpan]="5">描述</nz-form-label>
-      <nz-form-control [nzSpan]="16">
+      <nz-form-control [nzSpan]="16" nzErrorTip="描述长度不能超过100个字符!">
         <textarea nz-input formControlName="description" rows="3" placeholder="请输入描述"></textarea>
-        <nz-form-explain
-          *ngIf="(roleForm.get('description')?.dirty && roleForm.get('description')?.errors) ||roleForm.get('description')?.pending">
-          <ng-container *ngIf="roleForm.get('description')?.hasError('maxlength')">
-            描述长度不能超过100个字符!
-          </ng-container>
-        </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>

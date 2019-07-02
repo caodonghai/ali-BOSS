@@ -23,7 +23,7 @@ export class ManageService {
 
   // 获取租户列表
   getTenantList(params?: any) {
-    return this.http.get<Response>(BASE_URL + '/boss/ttInform/listTenant', {params: params});
+    return this.http.get<Response>(BASE_URL + '/boss/ttSubscibe/list', {params: params});
   }
 
   // 获取套餐列表

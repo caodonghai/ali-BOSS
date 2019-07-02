@@ -8,52 +8,39 @@
       <div nz-col [nzSpan]="8">
         <nz-form-item>
           <nz-form-label [nzSpan]="6" [nzRequired]="true">用户角色</nz-form-label>
-          <nz-form-control [nzSpan]="17">
+          <nz-form-control [nzSpan]="17" nzErrorTip="请选择用户角色!">
             <nz-select formControlName="roleIds" nzPlaceHolder="请选择用户角色" nzMode="multiple" [nzMaxTagCount]="3"
                        [nzMaxTagPlaceholder]="tagPlaceHolder">
               <ng-template #tagPlaceHolder let-selectedList>共选择{{ selectedList.length+3 }}个</ng-template>
               <nz-option *ngFor="let role of roleList" [nzLabel]="role.name" [nzValue]="role.id"></nz-option>
             </nz-select>
-            <nz-form-explain
-              *ngIf=" (userForm.get('roleIds')?.dirty && userForm.get('roleIds')?.errors) || userForm.get('roleIds')?.pending ">
-              <ng-container *ngIf="userForm.get('roleIds')?.hasError('required')">
-                请选择用户角色!
-              </ng-container>
-            </nz-form-explain>
           </nz-form-control>
         </nz-form-item>
       </div>
       <div nz-col [nzSpan]="8">
         <nz-form-item>
           <nz-form-label [nzSpan]="6" [nzRequired]="true">姓名</nz-form-label>
-          <nz-form-control [nzSpan]="17">
+          <nz-form-control [nzSpan]="17" nzErrorTip="请输入姓名!">
             <input nz-input formControlName="name" placeholder="请输入姓名"/>
-            <nz-form-explain
-              *ngIf=" (userForm.get('name')?.dirty && userForm.get('name')?.errors) || userForm.get('name')?.pending ">
-              <ng-container *ngIf="userForm.get('name')?.hasError('required')">
-                请输入姓名!
-              </ng-container>
-            </nz-form-explain>
           </nz-form-control>
         </nz-form-item>
       </div>
       <div nz-col [nzSpan]="8">
         <nz-form-item>
           <nz-form-label [nzSpan]="6" [nzRequired]="true">用户名</nz-form-label>
-          <nz-form-control [nzSpan]="17" [nzHasFeedback]="true">
+          <nz-form-control [nzSpan]="17" [nzHasFeedback]="true" [nzErrorTip]="userNameErrorTpl">
             <input nz-input formControlName="userName" placeholder="请输入用户名"/>
-            <nz-form-explain
-              *ngIf=" (userForm.get('userName')?.dirty && userForm.get('userName')?.errors) || userForm.get('userName')?.pending ">
-              <ng-container *ngIf="userForm.get('userName')?.hasError('required')">
+            <ng-template #userNameErrorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">
                 请输入用户名!
               </ng-container>
-              <ng-container *ngIf="userForm.get('userName')?.hasError('pattern')">
+              <ng-container *ngIf="control.hasError('pattern')">
                 用户名由字母或字母和数字组成!
               </ng-container>
-              <ng-container *ngIf="userForm.get('userName')?.hasError('userNameExistError')">
+              <ng-container *ngIf="control.hasError('userNameExistError')">
                 该用户名已存在!
               </ng-container>
-            </nz-form-explain>
+            </ng-template>
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -76,35 +63,28 @@
       <div nz-col [nzSpan]="8">
         <nz-form-item>
           <nz-form-label [nzSpan]="6" [nzRequired]="true">手机号码</nz-form-label>
-          <nz-form-control [nzSpan]="17" [nzHasFeedback]="true">
+          <nz-form-control [nzSpan]="17" [nzHasFeedback]="true" [nzErrorTip]="cellphoneErrorTpl">
             <input nz-input formControlName="cellphone" placeholder="请输入手机号码"/>
-            <nz-form-explain
-              *ngIf=" (userForm.get('cellphone')?.dirty && userForm.get('cellphone')?.errors) || userForm.get('cellphone')?.pending ">
-              <ng-container *ngIf="userForm.get('cellphone')?.hasError('required')">
+            <ng-template #cellphoneErrorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">
                 请输入手机号码!
               </ng-container>
-              <ng-container *ngIf="userForm.get('cellphone')?.hasError('pattern')">
+              <ng-container *ngIf="control.hasError('pattern')">
                 请输入正确的手机号码!
               </ng-container>
-              <ng-container *ngIf="userForm.get('cellphone')?.hasError('cellphoneExistError')">
+              <ng-container *ngIf="control.hasError('cellphoneExistError')">
                 该手机号码已注册!
               </ng-container>
-            </nz-form-explain>
+            </ng-template>
           </nz-form-control>
         </nz-form-item>
       </div>
       <div nz-col [nzSpan]="8">
         <nz-form-item>
           <nz-form-label [nzSpan]="6" [nzRequired]="true">所属区域</nz-form-label>
-          <nz-form-control [nzSpan]="17">
+          <nz-form-control [nzSpan]="17" nzErrorTip="请选择所属区域!">
             <input nz-input [value]="regionName" placeholder="请选择所属区域" style="cursor: pointer" readonly
                    (click)="showChooseRegion=true"/>
-            <nz-form-explain style="color: red"
-                             *ngIf=" (userForm.get('regionId')?.dirty && userForm.get('regionId')?.errors) || userForm.get('regionId')?.pending ">
-              <ng-container *ngIf="userForm.get('regionId')?.hasError('required')">
-                请选择所属区域!
-              </ng-container>
-            </nz-form-explain>
           </nz-form-control>
         </nz-form-item>
         <app-tree-modal [(show)]="showChooseRegion" (result)="getRegion($event)"></app-tree-modal>
@@ -112,16 +92,10 @@
       <div nz-col [nzSpan]="8">
         <nz-form-item>
           <nz-form-label [nzSpan]="6" [nzRequired]="true">用户状态</nz-form-label>
-          <nz-form-control [nzSpan]="17">
+          <nz-form-control [nzSpan]="17" nzErrorTip="请选择用户角色!">
             <nz-select formControlName="status" nzPlaceHolder="请选择用户状态">
               <nz-option *ngFor="let status of statusList" [nzLabel]="status.description" [nzValue]="status.status"></nz-option>
             </nz-select>
-            <nz-form-explain
-              *ngIf=" (userForm.get('status')?.dirty && userForm.get('roleIds')?.errors) || userForm.get('roleIds')?.pending ">
-              <ng-container *ngIf="userForm.get('roleIds')?.hasError('required')">
-                请选择用户角色!
-              </ng-container>
-            </nz-form-explain>
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -199,14 +173,8 @@
       <div nz-col [nzSpan]="8">
         <nz-form-item>
           <nz-form-label [nzSpan]="6">邮箱地址</nz-form-label>
-          <nz-form-control [nzSpan]="17">
+          <nz-form-control [nzSpan]="17" nzErrorTip="请输入正确的邮箱地址!">
             <input nz-input formControlName="email" placeholder="请输入邮箱地址"/>
-            <nz-form-explain
-              *ngIf=" (userForm.get('email')?.dirty && userForm.get('email')?.errors) || userForm.get('email')?.pending ">
-              <ng-container *ngIf="userForm.get('email')?.hasError('email')">
-                请输入正确的邮箱地址!
-              </ng-container>
-            </nz-form-explain>
           </nz-form-control>
         </nz-form-item>
       </div>

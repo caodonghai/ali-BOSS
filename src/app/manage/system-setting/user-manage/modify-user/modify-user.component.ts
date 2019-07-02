@@ -97,9 +97,11 @@ export class ModifyUserComponent implements OnInit {
           userImage: response.data.virtualPath
         });
       }
-      this.userForm.patchValue({
-        birthday: formatDate(this.userForm.value.birthday)
-      });
+      if (this.userForm.controls.birthday.dirty) {
+        this.userForm.patchValue({
+          birthday: formatDate(this.userForm.value.birthday)
+        });
+      }
       const data = new FormData();
       for (const i in this.userForm.value) {
         data.append(i, this.userForm.value[i]);

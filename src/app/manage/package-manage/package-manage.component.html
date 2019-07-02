@@ -97,46 +97,28 @@
 >
   <form nz-form [formGroup]="addProductForm" (ngSubmit)="submitForm()">
     <nz-form-item>
-      <nz-form-label [nzSpan]="5" nzRequired>套餐名称</nz-form-label>
-      <nz-form-control [nzSpan]="16">
+      <nz-form-label [nzSpan]="5" [nzRequired]="true">套餐名称</nz-form-label>
+      <nz-form-control [nzSpan]="16" nzErrorTip="请输入套餐名称!">
         <input nz-input formControlName="name" placeholder="请输入套餐名称"/>
-        <nz-form-explain
-          *ngIf="(addProductForm.get('name')?.dirty && addProductForm.get('name')?.errors)">
-          <ng-container *ngIf="addProductForm.get('name')?.hasError('required')">
-            请输入套餐名称!
-          </ng-container>
-        </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSpan]="5" nzRequired>产品版本</nz-form-label>
-      <nz-form-control [nzSpan]="16">
+      <nz-form-label [nzSpan]="5" [nzRequired]="true">产品版本</nz-form-label>
+      <nz-form-control [nzSpan]="16" nzErrorTip="请输入产品版本!">
         <input nz-input formControlName="versionCode" placeholder="请输入产品版本"/>
-        <nz-form-explain
-          *ngIf="(addProductForm.get('versionCode')?.dirty && addProductForm.get('versionCode')?.errors)">
-          <ng-container *ngIf="addProductForm.get('versionCode')?.hasError('required')">
-            请输入产品版本!
-          </ng-container>
-        </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSpan]="5" nzRequired>产品名称</nz-form-label>
-      <nz-form-control [nzSpan]="16">
+      <nz-form-label [nzSpan]="5" [nzRequired]="true">产品名称</nz-form-label>
+      <nz-form-control [nzSpan]="16" nzErrorTip="请选择产品名称!">
         <nz-select formControlName="productId" nzPlaceHolder="请选择产品名称">
           <nz-option [nzValue]="item.id" [nzLabel]="item.name" *ngFor="let item of productList"></nz-option>
         </nz-select>
-        <nz-form-explain
-          *ngIf="(addProductForm.get('productId')?.dirty && addProductForm.get('productId')?.errors)">
-          <ng-container *ngIf="addProductForm.get('productId')?.hasError('required')">
-            请选择产品名称!
-          </ng-container>
-        </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSpan]="5" nzRequired>套餐等级</nz-form-label>
-      <nz-form-control [nzSpan]="16">
+      <nz-form-label [nzSpan]="5" [nzRequired]="true">套餐等级</nz-form-label>
+      <nz-form-control [nzSpan]="16" nzErrorTip="请选择套餐等级!">
         <nz-select formControlName="level" nzPlaceHolder="请选择套餐等级">
           <nz-option nzValue="1" nzLabel="省"></nz-option>
           <nz-option nzValue="2" nzLabel="市"></nz-option>
@@ -144,17 +126,11 @@
           <nz-option nzValue="4" nzLabel="镇"></nz-option>
           <nz-option nzValue="5" nzLabel="村"></nz-option>
         </nz-select>
-        <nz-form-explain
-          *ngIf="(addProductForm.get('level')?.dirty && addProductForm.get('level')?.errors)">
-          <ng-container *ngIf="addProductForm.get('level')?.hasError('required')">
-            请选择套餐等级!
-          </ng-container>
-        </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSpan]="5" nzRequired>状态</nz-form-label>
-      <nz-form-control [nzSpan]="16">
+      <nz-form-label [nzSpan]="5" [nzRequired]="true">状态</nz-form-label>
+      <nz-form-control [nzSpan]="16" nzErrorTip="请选择状态!">
         <nz-select formControlName="status" nzPlaceHolder="请选择状态">
           <nz-option nzValue="1" nzLabel="发布"></nz-option>
           <nz-option nzValue="2" nzLabel="正常"></nz-option>
@@ -163,32 +139,21 @@
           <nz-option nzValue="5" nzLabel="未发布"></nz-option>
         </nz-select>
         <i nz-icon nz-tooltip nzTitle="有用户套餐未到期时不能终止" type="info-circle" style="font-size: 20px;cursor: help;" class="input-info"></i>
-        <nz-form-explain
-          *ngIf="(addProductForm.get('status')?.dirty && addProductForm.get('status')?.errors)">
-          <ng-container *ngIf="addProductForm.get('status')?.hasError('required')">
-            请选择状态!
-          </ng-container>
-        </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSpan]="5" nzRequired>许可证数</nz-form-label>
-      <nz-form-control [nzSpan]="16">
+      <nz-form-label [nzSpan]="5" [nzRequired]="true">许可证数</nz-form-label>
+      <nz-form-control [nzSpan]="16" [nzErrorTip]="accountQuantityErrorTpl">
         <input nz-input formControlName="accountQuantity" placeholder="请输入许可证数量"/>
-        <nz-form-explain
-          *ngIf="(addProductForm.get('accountQuantity')?.dirty && addProductForm.get('accountQuantity')?.errors)">
-          <ng-container *ngIf="addProductForm.get('accountQuantity')?.hasError('required')">
-            请输入许可证数!
-          </ng-container>
-          <ng-container *ngIf="addProductForm.get('accountQuantity')?.hasError('pattern')">
-            请输入正确的许可证数!
-          </ng-container>
-        </nz-form-explain>
+        <ng-template #accountQuantityErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">请输入许可证数!</ng-container>
+          <ng-container *ngIf="control.hasError('pattern')">请输入正确的许可证数!</ng-container>
+        </ng-template>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSpan]="5" nzRequired>售卖周期</nz-form-label>
-      <nz-form-control [nzSpan]="16">
+      <nz-form-label [nzSpan]="5" [nzRequired]="true">售卖周期</nz-form-label>
+      <nz-form-control [nzSpan]="16" [nzErrorTip]="sellCycleErrorTpl">
         <nz-input-group [nzAddOnAfter]="cycleTypeTemplate">
           <input type="text" nz-input formControlName="sellCycle" placeholder="请输入售卖周期" />
         </nz-input-group>
@@ -199,42 +164,26 @@
             <nz-option nzValue="3" nzLabel="月"></nz-option>
           </nz-select>
         </ng-template>
-        <nz-form-explain
-          *ngIf="(addProductForm.get('sellCycle')?.dirty && addProductForm.get('sellCycle')?.errors)">
-          <ng-container *ngIf="addProductForm.get('sellCycle')?.hasError('required')">
-            请输入售卖周期!
-          </ng-container>
-          <ng-container *ngIf="addProductForm.get('sellCycle')?.hasError('pattern')">
-            请输入正确的售卖周期!
-          </ng-container>
-        </nz-form-explain>
+        <ng-template #sellCycleErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">请输入售卖周期!</ng-container>
+          <ng-container *ngIf="control.hasError('pattern')">请输入正确的售卖周期!</ng-container>
+        </ng-template>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSpan]="5" nzRequired>销售价格</nz-form-label>
-      <nz-form-control [nzSpan]="16">
+      <nz-form-label [nzSpan]="5" [nzRequired]="true">销售价格</nz-form-label>
+      <nz-form-control [nzSpan]="16" [nzErrorTip]="priceErrorTpl">
         <input nz-input formControlName="price" placeholder="请输入销售价格" style="width: 50%"/><span class="input-info">万元</span>
-        <nz-form-explain
-          *ngIf="(addProductForm.get('price')?.dirty && addProductForm.get('price')?.errors)">
-          <ng-container *ngIf="addProductForm.get('price')?.hasError('required')">
-            请输入销售价格!
-          </ng-container>
-          <ng-container *ngIf="addProductForm.get('price')?.hasError('pattern')">
-            请输入正确的销售价格!
-          </ng-container>
-        </nz-form-explain>
+        <ng-template #priceErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')"> 请输入销售价格!</ng-container>
+          <ng-container *ngIf="control.hasError('pattern')">请输入正确的销售价格!</ng-container>
+        </ng-template>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label [nzSpan]="5">套餐描述</nz-form-label>
-      <nz-form-control [nzSpan]="16">
+      <nz-form-control [nzSpan]="16" nzErrorTip="字数不能超过400!">
         <textarea nz-input rows="3" formControlName="description" placeholder="请输入套餐描述"></textarea>
-        <nz-form-explain
-          *ngIf="(addProductForm.get('description')?.dirty && addProductForm.get('description')?.errors)">
-          <ng-container *ngIf="addProductForm.get('description')?.hasError('maxlength')">
-            字数不能超过400!
-          </ng-container>
-        </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>

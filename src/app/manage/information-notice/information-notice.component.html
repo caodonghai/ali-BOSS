@@ -97,34 +97,22 @@
     <div nz-row>
       <div nz-col [nzSpan]="12">
         <nz-form-item>
-          <nz-form-label [nzSpan]="4" nzRequired>标题</nz-form-label>
-          <nz-form-control [nzSpan]="18">
+          <nz-form-label [nzSpan]="4" [nzRequired]="true">标题</nz-form-label>
+          <nz-form-control [nzSpan]="18" nzErrorTip="请输入标题!">
             <input nz-input formControlName="title" placeholder="请输入标题"/>
-            <nz-form-explain
-              *ngIf=" (addForm.get('title')?.dirty && addForm.get('title')?.errors) || addForm.get('title')?.pending ">
-              <ng-container *ngIf="addForm.get('title')?.hasError('required')">
-                请输入标题!
-              </ng-container>
-            </nz-form-explain>
           </nz-form-control>
         </nz-form-item>
       </div>
       <div nz-col [nzSpan]="12">
         <nz-form-item>
-          <nz-form-label [nzSpan]="4" nzRequired>类型</nz-form-label>
-          <nz-form-control [nzSpan]="18">
+          <nz-form-label [nzSpan]="4" [nzRequired]="true">类型</nz-form-label>
+          <nz-form-control [nzSpan]="18" nzErrorTip="请选择类型!">
             <nz-select formControlName="type" nzPlaceHolder="请选择类型">
               <nz-option nzLabel="普通通知" nzValue="1"></nz-option>
               <nz-option nzLabel="安全通知" nzValue="2"></nz-option>
               <nz-option nzLabel="产品消息" nzValue="3"></nz-option>
               <nz-option nzLabel="服务消息" nzValue="4"></nz-option>
             </nz-select>
-            <nz-form-explain
-              *ngIf=" (addForm.get('type')?.dirty && addForm.get('type')?.errors) || addForm.get('type')?.pending ">
-              <ng-container *ngIf="addForm.get('type')?.hasError('required')">
-                请选择类型!
-              </ng-container>
-            </nz-form-explain>
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -132,15 +120,9 @@
     <div nz-row>
       <div nz-col [nzSpan]="12">
         <nz-form-item>
-          <nz-form-label [nzSpan]="4" nzRequired>接收人</nz-form-label>
-          <nz-form-control [nzSpan]="18">
+          <nz-form-label [nzSpan]="4" [nzRequired]="true">接收人</nz-form-label>
+          <nz-form-control [nzSpan]="18" nzErrorTip="请选择接收人!">
             <input nz-input readonly formControlName="receiveIds" placeholder="请选择接收人"/>
-            <nz-form-explain
-              *ngIf=" (addForm.get('receiveIds')?.dirty && addForm.get('receiveIds')?.errors) || addForm.get('receiveIds')?.pending ">
-              <ng-container *ngIf="addForm.get('receiveIds')?.hasError('required')">
-                请选择接收人!
-              </ng-container>
-            </nz-form-explain>
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -168,15 +150,10 @@
       <!--<span style="position: absolute;left: 0;top: 0;transform: translate(200px,8px)">只支持png，jpeg格式的图片,和txt，doc，docx格式的文档</span>-->
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSpan]="2" nzRequired>内容</nz-form-label>
-      <nz-form-control [nzSpan]="20">
+      <nz-form-label [nzSpan]="2" [nzRequired]="true">内容</nz-form-label>
+      <nz-form-control [nzSpan]="20" nzErrorTip="请输入内容!">
+        <textarea style="display: none" formControlName="content"></textarea>
         <app-rich-text-editor [show]="isAddModalVisible" (getContent)="getContent($event)"></app-rich-text-editor>
-        <nz-form-explain style="color: #f5222d"
-                         *ngIf=" (addForm.get('content')?.dirty && addForm.get('content')?.errors) || addForm.get('content')?.pending ">
-          <ng-container *ngIf="addForm.get('content')?.hasError('required')">
-            请输入内容!
-          </ng-container>
-        </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>

@@ -68,7 +68,7 @@ export class UserFormComponent implements OnInit {
       name: ['', [Validators.required]],
       userName: ['', [Validators.required, Validators.pattern('^[A-Za-z0-9]+$')], [this.userNameAsyncValidator]],
       alias: [''],
-      password: [''],
+      password: ['', Validators.required],
       secondInputPassword: ['', [Validators.required], [this.secondInputPasswordAsyncValidator]],
       position: [''],
       cellphone: ['', [Validators.required, Validators.pattern('^[1][3,4,5,7,8][0-9]{9}$')], [this.cellphoneAsyncValidators]],
