@@ -11,7 +11,7 @@ export class DistributeChartComponent implements OnInit {
   isLoading = true;
   data1: any[] = [];
 
-  option = {
+  private option = {
     title: {
       text: '',
       left: 'center'
@@ -22,6 +22,7 @@ export class DistributeChartComponent implements OnInit {
     bmap: {
       center: [104.114129, 37.550339],
       zoom: 5,
+      roam: true,
       mapStyle: {
         styleJson: [
           {
