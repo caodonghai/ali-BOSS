@@ -209,12 +209,12 @@ export class InformationNoticeComponent implements OnInit {
     this.tenantPageNumber = 1;
     this.tenantPageSize = 10;
     const params = {
-      productName: this.product,
+      productName: this.product ? this.product : '',
       pageNumber: this.tenantPageNumber,
       pageSize: this.tenantPageSize
     };
     this.isGetTenantListLoading = true;
-    this.manageService.getTenantList(params).subscribe(res => {
+    this.manageService.getTenantListByProductName(params).subscribe(res => {
       this.isGetTenantListLoading = false;
       this.tenantList = [...res.data.list];
       this.tenantTotal = res.data.total;

@@ -71,6 +71,11 @@ export class ManageService {
     return this.http.get<Response>(BASE_URL + '/boss/ttInform/list', {params: params});
   }
 
+  // 通过产品名称获取租户
+  getTenantListByProductName(params: any) {
+    return this.http.get<Response>(`${BASE_URL}/boss/ttInform/listTenant`, {params: params});
+  }
+
   // 新增一条信息通知
   addInformationNotice(params) {
     return this.http.post<Response>(BASE_URL + '/boss/ttInform/add', null, {params: params});
