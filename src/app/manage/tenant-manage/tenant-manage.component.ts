@@ -44,7 +44,7 @@ export class TenantManageComponent implements OnInit {
     }
   }
 
-  getTenantList(): void {
+   getTenantList(): void {
     this.loading = true;
     const params = {
       name: this.name,
