@@ -76,7 +76,7 @@ export class NavHeaderComponent implements OnInit {
       email: ['', Validators.email],
       birthday: [''],
       weixin: ['', Validators.pattern('^[a-zA-Z]([-_a-zA-Z0-9]{5,19})+$')],
-      qq: ['', Validators.pattern('^[1-9]\d{4,10}$')],
+      qq: ['', Validators.pattern('^[1-9][0-9]{4,10}$')],
       department: [''],
       position: ['']
     });
@@ -186,25 +186,29 @@ export class NavHeaderComponent implements OnInit {
   }
 
   modifyAvatar() {
-    if (this.fileList[0].response) {
-      this.isModifyAvatarButtonLoading = true;
-      const params = {
-        id: this.userInfo.id,
-        userImage: this.fileList[0].response.data.url,
-        name: this.userInfo.name
-      };
-      this.systemSettingService.modifyAvatar(params).subscribe(res => {
-        this.isModifyAvatarButtonLoading = false;
-        if (res.resCode === 1) {
-          this.msg.success('修改成功');
-          this.avatar = this.appService.getFileUrl() + res.data.userImage;
-          setTimeout(() => {
-            this.isModifyAvatarModalVisible = false;
-          }, 1500);
-        }
-      });
+    if (this.fileList.length !== 0) {
+      if (this.fileList[0].response) {
+        this.isModifyAvatarButtonLoading = true;
+        const params = {
+          id: this.userInfo.id,
+          userImage: this.fileList[0].response.data.url,
+          name: this.userInfo.name
+        };
+        this.systemSettingService.modifyAvatar(params).subscribe(res => {
+          this.isModifyAvatarButtonLoading = false;
+          if (res.resCode === 1) {
+            this.msg.success('修改成功');
+            this.avatar = this.appService.getFileUrl() + res.data.userImage;
+            setTimeout(() => {
+              this.isModifyAvatarModalVisible = false;
+            }, 1500);
+          }
+        });
+      } else {
+        this.isModifyAvatarModalVisible = false;
+      }
     } else {
-      this.isModifyAvatarModalVisible = false;
+      this.msg.warning('请上传一张图片');
     }
   }
 

@@ -66,14 +66,8 @@
       <div nz-col [nzSpan]="12">
         <nz-form-item>
           <nz-form-label [nzSpan]="6">移动电话</nz-form-label>
-          <nz-form-control [nzSpan]="16">
+          <nz-form-control [nzSpan]="16" nzErrorTip="请输入正确的移动电话!">
             <input nz-input formControlName="cellphone" placeholder="请输入移动电话"/>
-            <nz-form-explain
-              *ngIf="(userInfoForm.get('cellphone')?.dirty && userInfoForm.get('cellphone')?.errors) ||userInfoForm.get('cellphone')?.pending">
-              <ng-container *ngIf="userInfoForm.get('cellphone')?.hasError('pattern')">
-                请输入正确的移动电话!
-              </ng-container>
-            </nz-form-explain>
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -88,42 +82,24 @@
       <div nz-col [nzSpan]="12">
         <nz-form-item>
           <nz-form-label [nzSpan]="6">邮箱地址</nz-form-label>
-          <nz-form-control [nzSpan]="16">
+          <nz-form-control [nzSpan]="16" nzErrorTip="请输入正确的邮箱地址!">
             <input nz-input formControlName="email" placeholder="请输入邮箱地址"/>
-            <nz-form-explain
-              *ngIf="(userInfoForm.get('email')?.dirty && userInfoForm.get('email')?.errors) ||userInfoForm.get('email')?.pending">
-              <ng-container *ngIf="userInfoForm.get('email')?.hasError('pattern')">
-                请输入正确的邮箱地址!
-              </ng-container>
-            </nz-form-explain>
           </nz-form-control>
         </nz-form-item>
       </div>
       <div nz-col [nzSpan]="12">
         <nz-form-item>
           <nz-form-label [nzSpan]="6">微信账号</nz-form-label>
-          <nz-form-control [nzSpan]="16">
+          <nz-form-control [nzSpan]="16" nzErrorTip="请输入正确的微信账号!">
             <input nz-input formControlName="weixin" placeholder="请输入微信账号"/>
-            <nz-form-explain
-              *ngIf="(userInfoForm.get('weixin')?.dirty && userInfoForm.get('weixin')?.errors) ||userInfoForm.get('weixin')?.pending">
-              <ng-container *ngIf="userInfoForm.get('weixin')?.hasError('pattern')">
-                请输入正确的微信账号!
-              </ng-container>
-            </nz-form-explain>
           </nz-form-control>
         </nz-form-item>
       </div>
       <div nz-col [nzSpan]="12">
         <nz-form-item>
           <nz-form-label [nzSpan]="6">QQ号</nz-form-label>
-          <nz-form-control [nzSpan]="16">
+          <nz-form-control [nzSpan]="16" nzErrorTip="请输入正确的QQ号!">
             <input nz-input formControlName="qq" placeholder="请输入QQ号"/>
-            <nz-form-explain
-              *ngIf="(userInfoForm.get('qq')?.dirty && userInfoForm.get('qq')?.errors) ||userInfoForm.get('qq')?.pending">
-              <ng-container *ngIf="userInfoForm.get('qq')?.hasError('pattern')">
-                请输入正确的QQ号!
-              </ng-container>
-            </nz-form-explain>
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -157,41 +133,28 @@
   <form nz-form [formGroup]="modifyPasswordForm">
     <nz-form-item>
       <nz-form-label [nzSpan]="5" [nzRequired]="true">原密码</nz-form-label>
-      <nz-form-control [nzSpan]="16">
+      <nz-form-control [nzSpan]="16" nzErrorTip="请输入原密码!">
         <input nz-input type="password" formControlName="oldPassword" placeholder="请输入原密码"/>
-        <nz-form-explain
-          *ngIf="(modifyPasswordForm.get('oldPassword')?.dirty && modifyPasswordForm.get('oldPassword')?.errors) ||modifyPasswordForm.get('oldPassword')?.pending">
-          <ng-container *ngIf="modifyPasswordForm.get('oldPassword')?.hasError('required')">
-            请输入原密码!
-          </ng-container>
-        </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label [nzSpan]="5" [nzRequired]="true">新密码</nz-form-label>
-      <nz-form-control [nzSpan]="16">
+      <nz-form-control [nzSpan]="16" nzErrorTip="请输入新密码!">
         <input nz-input type="password" formControlName="newPassword" placeholder="请输入新密码"/>
-        <nz-form-explain
-          *ngIf="(modifyPasswordForm.get('newPassword')?.dirty && modifyPasswordForm.get('newPassword')?.errors) ||modifyPasswordForm.get('newPassword')?.pending">
-          <ng-container *ngIf="modifyPasswordForm.get('newPassword')?.hasError('required')">
-            请输入新密码!
-          </ng-container>
-        </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label [nzSpan]="5" [nzRequired]="true">确认密码</nz-form-label>
-      <nz-form-control [nzSpan]="16">
+      <nz-form-control [nzSpan]="16" [nzErrorTip]="secondInputErrorTpl">
         <input nz-input type="password" formControlName="secondInput" placeholder="请再次输入密码"/>
-        <nz-form-explain
-          *ngIf="(modifyPasswordForm.get('secondInput')?.dirty && modifyPasswordForm.get('secondInput')?.errors) ||modifyPasswordForm.get('secondInput')?.pending">
-          <ng-container *ngIf="modifyPasswordForm.get('secondInput')?.hasError('required')">
+        <ng-template #secondInputErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">
             请再次输入密码!
           </ng-container>
-          <ng-container *ngIf="modifyPasswordForm.get('secondInput')?.hasError('notEqualWithFirstInput')">
+          <ng-container *ngIf="control.hasError('notEqualWithFirstInput')">
             两次输入密码不一致!
           </ng-container>
-        </nz-form-explain>
+        </ng-template>
       </nz-form-control>
     </nz-form-item>
   </form>

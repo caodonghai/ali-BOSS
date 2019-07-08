@@ -13,7 +13,9 @@ export class FilterHtmlTagDirective implements AfterViewInit {
     const target = this.el.nativeElement;
     const previousContent = target.innerText;
     const newContent = previousContent.replace(/<\/?[^>]*>/g, '');
-    target.innerText = newContent;
+    requestAnimationFrame(() => {
+      target.innerText = newContent;
+    });
   }
 
 }

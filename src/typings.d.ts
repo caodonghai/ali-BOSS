@@ -1,1 +1,5 @@
+/**
+ * jQuery
+ */
 declare var $: any;
+
