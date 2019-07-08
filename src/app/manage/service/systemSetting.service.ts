@@ -40,8 +40,8 @@ export class SystemSettingService {
     return this.http.get<Response>(this.tempUrl + '/uip/smMenu/queryMenuList', {params: params});
   }
 
-  // 修改菜单状态
-  modifyMenuStatus(params: any) {
+  // 修改菜单
+  modifyMenu(params: any) {
     return this.http.put<Response>(this.tempUrl + '/uip/smMenu/updateById', null, {params: params});
   }
 

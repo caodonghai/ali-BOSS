@@ -59,3 +59,48 @@
     </div>
   </div>
 </nz-card>
+<nz-modal
+  [nzFooter]="null"
+  (nzOnCancel)="isEditMenuFormModalVisible=false"
+  nzTitle="修改菜单"
+  nzWidth="600"
+  [(nzVisible)]="isEditMenuFormModalVisible">
+  <form nz-form [formGroup]="editMenuForm">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5" [nzRequired]="true">菜单名称</nz-form-label>
+      <nz-form-control [nzSpan]="16" nzErrorTip="菜单名称不能为空">
+        <input nz-input placeholder="请输入菜单名称" formControlName="name"/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">样式</nz-form-label>
+      <nz-form-control [nzSpan]="16">
+        <input nz-input placeholder="请输入样式" formControlName="ico"/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">功能路径</nz-form-label>
+      <nz-form-control [nzSpan]="16">
+        <input nz-input placeholder="请输入功能路径" formControlName="funcurl" readonly/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">依赖JS</nz-form-label>
+      <nz-form-control [nzSpan]="16">
+        <input nz-input placeholder="请输入依赖JS" formControlName="requireJS" readonly/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">备注</nz-form-label>
+      <nz-form-control [nzSpan]="16">
+        <textarea nz-input placeholder="请输入备注" rows="3" formControlName="description"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzSpan]="16" [nzOffset]="5">
+        <button nz-button nzType="primary" (click)="submitForm()" [nzLoading]="isSaveLoading">修改</button>
+        <button nz-button style="margin-left: 20px" (click)="isEditMenuFormModalVisible=false">取消</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>

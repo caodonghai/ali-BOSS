@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {SystemSettingService} from '../../service/systemSetting.service';
 import {NzMessageService, NzModalService} from 'ng-zorro-antd';
-import {reject} from 'q';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {formControlMarkAsDirty} from '../../../../util/formControlMarkAsDirty';
 
 @Component({
   selector: 'app-menu-setting',
@@ -18,16 +19,30 @@ export class MenuSettingComponent implements OnInit {
 
   selected: any = {};
 
+  // 编辑菜单表单
+  isEditMenuFormModalVisible = false;
+  editMenuForm: FormGroup;
+  isSaveLoading = false;
+
   constructor(private systemSettingService: SystemSettingService,
               private msg: NzMessageService,
-              private modal: NzModalService) {
+              private modal: NzModalService,
+              private fb: FormBuilder) {
   }
 
   ngOnInit() {
     this.getMenuTreeList();
     this.getMenuList();
+    this.editMenuForm = this.fb.group({
+      name: ['', [Validators.required]],
+      parents: [''],
+      funcurl: [''],
+      ico: [''],
+      sortOrder: [''],
+      requireJS: [''],
+      description: ['']
+    });
   }
-
 
   getMenuTreeList() {
     this.systemSettingService.getMenuTreeList().subscribe(res => {
@@ -78,6 +93,8 @@ export class MenuSettingComponent implements OnInit {
         this.enable();
       } else if (method === 'disable') {
         this.disable();
+      } else if (method === 'edit') {
+        this.showEditModal();
       } else if (method === 'up') {
         this.up();
       } else if (method === 'down') {
@@ -94,7 +111,7 @@ export class MenuSettingComponent implements OnInit {
       id: this.selected.id,
       status: 1
     };
-    this.systemSettingService.modifyMenuStatus(params).subscribe(res => {
+    this.systemSettingService.modifyMenu(params).subscribe(res => {
       if (res.resCode === 1) {
         this.msg.success('启用成功');
         this.getMenuList();
@@ -107,12 +124,43 @@ export class MenuSettingComponent implements OnInit {
       id: this.selected.id,
       status: 2
     };
-    this.systemSettingService.modifyMenuStatus(params).subscribe(res => {
+    this.systemSettingService.modifyMenu(params).subscribe(res => {
       if (res.resCode === 1) {
         this.msg.success('禁用成功');
         this.getMenuList();
       }
     });
+  }
+
+  showEditModal() {
+    this.isEditMenuFormModalVisible = true;
+    this.editMenuForm.patchValue({
+      name: this.selected.name,
+      parents: this.selected.parents,
+      funcurl: this.selected.funcurl,
+      ico: this.selected.ico,
+      sortOrder: this.selected.sortOrder,
+      requireJS: this.selected.requireJS,
+      description: this.selected.description
+    });
+  }
+
+  submitForm() {
+    formControlMarkAsDirty(this.editMenuForm);
+    if (this.editMenuForm.valid) {
+      this.isSaveLoading = true;
+      const params = Object.assign({}, this.editMenuForm.value, {id: this.selected.id});
+      this.systemSettingService.modifyMenu(params).subscribe(res => {
+        if (res.resCode === 1) {
+          this.msg.success('修改成功');
+          this.isSaveLoading = false;
+          this.getMenuList();
+          setTimeout(() => {
+            this.isEditMenuFormModalVisible = false;
+          }, 1500);
+        }
+      });
+    }
   }
 
   up() {
