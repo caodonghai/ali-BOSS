@@ -1,7 +1,25 @@
-#layout i[nz-icon]{
+#layout i[nz-icon] {
   font-size: 18px;
 }
 
-#layout li:focus{
+#layout {
+  max-height: 100%;
+  overflow: auto;
+}
 
+/*滚动条样式*/
+#layout::-webkit-scrollbar {
+  width: 4px;
+}
+
+#layout::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+#layout::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0.1);
 }
