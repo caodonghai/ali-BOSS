@@ -322,7 +322,7 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@ckeditor/ckeditor5-angular@^1.1.0":
+"@ckeditor/ckeditor5-angular@^1.0.1":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@ckeditor/ckeditor5-angular/-/ckeditor5-angular-1.1.0.tgz#f1ba15b4eab1315a357bb6718b6e6c1582b5e52f"
   integrity sha512-6b9NX/PhFuQKo/mR0tSpCVNGU1fhg1Y8ju5OBWxCPpIbdDZIIoqjHlhWL76EmfztteouYLACsnfrnqVQGC0utA==

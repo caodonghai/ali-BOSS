@@ -37,6 +37,7 @@ export class SignInComponent implements OnInit {
       loginName: username.toString()
     });
     this.reFreshVerificationCode();
+
   }
 
   reFreshVerificationCode() {

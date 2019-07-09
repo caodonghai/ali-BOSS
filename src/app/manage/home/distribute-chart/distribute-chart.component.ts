@@ -11,7 +11,7 @@ export class DistributeChartComponent implements OnInit {
   isLoading = true;
   data1: any[] = [];
 
-  private option = {
+  option = {
     title: {
       text: '',
       left: 'center'
