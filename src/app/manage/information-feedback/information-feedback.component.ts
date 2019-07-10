@@ -34,14 +34,9 @@ export class InformationFeedbackComponent implements OnInit {
       fn: (fileList: UploadFile[]) => {
         const filterFiles = fileList.filter(w => ~['image/png', 'image/jpeg', 'text/plain', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].indexOf(w.type));
         if (filterFiles.length !== fileList.length) {
-          this.msg.error(`文件格式不正确`);
+          this.msg.warning(`文件格式不正确`);
           return filterFiles;
         }
-        // const filterAmountFiles = fileList.filter((item, index) => index < 4);
-        // if (this.fileList.length >= 4) {
-        //   this.msg.error('最多只能上传4个附件');
-        //   return filterAmountFiles;
-        // }
         return fileList;
       }
     },
