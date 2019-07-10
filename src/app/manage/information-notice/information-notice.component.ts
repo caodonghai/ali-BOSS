@@ -251,6 +251,8 @@ export class InformationNoticeComponent implements OnInit {
         if (res.resCode === 1) {
           this.msg.success('新增成功');
           this.isAddModalVisible = false;
+          this.addForm.reset();
+          this.fileList = [];
           this.getInformationNoticeList();
         }
       });
