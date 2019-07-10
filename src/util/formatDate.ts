@@ -1,3 +1,6 @@
+/**
+ * 格式化日期，返回'YYYY-mm-DD HH:mm:SS'
+ */
 export const formatDateTime = (date): string => {
   const year = date.getYear();
   let month = date.getMonth();
@@ -23,12 +26,22 @@ export const formatDateTime = (date): string => {
   return `${year + 1900}-${month}-${day} ${hour}:${minute}:${second}`;
 };
 
+
+/**
+ * 计算过期时间，截止时间，预当前时间比较，返回天数
+ * @param {string} end
+ * @returns {number}
+ */
 export const calculateExpiredTime = (end: string): number => {
   const currentTime = new Date().getTime();
   const endTime = new Date(end).getTime();
   return Math.floor((endTime - currentTime) / (24 * 3600 * 1000));
 };
 
+
+/**
+ * 格式化时间，返回'HH:mm:SS'
+ */
 export const formatDate = (date): string => {
   const year = date.getYear();
   let month = date.getMonth();
