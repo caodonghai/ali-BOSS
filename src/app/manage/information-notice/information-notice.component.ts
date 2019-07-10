@@ -4,7 +4,7 @@ import {ManageService} from '../service/manage.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzMessageService, NzModalService, UploadFile, UploadFilter, UploadXHRArgs} from 'ng-zorro-antd';
 import {Observable, Observer} from 'rxjs';
-import {HttpEvent, HttpEventType, HttpResponse} from '@angular/common/http';
+import {HttpErrorResponse, HttpEvent, HttpEventType, HttpResponse} from '@angular/common/http';
 import {AppService} from '../../service/app.service';
 
 @Component({
@@ -273,10 +273,9 @@ export class InformationNoticeComponent implements OnInit {
         item.onSuccess(event.body, item.file, event);
         item.file.response = event.body;
         this.fileList.push(item.file);
+      }else if (event instanceof HttpErrorResponse) {
+        item.onError('上传出错', item.file);
       }
-    }, (err) => { /* error */
-      item.onError(err, item.file);
-      this.msg.error('上传出错，请稍后再试');
     });
   };
 

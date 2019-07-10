@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
-import {HttpEvent, HttpEventType, HttpResponse} from '@angular/common/http';
+import {HttpErrorResponse, HttpEvent, HttpEventType, HttpResponse} from '@angular/common/http';
 import {SystemSettingService} from '../../../service/systemSetting.service';
 import {catchError, debounceTime, first, map, mergeMap} from 'rxjs/operators';
 import {AppService} from '../../../../service/app.service';
@@ -228,10 +228,9 @@ export class ModifyUserComponent implements OnInit {
       } else if (event instanceof HttpResponse) {
         item.onSuccess(event.body, item.file, event);
         item.file.response = event.body;
+      } else if (event instanceof HttpErrorResponse) {
+        item.onError('上传出错', item.file);
       }
-    }, (err) => { /* error */
-      item.onError(err, item.file);
-      this.msg.error('上传出错，请稍后再试');
     });
   }
 

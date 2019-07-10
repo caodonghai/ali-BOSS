@@ -30,7 +30,7 @@ export class BaseInterceptor implements HttpInterceptor {
       })),
       catchError((event: HttpErrorResponse) => {
         this.handleHttpError(event);
-        return of(null);
+        return of(event);
       })
     );
   }
@@ -42,6 +42,7 @@ export class BaseInterceptor implements HttpInterceptor {
   }
 
   handleHttpError(error: HttpErrorResponse) {
+    console.log(error);
     this.msg.error('服务器异常，请稍后再试');
   }
 

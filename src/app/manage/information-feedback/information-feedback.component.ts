@@ -5,7 +5,7 @@ import {ManageService} from '../service/manage.service';
 import {formatDateTime} from '../../../util/formatDate';
 import {AppService} from '../../service/app.service';
 import {Observable, Observer} from 'rxjs';
-import {HttpEvent, HttpEventType, HttpRequest, HttpResponse} from '@angular/common/http';
+import {HttpErrorResponse, HttpEvent, HttpEventType, HttpRequest, HttpResponse} from '@angular/common/http';
 
 
 @Component({
@@ -200,10 +200,9 @@ export class InformationFeedbackComponent implements OnInit {
         item.onSuccess(event.body, item.file, event);
         item.file.response = event.body;
         this.fileList.push(item.file);
+      } else if (event instanceof HttpErrorResponse) {
+        item.onError('上传出错', item.file);
       }
-    }, (err) => { /* error */
-      item.onError(err, item.file);
-      this.msg.error('上传出错，请稍后再试');
     });
   };
 
