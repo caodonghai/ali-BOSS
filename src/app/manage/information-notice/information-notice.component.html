@@ -49,6 +49,7 @@
             (nzPageIndexChange)="getInformationNoticeList()"
             (nzPageSizeChange)="pageNumber = 1;getInformationNoticeList()"
             [nzTotal]="total"
+            [nzScroll]="{ x: '1400px' }"
             [nzShowTotal]="totalTemplate">
     <thead>
     <ng-template #totalTemplate let-total> 共 {{ total }} 条 </ng-template>

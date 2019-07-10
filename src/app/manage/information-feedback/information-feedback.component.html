@@ -46,6 +46,7 @@
             (nzPageIndexChange)="getInformationFeedbackList()"
             (nzPageSizeChange)="pageNumber = 1;getInformationFeedbackList()"
             [nzTotal]="total"
+            [nzScroll]="{ x: '1400px' }"
             [nzShowTotal]="totalTemplate">
     <thead>
     <ng-template #totalTemplate let-total> 共 {{ total }} 条 </ng-template>
@@ -113,8 +114,8 @@
     <span class="detail-modal-item-content">{{selected.createTime}}</span>
     </div>
     <div class="detail-modal-item">
-    <span class="detail-modal-item-label">答复时间：</span>
-    <span class="detail-modal-item-content">{{selected.replyTime}}个</span>
+    <span class="detail-modal-item-label">答复时间： </span>
+    <span class="detail-modal-item-content"> {{selected.replyTime}}</span>
     </div>
     <div class="detail-modal-item">
     <span class="detail-modal-item-label">答复人：</span>
@@ -198,7 +199,7 @@
           <button nz-button type="button"><i nz-icon nzType="upload"></i><span>上传</span></button>
         </nz-upload>
       </nz-form-control>
-      <span style="position: absolute;left: 0;top: 0;transform: translate(200px,8px)">只支持png，jpeg格式的图片,和txt，doc，docx格式的文档</span>
+      <span style="position: absolute;left: 0;top: 0;transform: translate(200px,8px)">只支持png，jpeg格式的图片和txt，doc，docx格式的文档</span>
     </nz-form-item>
     <nz-form-item>
       <nz-form-control [nzOffset]="3">
