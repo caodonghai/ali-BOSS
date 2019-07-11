@@ -30,17 +30,6 @@ export class InformationFeedbackComponent implements OnInit {
   fileList: any = [];
   filters: UploadFilter[] = [
     {
-      name: 'type',
-      fn: (fileList: UploadFile[]) => {
-        const filterFiles = fileList.filter(w => ~['image/png', 'image/jpeg', 'text/plain', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].indexOf(w.type));
-        if (filterFiles.length !== fileList.length) {
-          this.msg.warning(`文件格式不正确`);
-          return filterFiles;
-        }
-        return fileList;
-      }
-    },
-    {
       name: 'async',
       fn: (fileList: UploadFile[]) => {
         return new Observable((observer: Observer<UploadFile[]>) => {
