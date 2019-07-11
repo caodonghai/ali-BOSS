@@ -29,6 +29,17 @@ export class InformationFeedbackComponent implements OnInit {
 
   fileList: any = [];
   filters: UploadFilter[] = [
+    // {
+    //   name: 'type',
+    //   fn: (fileList: UploadFile[]) => {
+    //     const filterFiles = fileList.filter(w => ~['image/png', 'image/jpeg', 'text/plain', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].indexOf(w.type));
+    //     if (filterFiles.length !== fileList.length) {
+    //       this.msg.warning(`文件格式不正确`);
+    //       return filterFiles;
+    //     }
+    //     return fileList;
+    //   }
+    // },
     {
       name: 'async',
       fn: (fileList: UploadFile[]) => {
@@ -39,6 +50,8 @@ export class InformationFeedbackComponent implements OnInit {
       }
     }
   ];
+
+  fileUrl: string;
 
   typeEnum = {
     '1': '问题',
@@ -65,6 +78,7 @@ export class InformationFeedbackComponent implements OnInit {
 
   ngOnInit() {
     this.getInformationFeedbackList();
+    this.fileUrl = this.appService.getFileUrl();
   }
 
   getInformationFeedbackList() {
@@ -79,9 +93,17 @@ export class InformationFeedbackComponent implements OnInit {
     this.loading = true;
     this.manageService.getInformationFeedbackList(params).subscribe(res => {
       this.loading = false;
-      this.informationFeedbackList = res.data.list;
+      this.informationFeedbackList = this.handleData(res.data.list);
       this.total = res.data.total;
     });
+  }
+
+  handleData(list: any[]): any[] {
+    list.forEach(item => {
+      item.accessoryName = item.accessoryUrls.map(url => url.split('_').pop());
+    });
+    console.log(list);
+    return list;
   }
 
   resetSearchCondition() {
