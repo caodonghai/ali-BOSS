@@ -62,7 +62,6 @@
       <th width="120">售卖周期</th>
       <th width="160">发布日期</th>
       <th width="120">用户数</th>
-      <th width="120">状态</th>
       <th width="200">操作</th>
     </tr>
     </thead>
@@ -76,7 +75,6 @@
       <td>{{item.sellCycle}}</td>
       <td>{{item.createTime}}</td>
       <td style="cursor: pointer" data-method="user-count" [attr.data-id]="item.id"><a data-method="user-count" [attr.data-id]="item.id">{{item.userCount}}</a></td>
-      <td>{{statusEnum[item.status]}}</td>
       <td style="text-align: center">
         <button nz-button nzType="default" nzSize="small" data-method="detail" [attr.data-id]="item.id">详情</button>
         <nz-divider nzType="vertical"></nz-divider>

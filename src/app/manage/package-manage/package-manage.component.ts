@@ -32,6 +32,7 @@ export class PackageManageComponent implements OnInit {
   total1 = 0;
 
   statusEnum = {
+    '': '全部',
     '1': '正常',
     '2': '过期-有用户',
     '3': '终止-无用户'
@@ -92,8 +93,10 @@ export class PackageManageComponent implements OnInit {
     this.loading1 = true;
     this.manageService.getProductUserList(params).subscribe(res => {
       this.loading1 = false;
-      this.userList = res.data.list;
-      this.total1 = res.data.total;
+      if (res.resCode === 1) {
+        this.userList = res.data.list;
+        this.total1 = res.data.total;
+      }
     });
   }
 
