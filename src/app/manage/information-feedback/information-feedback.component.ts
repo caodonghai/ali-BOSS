@@ -93,17 +93,9 @@ export class InformationFeedbackComponent implements OnInit {
     this.loading = true;
     this.manageService.getInformationFeedbackList(params).subscribe(res => {
       this.loading = false;
-      this.informationFeedbackList = this.handleData(res.data.list);
+      this.informationFeedbackList = res.data.list;
       this.total = res.data.total;
     });
-  }
-
-  handleData(list: any[]): any[] {
-    list.forEach(item => {
-      item.accessoryName = item.accessoryUrls.map(url => url.split('_').pop());
-    });
-    console.log(list);
-    return list;
   }
 
   resetSearchCondition() {

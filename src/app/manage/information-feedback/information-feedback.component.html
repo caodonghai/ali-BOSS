@@ -124,9 +124,9 @@
     <div class="detail-modal-item">
       <span class="detail-modal-item-label">附件：</span>
       <span class="detail-modal-item-content">
-        <span  *ngIf="selected.accessoryUrls?.length===0">无附件</span>
-      <p  *ngFor="let item of selected.accessoryUrls;let i=index;"><a class="detail-modal-item-content" target="_blank" [href]="fileUrl+item">
-        {{selected.accessoryName[i]}}
+        <span  *ngIf="selected.replyAccessoryUrls?.length===0">无附件</span>
+      <p  *ngFor="let item of selected.replyAccessoryUrls;"><a class="detail-modal-item-content" target="_blank" [href]="fileUrl+item.accessoryUrl">
+        {{item.accessoryName}}
       </a></p>
       </span>
     </div>
