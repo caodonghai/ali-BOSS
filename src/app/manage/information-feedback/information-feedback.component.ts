@@ -93,9 +93,28 @@ export class InformationFeedbackComponent implements OnInit {
     this.loading = true;
     this.manageService.getInformationFeedbackList(params).subscribe(res => {
       this.loading = false;
-      this.informationFeedbackList = res.data.list;
+      this.informationFeedbackList = this.handleData(res.data.list);
       this.total = res.data.total;
     });
+  }
+
+  handleData(list: any[]): any[] {
+    if (list.length === 0) {
+      list = [];
+    } else {
+      list.forEach(item => {
+        item.ideaAccessory = [];
+        item.replyAccessory = [];
+        item.replyAccessoryUrls.forEach(accessory => {
+          if (accessory.tableName === 'tt_idea') {
+            item.ideaAccessory.push(accessory);
+          } else if (accessory.tableName === 'tt_idea_reply') {
+            item.replyAccessory.push(accessory);
+          }
+        });
+      });
+    }
+    return list;
   }
 
   resetSearchCondition() {
