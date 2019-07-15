@@ -17,9 +17,4 @@ export class DisplayOverflowContentDirective {
       this.target.title = this.target.innerText;
     }
   }
-
-  @HostListener('mouseleave') onMouseLeave() {
-
-  }
-
 }

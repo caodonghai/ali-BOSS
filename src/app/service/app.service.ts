@@ -41,8 +41,18 @@ export class AppService {
     return this.menuList;
   }
 
+  // 返回普通字符串数组
   uploadFile(formData: FormData) {
     const req = new HttpRequest('POST', this.uploadUrl, formData, {
+      reportProgress: true,
+      withCredentials: false
+    });
+    return this.http.request(req);
+  }
+
+  // 返回上传路径
+  uploadFileReturnURl(formData: FormData) {
+    const req = new HttpRequest('POST', 'http://10.0.9.201:8080/api/tenant/ttTenant/upload', formData, {
       reportProgress: true,
       withCredentials: false
     });

@@ -1,8 +1,8 @@
 import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import {ChangeEvent} from '@ckeditor/ckeditor5-angular';
-import {NavigationStart, Router} from '@angular/router';
-import {filter} from 'rxjs/operators';
+import {CustomUploadAdapterPlugin} from './EditorUploadAdapter';
+import {AppService} from '../../service/app.service';
 
 @Component({
   selector: 'app-rich-text-editor',
@@ -16,13 +16,16 @@ export class RichTextEditorComponent implements OnInit, OnDestroy {
   @Output() getContent = new EventEmitter<string>();
 
   Editor = ClassicEditor;
-  config = {
-    language: 'zh-cn'
-  };
+  config: any;
 
   private instance;
 
-  constructor(private router: Router, private el: ElementRef) {
+  constructor(private appService: AppService) {
+    this.config= {
+      language: 'zh-cn',
+      appService,
+      extraPlugins: [CustomUploadAdapterPlugin]
+    };
   }
 
   ngOnInit() {
