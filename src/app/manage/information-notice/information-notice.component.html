@@ -67,7 +67,7 @@
     <tbody>
     <tr *ngFor="let item of informationNoticeList;let i=index;">
       <td>{{i+pageSize*(pageNumber-1)+1}}</td>
-      <td>{{item.title}}</td>
+      <td appDisplayOverflowContent>{{item.title}}</td>
       <td>{{noticeTypeEnum[item.type]}}</td>
       <td>{{item.createTime}}</td>
       <td>{{item.readedNumber}}</td>
