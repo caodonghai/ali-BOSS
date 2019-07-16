@@ -196,7 +196,7 @@ export class DistributeChartComponent implements OnInit {
       this.isLoading = false;
       if (res.resCode === 1) {
         this.option.series[0].data = res.data.map(item => {
-          const newItem = {};
+          const newItem: any = {};
           newItem.name = item.areaName;
           newItem.value = [parseFloat(item.longitude), parseFloat(item.latitude), item.number];
           return newItem;
