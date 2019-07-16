@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import {ChangeEvent} from '@ckeditor/ckeditor5-angular';
 import {CustomUploadAdapterPlugin} from './EditorUploadAdapter';
@@ -21,7 +21,7 @@ export class RichTextEditorComponent implements OnInit, OnDestroy {
   private instance;
 
   constructor(private appService: AppService) {
-    this.config= {
+    this.config = {
       language: 'zh-cn',
       appService,
       extraPlugins: [CustomUploadAdapterPlugin]
@@ -44,16 +44,5 @@ export class RichTextEditorComponent implements OnInit, OnDestroy {
 
   onReady(e) {
     this.instance = e;
-    // this.router.events
-    //   .pipe(filter(event => event instanceof NavigationStart))
-    //   .subscribe(
-    //     () => {
-    //       try {
-    //         e.ui.destroy();
-    //       } catch (e) {
-    //         console.error(e);
-    //       }
-    //     }
-    //   );
   }
 }

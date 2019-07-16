@@ -67,7 +67,7 @@
       <td>{{i+(pageNumber-1)*pageSize+1}}</td>
       <td>{{item.num}}</td>
       <td>{{item.title}}</td>
-      <td>{{item.replyContent}}</td>
+      <td appDisplayOverflowContent>{{item.replyContent}}</td>
       <td>{{typeEnum[item.type]}}</td>
       <td>{{item.createTime}}</td>
       <td>{{item.replyTime}}</td>
