@@ -6,6 +6,7 @@ import {formatDateTime} from '../../../util/formatDate';
 import {AppService} from '../../service/app.service';
 import {Observable, Observer} from 'rxjs';
 import {HttpErrorResponse, HttpEvent, HttpEventType, HttpRequest, HttpResponse} from '@angular/common/http';
+import {formControlMarkAsDirty} from '../../../util/formControlMarkAsDirty';
 
 
 @Component({
@@ -177,15 +178,12 @@ export class InformationFeedbackComponent implements OnInit {
   }
 
   submitForm() {
-    for (const i in this.replyForm.controls) {
-      this.replyForm.controls[i].markAsDirty();
-      this.replyForm.controls[i].updateValueAndValidity();
-    }
+    formControlMarkAsDirty(this.replyForm);
     if (this.replyForm.valid) {
       this.isSaveLoading = true;
       const fileListResponse = this.fileList.map(item => item.response.data[0]);
       this.replyForm.patchValue({
-        accessory: fileListResponse === [] ? fileListResponse : ''
+        accessory: fileListResponse.length === 0 ? '' : fileListResponse.join(',')
       });
       const params = Object.assign({}, this.replyForm.value, {id: this.selected.id});
       this.manageService.replyInformationFeedback(params).subscribe(res => {

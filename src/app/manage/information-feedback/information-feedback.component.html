@@ -180,33 +180,26 @@
   <form nz-form [formGroup]="replyForm" (ngSubmit)="submitForm()">
     <nz-form-item>
       <nz-form-label [nzSpan]="3" nzRequired>状态</nz-form-label>
-      <nz-form-control [nzSpan]="8">
+      <nz-form-control [nzSpan]="8" nzErrorTip="请选择状态!">
         <nz-select formControlName="status" name="status" nzPlaceHolder="请选择状态">
           <nz-option nzValue="1" nzLabel="无效问题"></nz-option>
           <nz-option nzValue="2" nzLabel="无法验证"></nz-option>
           <nz-option nzValue="3" nzLabel="处理中"></nz-option>
         </nz-select>
-        <nz-form-explain
-          *ngIf="(replyForm.get('status')?.dirty && replyForm.get('status')?.errors) ||replyForm.get('status')?.pending">
-          <ng-container *ngIf="replyForm.get('status')?.hasError('required')">
-            请选择状态!
-          </ng-container>
-        </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label [nzSpan]="3" nzRequired>答复内容</nz-form-label>
-      <nz-form-control [nzSpan]="18">
+      <nz-form-control [nzSpan]="18" [nzErrorTip]="contentErrorTpl">
         <textarea rows="3" nz-input="" formControlName="content" name="content" placeholder="请输入答复内容"></textarea>
-        <nz-form-explain
-          *ngIf="(replyForm.get('content')?.dirty && replyForm.get('content')?.errors) ||replyForm.get('content')?.pending">
-          <ng-container *ngIf="replyForm.get('content')?.hasError('required')">
+        <ng-template #contentErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">
             请输入答复内容!
           </ng-container>
-          <ng-container *ngIf="replyForm.get('content')?.hasError('maxlength')">
+          <ng-container *ngIf="control.hasError('maxlength')">
             答复内容字数不能超过400!
           </ng-container>
-        </nz-form-explain>
+        </ng-template>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
