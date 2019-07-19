@@ -2,7 +2,9 @@ import {Injectable} from '@angular/core';
 import {NzMessageService} from 'ng-zorro-antd';
 import {HttpClient} from '@angular/common/http';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ExportService {
   private tempUrl = 'http://10.0.9.201:8080/api';
 

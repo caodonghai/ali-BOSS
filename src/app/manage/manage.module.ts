@@ -67,11 +67,6 @@ import {ExportService} from './service/export.service';
     HttpClientModule,
     SharedModule,
     NgxEchartsModule
-  ],
-  providers: [
-    SystemSettingService,
-    ManageService,
-    ExportService
   ]
 })
 export class ManageModule {

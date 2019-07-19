@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ManageService} from '../service/manage.service';
 import {NzMessageService, NzModalService} from 'ng-zorro-antd';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {formControlMarkAsDirty} from '../../../util/formControlMarkAsDirty';
 
 @Component({
   selector: 'app-package-manage',
@@ -31,22 +32,23 @@ export class PackageManageComponent implements OnInit {
   pageNumber1 = 1;
   total1 = 0;
 
-  statusEnum = {
-    '': '全部',
-    '1': '正常',
-    '2': '过期-有用户',
-    '3': '终止-无用户'
-  };
-
   isEdit = false; // 表单是否处于编辑模式
 
   addProductForm: FormGroup;
 
-  constructor(private manageService: ManageService, private modal: NzModalService, private fb: FormBuilder, private msg: NzMessageService) {
-
+  constructor(private manageService: ManageService,
+              private modal: NzModalService,
+              private fb: FormBuilder,
+              private msg: NzMessageService) {
   }
 
   ngOnInit() {
+    this.getProductManageList();
+    this.getProductList();
+    this.initForm();
+  }
+
+  initForm() {
     this.addProductForm = this.fb.group({
       name: ['', [Validators.required]],
       versionCode: ['', [Validators.required]],
@@ -59,15 +61,13 @@ export class PackageManageComponent implements OnInit {
       price: ['', [Validators.required, Validators.pattern('^[0-9]+(.[0-9]{1,3})?$')]],
       description: ['', [Validators.maxLength(400)]],
     });
-    this.getProductManageList();
-    this.getProductList();
   }
 
   getProductManageList() {
     const params = {
       name: this.name,
-      type: this.type ? this.type : '',
-      status: this.status ? this.status : '',
+      type: this.type,
+      status: this.status,
       pageSize: this.pageSize,
       pageNumber: this.pageNumber
     };
@@ -159,10 +159,7 @@ export class PackageManageComponent implements OnInit {
   }
 
   submitForm() {
-    for (const i in this.addProductForm.controls) {
-      this.addProductForm.controls[i].markAsDirty();
-      this.addProductForm.controls[i].updateValueAndValidity();
-    }
+    formControlMarkAsDirty(this.addProductForm);
     if (this.addProductForm.valid) {
       this.isSaveLoading = true;
       if (this.isEdit) {

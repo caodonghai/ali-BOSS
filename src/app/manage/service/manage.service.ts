@@ -3,7 +3,9 @@ import {BASE_URL} from '../../../environments/environment';
 import {Response} from '../../interface';
 import {HttpClient} from '@angular/common/http';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ManageService {
 
   constructor(private http: HttpClient) {

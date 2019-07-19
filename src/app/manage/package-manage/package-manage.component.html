@@ -3,7 +3,7 @@
     <nz-form-item>
       <nz-form-label>套餐名称</nz-form-label>
       <nz-form-control>
-        <input [(ngModel)]="name" nz-input [ngModelOptions]="{standalone: true}" placeholder="请输入套餐名称"/>
+        <input [(ngModel)]="name" nz-input name="name" placeholder="请输入套餐名称"/>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item style="margin-left: 40px">
@@ -32,7 +32,7 @@
     <nz-form-item style="margin-left: 40px">
       <nz-form-control>
         <button nz-button nzType="primary" (click)="getProductManageList()">查询</button>
-        <button nz-button nzType="default" type="reset" style="margin-left: 20px" (click)="status='';">重置</button>
+        <button nz-button nzType="default" type="reset" style="margin-left: 20px">重置</button>
       </nz-form-control>
     </nz-form-item>
   </form>

@@ -85,7 +85,7 @@ export class InformationFeedbackComponent implements OnInit {
   getInformationFeedbackList() {
     const params = {
       title: this.title,
-      type: this.type ? this.type : '',
+      type: this.type,
       startTime: this.startTime,
       endTime: this.endTime,
       pageSize: this.pageSize,

@@ -2,7 +2,9 @@ import {Injectable} from '@angular/core';
 import {Response} from '../../interface';
 import {HttpClient} from '@angular/common/http';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class SystemSettingService {
   private tempUrl = 'http://10.0.9.201:8080/api';
 
