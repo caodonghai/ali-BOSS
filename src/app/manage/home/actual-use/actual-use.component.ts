@@ -10,14 +10,21 @@ export class ActualUseComponent implements OnInit {
   option = {
     tooltip: {},
     xAxis: {
-      data: []
+      data: [],
+      axisLabel: {
+        rotate:40
+      }
     },
     yAxis: {},
     series: [{
       type: 'bar',
       data: [],
       barWidth: 30
-    }]
+    }],
+    grid:{
+      left: '10%',
+      bottom: '35%'
+    }
   };
   isLoading = true;
   echartsIntance;
